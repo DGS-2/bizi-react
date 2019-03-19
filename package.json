@@ -18,8 +18,11 @@
     "nodemon": "^1.18.10"
   },
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Scott Capps",
   "license": "ISC"

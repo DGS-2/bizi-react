@@ -28,7 +28,7 @@ router.post('/register', (req, res) => {
     return res.status(400).json(errors)
   }
 
-  User.findOne( { unclass_email: req.body.email } )
+  User.findOne( { email: req.body.email } )
     .then( user => {
       if(user) {
         errors.email = "Email already exists"
@@ -37,7 +37,7 @@ router.post('/register', (req, res) => {
       }
       const newUser = new User({
         name: req.body.name,
-        unclass_email: req.body.unclass_email,
+        email: req.body.email,
         password: req.body.password
       });
 
@@ -64,11 +64,11 @@ router.post('/login', (req, res) => {
     return res.status(400).json(errors)
   }
 
-  const email = req.body.unclass_email
+  const email = req.body.email
   const password = req.body.password
 
   // Find user by email
-  User.findOne({ unclass_email: email })
+  User.findOne({ email: email })
     .then( user => {
       if(!user) {
         errors.email = "User not found"
