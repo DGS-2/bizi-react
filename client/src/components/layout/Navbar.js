@@ -6,13 +6,6 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { clearCurrentProfile } from '../../actions/profileActions';
 
-import NavbarSearch from "./navbar-components/NavbarSearch";
-import DropdownSearch from "./navbar-components/DropdownSearch";
-import NavbarAlerts from "./navbar-components/NavbarAlerts"
-import NavbarMessages from "./navbar-components/NavbarMessages";
-import UserActions from "./navbar-components/UserActions";
-
-
 class Navbar extends Component {
   onLogoutClick = e => {
     e.preventDefault()
@@ -153,8 +146,8 @@ class Navbar extends Component {
           
           <li className="nav-item dropdown no-arrow">
           <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span className="mr-2 d-none d-lg-inline text-gray-600 small">{user.name}</span>
-          <img className="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" />
+          <span className="mr-2 d-none d-lg-inline text-gray-600 small">{user.name} &nbsp;<i className="img-profile rounded-circle fas fa-user"></i></span>
+          
         </a>
         <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <a className="dropdown-item" href="#">
