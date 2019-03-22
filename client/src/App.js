@@ -4,16 +4,20 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
-import { clearCurrentProfile } from './actions/profileActions';
+import { clearCurrentProfile, getCurrentProfile } from './actions/profileActions';
 
 import { Provider } from "react-redux";
 import store from './store';
+
+import PrivateRoute from "./components/shared/PrivateRoute"
 
 import  Sidenav  from "./components/layout/Sidenav";
 import  Navbar  from "./components/layout/Navbar";
 import  Landing from "./components/layout/Landing";
 import  Register from "./components/auth/Register";
 import  Login from "./components/auth/Login";
+
+import CreateProfile from "./components/create-profile/CreateProfile"
 
 import "./App.css";
 
@@ -25,7 +29,7 @@ if (localStorage.jwtToken) {
   const decoded = jwt_decode(localStorage.jwtToken);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
-
+  store.dispatch(getCurrentProfile());
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
@@ -51,6 +55,7 @@ class App extends Component {
                 <Route exact path="/" component={ Landing } />
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
+                <PrivateRoute exact path="/create-profile" component={ CreateProfile } />
               </div>
             </div>
           </div>

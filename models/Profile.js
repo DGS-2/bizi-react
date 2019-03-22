@@ -24,56 +24,55 @@ const ProfileSchema = new Schema({
       full: { type: String },
       abreviated: { type: String, required: true }
     },
-    promotionDates: [{
-      rank: { type: String, required: true },
-      date: { type: String, required: true }
-    }],
+    promotionDates: {
+      rank: { type: String },
+      date: { type: String }
+    },
     privilege: {
       title: { type: String },
-      level: { type: Number, required: true }
+      level: { type: Number }
     },
     tags: [String],
     teams: [{
-      teamId: { type: String, required: true }
+      teamId: { type: String }
     }],
     invitations: [{
-      teamId: { type: String, required: true },
+      teamId: { type: String },
       accepted: { type: Boolean, default: false }
     }],
     bio: { type: String },
     education: {
       military: [{
-        year: { type: Number, required: true },
+        year: { type: String },
         school: {
-          name: { type: String, required: true },
-          unit: { type: String, required: true },
+          name: { type: String },
+          unit: { type: String },
           location: {
-            base: { type: String, required: true },
-            state: { type: String, required: true }
+            base: { type: String },
+            state: { type: String }
           },
-          joint: { type: Boolean, required:true }
+          joint: { type: Boolean }
         }
       }],
       professional: [{
-        year: { type: Number, required: true },
-        award: { type: String, required: true }, // Degree or Certificate
+        year: { type: String },
+        award: { type: String }, // Degree or Certificate
         school: {
-          name: { type: String, required: true },
-          state: { type: String, required: true },
-          location: { type: String, required: true }
+          name: { type: String },
+          state: { type: String }
         }
       }]
     },
     assignments: [{
-      from: { type: String, required: true },
-      to: { type: String, required: true },
-      position: { type: String, required: true },
-      squadron: { type: String, required: true },
-      location: { type: String, required: true },
-      joint: { type: Boolean, required: true }
+      from: { type: String },
+      to: { type: String },
+      position: { type: String },
+      squadron: { type: String },
+      location: { type: String },
+      joint: { type: Boolean }
     }]
   },
-  contacatInfo: {
+  contactInfo: {
     email: {
       unclass: { type: String, required: true }
     },
@@ -82,9 +81,9 @@ const ProfileSchema = new Schema({
     }
   },
   skills: [{
-    name: { type: String, required: true },
-    proficency: { type: Number, required: true },
-    desire: { type: Number, required: true }
+    name: { type: String },
+    proficency: { type: Number },
+    desire: { type: Number }
   }]
 });
 
