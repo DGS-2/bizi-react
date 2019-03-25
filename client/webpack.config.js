@@ -5,13 +5,15 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "sass-loader"
-        },
-        options: {
-          sourceMap: true
-        }
+        exclude: /node_modules/
+      },
+      {
+        test: /\scss$/,
+        loaders: [
+          require.resolve('style-loader'),
+          require.resolve('css-loader'),
+          require.resolve('sass-loader')
+        ]
       }
     ]
   }

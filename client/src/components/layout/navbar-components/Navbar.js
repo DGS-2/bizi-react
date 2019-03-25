@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser } from '../../actions/authActions';
-import { clearCurrentProfile } from '../../actions/profileActions';
+import { logoutUser } from '../../../actions/authActions';
+import { clearCurrentProfile } from '../../../actions/profileActions';
 
-import NavbarSearch from "./navbar-components/NavbarSearch"
-import DropdownSearch from "./navbar-components/DropdownSearch"
-import NavbarAlerts from "./navbar-components/NavbarAlerts"
-import NavbarMessages from "./navbar-components/NavbarMessages"
-import UserActions from "./navbar-components/UserActions"
+import NavbarSearch from "./NavbarSearch"
+import DropdownSearch from "./DropdownSearch"
+import NavbarAlerts from "./NavbarAlerts"
+import NavbarMessages from "./NavbarMessages"
+import UserActions from "./UserActions"
+
+
 
 class Navbar extends Component {
   render() {

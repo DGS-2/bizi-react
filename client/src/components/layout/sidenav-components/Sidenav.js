@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 
+import logo from "../../../assets/images/bizi_logo.svg";
+
 export default class Sidenav extends Component {
   render() {
     return (
@@ -8,7 +10,7 @@ export default class Sidenav extends Component {
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
           <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
             <div className="sidebar-brand-icon rotate-n-15">
-              <i className="fas fa-laugh-wink"></i>
+              <img className="img-fluid" src={logo} />
             </div>
             <div className="sidebar-brand-text mx-3">Bizi</div>
           </Link>

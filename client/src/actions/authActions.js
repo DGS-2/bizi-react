@@ -4,6 +4,8 @@ import jwt_decode from 'jwt-decode';
 
 import { GET_ERRORS, SET_CURRENT_USER } from './types';
 
+import { getCurrentProfile } from "./profileActions"
+
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
@@ -32,6 +34,7 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded));
+      dispatch(getCurrentProfile())
     })
     .catch(err =>
       dispatch({

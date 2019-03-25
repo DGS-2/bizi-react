@@ -43,9 +43,6 @@ class CreateProfile extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-    
-    console.log({ key: e.target.name, value: e.target.value })
-    console.log(this.state)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,7 +87,6 @@ class CreateProfile extends Component {
       skills: this.state.skills
     };
 
-    console.log(profileData)
     this.props.createProfile(profileData, this.props.history);
   } 
   

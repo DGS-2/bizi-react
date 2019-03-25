@@ -11,22 +11,17 @@ const TaskSchema = new Schema({
     from: {
       name: { type: String, required: true },
       rank: { type: String, required: true },
-      title: { type: String, required: true },
       id: { type: String, required: true }
     },
     date: { type: Date, default: Date.now },
     to: {
       name: { type: String, required: true },
       rank: { type: String, required: true },
-      title: { type: String, required: true },
       id: { type: String, required: true }
     }
   },
   messages: [{
     from: {
-      id: { type: String }
-    },
-    to: {
       id: { type: String }
     },
     message: {type: String, required: false}

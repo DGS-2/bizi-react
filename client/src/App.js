@@ -11,15 +11,16 @@ import store from './store';
 
 import PrivateRoute from "./components/shared/PrivateRoute"
 
-import  Sidenav  from "./components/layout/Sidenav";
-import  Navbar  from "./components/layout/Navbar";
+import  Sidenav  from "./components/layout/sidenav-components/Sidenav";
+import  Navbar  from "./components/layout/navbar-components/Navbar";
 import  Landing from "./components/layout/Landing";
 import  Register from "./components/auth/Register";
 import  Login from "./components/auth/Login";
 
 import CreateProfile from "./components/create-profile/CreateProfile"
+import Profile from "./components/profile/Profile"
 
-import "./App.css";
+import "./App.scss";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -56,6 +57,7 @@ class App extends Component {
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
                 <PrivateRoute exact path="/create-profile" component={ CreateProfile } />
+                <PrivateRoute exact path="/edit-profile" component={ Profile } />
               </div>
             </div>
           </div>
