@@ -27,9 +27,9 @@ class TaskItem extends Component {
   }
 
   getCardClass = priority => {
-    let cardClass = "card-body "
-    if(priority === "Critical") cardClass += "bg-danger text-white"
-    else if( priority === "Important" )cardClass += "bg-warning text-dark"
+    let cardClass = "card "
+    if(priority === "Critical") cardClass += "border border-danger text-dark"
+    else if( priority === "Important" )cardClass += "border border-warning text-dark"
     
     return cardClass
   }
@@ -46,15 +46,17 @@ class TaskItem extends Component {
     const { task, auth, showActions } = this.props
 
     return (
-      <div className="card">  
+      <div className={ this.getCardClass(task.creation.priority.level) }>  
         <div className="card-header">
           <i className={ this.getIconClass(task.creation.priority.level) }></i>&nbsp;
           ({task.metaData.classification}) { task.metaData.title }
         </div>
-        <div className={ this.getCardClass(task.creation.priority.level) }>
+        <div className="card-body">
           <h6 className="text-center"><strong>{ task.creation.priority.level } Task</strong></h6><hr/>
           <p><strong>Description: </strong>{ task.metaData.description }</p>
-          <Link to={`/task/${task._id}`} className="btn btn-outline-dark btn-sm">View Task</Link>
+          <div className="container-fluid">
+          <Link to={`/task/${task._id}`} className="btn btn-outline-dark btn-sm mx-auto">View Task</Link>
+          </div>
         </div>
         <div className="card-footer">
           {task.creation.from.id === auth.user.id ? (

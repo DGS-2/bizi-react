@@ -27,17 +27,20 @@ class NavbarAlerts extends Component {
             Alerts Center
           </h6>
           { tasks.tasks.map(task => {
-            return (<Link className="dropdown-item d-flex align-items-center" to={`/task/${task._id}`} key={task._id}>
-            <div className="mr-3">
-              <div className="icon-circle bg-primary">
-                <i className="fas fa-file-alt text-white"></i>
+            if(task.creation.to.id === auth.user.id){
+              return (<Link className="dropdown-item d-flex align-items-center" to={`/task/${task._id}`} key={task._id}>
+              <div className="mr-3">
+                <div className="icon-circle bg-primary">
+                  <i className="fas fa-tasks text-white"></i>
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="small text-gray-500">Due: { moment(task.creation.due).format('DD MMM YYY') }</div>
-              <span className="font-weight-bold">{ task.metaData.title }</span>
-            </div>
-          </Link>)
+              <div>
+                <div className="small text-gray-500">Due: { moment(task.creation.due).format('DD MMM YYY') }</div>
+                <span className="font-weight-bold">{ task.metaData.title }</span>
+              </div>
+            </Link>)
+            }
+            
           }) }
         </div>
       )
