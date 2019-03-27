@@ -15,10 +15,7 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div className="container">
-        <button className="btn btn-primary" onClick={this.toggleForm}>{ this.state.visible? 'Cancel' : 'Add New Task' }</button>
-        <CreateTask 
-          visible={this.state.visible}
-        />
+        <h1>Dashboard</h1>
       </div>
     )
   }
