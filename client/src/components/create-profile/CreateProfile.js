@@ -20,9 +20,9 @@ class CreateProfile extends Component {
   constructor(props){
     super(props)
     this.state = {
-      name: '',
-      firstName: '',
-      lastName: '',
+      name: this.props.auth.user.name || '',
+      firstName: this.props.auth.user.name.split(' ')[0] || '',
+      lastName: this.props.auth.user.name.split(' ')[0] || '',
       wing: '',
       group:'',
       squadron: '',
@@ -116,18 +116,18 @@ class CreateProfile extends Component {
                       name="firstName"
                       placeholder="Enter your first name"
                       type="text"
-                      value={ names[0] ? this.state.firstName = names[0] : this.state.firstName }
+                      value={ this.state.firstName }
                       onChange={this.onChange}
                       errors={ errors }
                     />
-                    <input type="hidden" name="name" value={ user ? this.state.name = user.name : '' } />
+                    <input type="hidden" name="name" value={ this.state.name } />
                   </div>
                   <div className="col-sm-6">
                     <TextFieldGroup 
                       name="lastName"
                       placeholder="Enter your last name"
                       type="text"
-                      value={ names[1] ? this.state.lastName = names[1] : this.state.lastName }
+                      value={ this.state.lastName }
                       onChange={ this.onChange }
                       errors={ errors }
                     />

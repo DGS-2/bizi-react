@@ -33,9 +33,10 @@ class Tasks extends Component {
     let taskContent
     
     const filterTasks = tasks.filter(item => {
-      if(this.state.input === '' && this.state.priority === '') return tasks
+      if(this.state.input === '' && this.state.priority === '') return item
       else if(item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '') return item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase())
-      else if(item.creation.priority.level === this.state.priority && this.state.input == '') return item.creation.priority.level === this.state.priority
+      else if(item.creation.priority.level === this.state.priority && this.state.input === '') return item.creation.priority.level === this.state.priority
+      return true
     })
 
     if(tasks === null || loading) {
@@ -54,7 +55,9 @@ class Tasks extends Component {
               </div>
               <input type="text" name="input" className="form-control form-control-user" placeholder="Filter Tasks by Title..." onChange={this.onChange} />
             </div>
-            <div className="input-group">
+          </div>
+          <div className="mx-auto">
+          <div className="input-group">
               <div className="input-group-prepend">
                 <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
               </div>
@@ -67,7 +70,7 @@ class Tasks extends Component {
           </div>
         </div>
         <div className="card-columns">
-          <div className="card">
+          <div className="card border border-primary shadow shadow-sm">
             <div className="card-header">Create a New Task</div>
             <div className="card-body"><TaskForm /></div>
           </div>

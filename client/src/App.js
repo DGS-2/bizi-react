@@ -20,8 +20,10 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import Profile from "./components/profile/Profile";
 import Tasks from "./components/tasks/Tasks";
 import Task from "./components/task/Task";
+import Dashboard from './components/dashboard/Dashboard';
 
 import "./App.scss";
+
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -57,6 +59,7 @@ class App extends Component {
                 <Navbar />                
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
+                <Switch><Route exact path="/" component={ Dashboard }></Route></Switch>
                 <Switch><PrivateRoute exact path="/dashboard" component={ Tasks } /></Switch>
                 <Switch><PrivateRoute exact path="/task/:id" component={ Task } /></Switch>
                 <Switch><PrivateRoute exact path="/create-profile" component={ CreateProfile } /></Switch>

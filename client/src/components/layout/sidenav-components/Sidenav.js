@@ -10,7 +10,7 @@ export default class Sidenav extends Component {
         <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
           <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
             <div className="sidebar-brand-icon rotate-n-15">
-              <img className="img-fluid" src={logo} />
+              <img className="img-fluid" src={logo} alt="Bizi Logo" />
             </div>
             <div className="sidebar-brand-text mx-3">Bizi</div>
           </Link>

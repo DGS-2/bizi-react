@@ -42,7 +42,7 @@ class TaskItem extends Component {
   }
 
   render() {
-    const { task, auth, showActions } = this.props
+    const { task, auth } = this.props
 
     return (
       <div className={ this.getCardClass(task.creation.priority.level) }>  

@@ -5,9 +5,6 @@ import PropTypes from "prop-types";
 import moment from "moment"
 
 class NavbarAlerts extends Component {
-  constructor(props){
-    super(props)
-  }
   render() {
     const { auth, tasks } = this.props
     
@@ -28,7 +25,7 @@ class NavbarAlerts extends Component {
           </h6>
           { tasks.tasks.map(task => {
             if(task.creation.to.id === auth.user.id){
-              return (<Link className="dropdown-item d-flex align-items-center" to={`/task/${task._id}`} key={task._id}>
+              return <Link className="dropdown-item d-flex align-items-center" to={`/task/${task._id}`} key={task._id}>
               <div className="mr-3">
                 <div className="icon-circle bg-primary">
                   <i className="fas fa-tasks text-white"></i>
@@ -38,9 +35,9 @@ class NavbarAlerts extends Component {
                 <div className="small text-gray-500">Due: { moment(task.creation.due).format('DD MMM YYY') }</div>
                 <span className="font-weight-bold">{ task.metaData.title }</span>
               </div>
-            </Link>)
+            </Link>
             }
-            
+            return true
           }) }
         </div>
       )
@@ -48,12 +45,12 @@ class NavbarAlerts extends Component {
 
     return (
       <div>
-        <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <Link className="nav-link dropdown-toggle" to="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i className="fas fa-bell fa-fw"></i>
           {tasks? (
             <span className="badge badge-danger badge-counter">{tasks.tasks.length}</span>
           ): null}          
-        </a>
+        </Link>
         {messages}
       </div>
     )

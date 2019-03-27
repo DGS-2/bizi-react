@@ -23,7 +23,7 @@ class Profile extends Component {
       <div className="row">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
           <div className="text-center">
-              <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" className="avatar img-circle" /><br />
+              <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" className="avatar img-circle" alt="Dummy User Icon" /><br />
               <h6 className="text-dark">{profile ? profile.personalInfo.name.full : '' }</h6>
           </div>
           <ul className="list-group">

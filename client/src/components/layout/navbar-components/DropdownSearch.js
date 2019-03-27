@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom";
 
 class DropdownSearch extends Component {
   render() {
     return (
       <div>
-        <a className="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <Link className="nav-link dropdown-toggle" to="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i className="fas fa-search fa-fw"></i>
-        </a>
+        </Link>
         <div className="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
           <form className="form-inline mr-auto w-100 navbar-search">
             <div className="input-group">

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../../actions/authActions';
@@ -11,11 +10,9 @@ import NavbarAlerts from "./NavbarAlerts"
 import NavbarMessages from "./NavbarMessages"
 import UserActions from "./UserActions"
 
-
-
 class Navbar extends Component {
   render() {
-    const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
 
     const authNav = (
       <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">

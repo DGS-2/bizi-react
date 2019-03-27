@@ -32,7 +32,7 @@ class Task extends Component {
     this.props.getTask(this.props.match.params.id)
   }
   render() {
-    const { task, profile, loading } = this.props
+    const { task, loading } = this.props
     let taskContent;
 
     if( task === null || loading || Object.keys(task).length === 0 ) {
