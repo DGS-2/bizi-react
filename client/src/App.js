@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
-import { clearCurrentProfile, getCurrentProfile } from './actions/profileActions';
+import { clearCurrentProfile, getCurrentProfile, getProfiles } from './actions/profileActions';
 
 import { Provider } from "react-redux";
 import store from './store';
 
-import PrivateRoute from "./components/shared/PrivateRoute"
+import PrivateRoute from "./components/shared/PrivateRoute";
 
 import  Sidenav  from "./components/layout/sidenav-components/Sidenav";
 import  Navbar  from "./components/layout/navbar-components/Navbar";
-import  Landing from "./components/layout/Landing";
 import  Register from "./components/auth/Register";
 import  Login from "./components/auth/Login";
 
-import CreateProfile from "./components/create-profile/CreateProfile"
-import Profile from "./components/profile/Profile"
+import CreateProfile from "./components/create-profile/CreateProfile";
+import Profile from "./components/profile/Profile";
+import Tasks from "./components/tasks/Tasks";
+import Task from "./components/task/Task";
 
 import "./App.scss";
 
@@ -31,6 +32,7 @@ if (localStorage.jwtToken) {
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
   store.dispatch(getCurrentProfile());
+  store.dispatch(getProfiles())
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
@@ -52,12 +54,13 @@ class App extends Component {
             <Sidenav />
             <div id="content-wrapper" className="d-flex flex-column">
               <div id="content">
-                <Navbar />
-                <Route exact path="/" component={ Landing } />
+                <Navbar />                
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
-                <PrivateRoute exact path="/create-profile" component={ CreateProfile } />
-                <PrivateRoute exact path="/edit-profile" component={ Profile } />
+                <Switch><PrivateRoute exact path="/dashboard" component={ Tasks } /></Switch>
+                <Switch><PrivateRoute exact path="/task/:id" component={ Task } /></Switch>
+                <Switch><PrivateRoute exact path="/create-profile" component={ CreateProfile } /></Switch>
+                <Switch><PrivateRoute exact path="/edit-profile" component={ Profile } /></Switch>              
               </div>
             </div>
           </div>

@@ -37,29 +37,28 @@ router.get('/:id', (req, res) => {
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
   const newTask = new Task({
     metaData: {
-      title: req.body.title,
-      description: req.body.description,
-      classification: req.body.classification
+      title: req.body.metaData.title,
+      description: req.body.metaData.description,
+      classification: req.body.metaData.classification
     },
     creation: {
       from: {
-        name: req.body.from.name,
-        rank: req.body.from.rank,
+        name: req.body.creation.from.name,
+        rank: req.body.creation.from.rank,
         id: req.user.id
       },
-      date: Date.now,
+      date: Date.now(),
+      due: req.body.creation.due,
       to: {
-        name: req.body.to.name,
-        rank: req.body.to.rank,
-        id: req.body.to.id
+        name: req.body.creation.to.name,
+        rank: req.body.creation.to.rank,
+        id: req.body.creation.to.id
+      },
+      priority: {
+        level: req.body.creation.priority.level
       }
     },
-    messages: [{
-      from: {
-        id: req.user.id
-      },
-      message: req.body.message
-    }],
+    messages: req.body.messages,
     tags: req.body.tags || [],
     status: {
       read: false,
@@ -78,7 +77,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     }
 
   })
-
+  
   newTask.save().then(task => res.json(task))
 })
 
@@ -107,10 +106,9 @@ router.post('/reply/:id', passport.authenticate('jwt', {session: false}), (req, 
   Task.findById(req.params.id)
     .then(task => {
       const newComment = {
-        from: {
-          id: req.user.id
-        },
-        message: req.body.message
+        from: req.user.id,
+        message: req.body.message,
+        time: req.body.time
       }
 
       task.messages.unshift(newComment)

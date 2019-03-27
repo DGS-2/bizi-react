@@ -1,13 +1,6 @@
 import axios from "axios";
 
-import {
-  GET_TASK,
-  GET_TASKS,
-  ADD_TASK,
-  DELETE_TASK,
-  GET_ERRORS
-} from "./types"
-
+import { GET_TASK, GET_TASKS, ADD_TASK, DELETE_TASK, GET_ERRORS, TASK_LOADING } from "./types";
 
 // Add a task
 export const addTask = taskData => dispatch => {
@@ -26,6 +19,7 @@ export const addTask = taskData => dispatch => {
 
 // Get Tasks
 export const getTasks = () => dispatch => {
+  dispatch(setTaskLoading())
   axios.get('/tasks')
     .then(res => {
       dispatch({
@@ -80,7 +74,7 @@ export const addComment = (taskId, commentData) => dispatch => {
   axios.post(`/tasks/reply/${taskId}`, commentData)
     .then(res => {
       dispatch({
-        type: GET_POST,
+        type: GET_TASK,
         payload: res.data
       })
     })
@@ -90,4 +84,11 @@ export const addComment = (taskId, commentData) => dispatch => {
         payload: err.response.data
       })
     })
+}
+
+// Set Loading State
+export const setTaskLoading = () => {
+  return {
+    type: TASK_LOADING
+  }
 }

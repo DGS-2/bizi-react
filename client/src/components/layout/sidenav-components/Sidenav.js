@@ -7,7 +7,7 @@ export default class Sidenav extends Component {
   render() {
     return (
       <div>
-        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
           <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
             <div className="sidebar-brand-icon rotate-n-15">
               <img className="img-fluid" src={logo} />
@@ -16,9 +16,9 @@ export default class Sidenav extends Component {
           </Link>
           <hr className="sidebar-divider my-0" />
           <li className="nav-item active">
-            <a className="nav-link" href="index.html">
+            <Link className="nav-link" to="/dashboard">
               <i className="fas fa-fw fa-tachometer-alt"></i>
-              <span>Dashboard</span></a>
+              <span>Dashboard</span></Link>
           </li>
           <hr className="sidebar-divider d-none d-md-block" />
 

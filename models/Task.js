@@ -14,17 +14,20 @@ const TaskSchema = new Schema({
       id: { type: String, required: true }
     },
     date: { type: Date, default: Date.now },
+    due: { type: Date, default: Date.now },
     to: {
       name: { type: String, required: true },
       rank: { type: String, required: true },
       id: { type: String, required: true }
+    },
+    priority: {
+      level: { type: String, required: true }
     }
   },
   messages: [{
-    from: {
-      id: { type: String }
-    },
-    message: {type: String, required: false}
+    from: { type: String, required: false },
+    message: {type: String, required: false},
+    time: { type: Date, default: Date.now }
   }],
   tags: [String],
   status: {

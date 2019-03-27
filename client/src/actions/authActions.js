@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 
 import { GET_ERRORS, SET_CURRENT_USER } from './types';
 
-import { getCurrentProfile } from "./profileActions"
+import { getCurrentProfile, getProfiles } from "./profileActions"
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -35,6 +35,8 @@ export const loginUser = userData => dispatch => {
       // Set current user
       dispatch(setCurrentUser(decoded));
       dispatch(getCurrentProfile())
+      dispatch(getProfiles())
+      
     })
     .catch(err =>
       dispatch({
