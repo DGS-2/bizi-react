@@ -24,7 +24,7 @@ class Task extends Component {
 
   mapMessageThread = messages => {
     return messages.map(message => {
-      return <li key={message._id}><strong>{ this.mapIdToUser(message.from) }</strong> <small className="text-muted">{ moment(message.time).format("DD MMMM YYYY, @ HH:mm") }</small>: {message.message}</li>
+      return <li key={message._id} className={message.from === this.props.auth.user.id ? 'text-left' : 'text-right'}><strong>{ this.mapIdToUser(message.from) }</strong> <small className="text-muted">{ moment(message.time).format("DD MMMM YYYY, @ HH:mm") }</small>: {message.message}</li>
     })
   }
 
