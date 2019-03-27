@@ -32,8 +32,11 @@ class Tasks extends Component {
     const { tasks, loading } = this.props.task
     let taskContent
     
-    const filterTasks = tasks.filter(item => this.state.input === '' || item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) ) || tasks
-    
+    const filterTasks = tasks.filter(item => {
+      if(this.state.input === '' && this.state.priority === '') return tasks
+      else if(item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '') return item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase())
+      else if(item.creation.priority.level === this.state.priority && this.state.input == '') return item.creation.priority.level === this.state.priority
+    })
 
     if(tasks === null || loading) {
       taskContent = <Spinner />
@@ -50,6 +53,16 @@ class Tasks extends Component {
                 <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
               </div>
               <input type="text" name="input" className="form-control form-control-user" placeholder="Filter Tasks by Title..." onChange={this.onChange} />
+            </div>
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
+              </div>
+              <select name="priority" onChange={this.onChange} className="form-control">
+                <option value="">* Filter by Task Priority</option>
+                <option value="Critical">Critical</option>
+                <option value="Important">Important</option>
+              </select>
             </div>
           </div>
         </div>
