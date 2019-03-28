@@ -200,7 +200,7 @@ class TaskForm extends Component {
           </div>
           <hr />
           <div className="col-xs-6 col-sm-6 col-md-6 col-lg-12 col-xl-12">
-            <div className="container">
+            <div className="form-group">
             <ReactTags 
               name="to"
               placeholder="Start typing to assign task to members"              
@@ -214,16 +214,18 @@ class TaskForm extends Component {
               autofocus={false}
             />
             </div>
+            <small className="form-text text-muted">Tag users this task should be assigned to</small>
           </div>
           
           <hr />
           <div className="col-xs-6 col-sm-6 col-md-6 col-lg-12 col-xl-12">
-            <div className="container">
+            <div className="form-group">
               <DatePicker
                 onChange={this.setDueDate}
                 value={this.state.due}
                 className="form-controlnodemon"
               />
+              <small className="form-text text-muted">Select a due date for the task</small>
             </div>
           </div>
           <hr />

@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TaskFeed from "./TaskFeed";
+import TaskForm from "./TaskForm";
 
-import TaskFeed from "./TaskFeed"
-import TaskForm from "./TaskForm"
-
-import Spinner from "../shared/Spinner"
+import Spinner from "../shared/Spinner";
 
 import { getTasks } from "../../actions/taskActions";
 
@@ -15,10 +14,12 @@ class Tasks extends Component {
     this.state = {
       tasks: this.props.task,
       input: '',
-      priority: ''
+      priority: '',
+      showTaskForm: false
     }
 
     this.onChange = this.onChange.bind(this)
+    this.toggleForm = this.toggleForm.bind(this)
   }
   componentDidMount(){
     this.props.getTasks()
@@ -26,6 +27,12 @@ class Tasks extends Component {
 
   onChange = e => {
     this.setState({[e.target.name]: e.target.value})
+  }
+
+  toggleForm = () => {
+    this.setState({
+      showTaskForm: !this.state.showTaskForm
+    })
   }
 
   render() {
@@ -49,6 +56,13 @@ class Tasks extends Component {
       <div className="container-fluid">
         <div className="row mb-3">
           <div className="mx-auto">
+            { this.state.showTaskForm ? (
+              <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
+            ) : (
+              <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
+            )}
+          </div>
+          <div className="mx-auto">
             <div className="input-group">
               <div className="input-group-prepend">
                 <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
@@ -70,10 +84,10 @@ class Tasks extends Component {
           </div>
         </div>
         <div className="card-columns">
-          <div className="card border border-primary shadow shadow-sm">
+          { this.state.showTaskForm ? (<div className="card border border-primary shadow shadow-sm">
             <div className="card-header">Create a New Task</div>
             <div className="card-body"><TaskForm /></div>
-          </div>
+          </div>) : null }
           { taskContent }
         </div>
       </div>
