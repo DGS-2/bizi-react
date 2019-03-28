@@ -11,7 +11,7 @@ export default class Dashboard extends Component {
         <p className="text-justfy">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore ipsum, ad iusto, eum adipisci voluptates ex sunt similique, quas hic quis asperiores. Ab sit id dicta aliquam vel sed illo. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, libero. Enim explicabo iste veritatis amet repellat ex repudiandae, sint saepe. Eum aperiam laborum alias, soluta est natus? Incidunt, aliquid sed. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi, assumenda voluptate sit ducimus laborum placeat pariatur dolorem iste recusandae asperiores quae quo nostrum provident, enim incidunt voluptas. Repellendus, veritatis omnis?</p>
         <div className="container-fluid pt-5">
           <h4 className="text-center">
-            <Link to="/dashboard" className="btn btn-outline-success btn-xl">Get Started</Link>
+            <Link to="/login" className="btn btn-outline-success btn-xl">Get Started</Link>
           </h4>
         </div>
       </div>
