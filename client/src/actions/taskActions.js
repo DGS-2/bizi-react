@@ -86,6 +86,22 @@ export const addComment = (taskId, commentData) => dispatch => {
     })
 }
 
+export const changeStatus = (taskId, statusData) => dispatch => {
+  axios.post(`/tasks/set-status/${taskId}`, statusData)
+    .then(res => {
+      dispatch({
+        type: GET_TASK,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    })
+}
+
 // Set Loading State
 export const setTaskLoading = () => {
   return {

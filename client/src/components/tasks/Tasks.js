@@ -36,7 +36,7 @@ class Tasks extends Component {
       if(this.state.input === '' && this.state.priority === '') return item
       else if(item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '') return item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase())
       else if(item.creation.priority.level === this.state.priority && this.state.input === '') return item.creation.priority.level === this.state.priority
-      return true
+      
     })
 
     if(tasks === null || loading) {

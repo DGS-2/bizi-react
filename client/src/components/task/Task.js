@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import Spinner from "../shared/Spinner";
 import TaskMessageReply from "./TaskMessageReply";
+import TaskStatusActions from "./TaskStatusActions";
 import { getTask } from "../../actions/taskActions";
 import moment from "moment"
 
@@ -13,6 +14,7 @@ class Task extends Component {
 
     this.mapIdToUser = this.mapIdToUser.bind(this)
     this.mapMessageThread = this.mapMessageThread.bind(this)
+    this.getClass = this.getClass.bind(this)
   }
 
   mapIdToUser = user => {
@@ -28,6 +30,13 @@ class Task extends Component {
     })
   }
 
+  getClass = status => {
+    let col = "col-md-8 mx-auto p-3 "
+    if(status.completed) col += "border border-success rounded"
+    else if(status.disputed) col += "border border-danger rounded"
+    return col
+  }
+
   componentDidMount = () => {
     this.props.getTask(this.props.match.params.id)
   }
@@ -39,7 +48,7 @@ class Task extends Component {
       taskContent = <Spinner />
     } else {
       taskContent = (
-        <div className="col-md-8 mx-auto p-3">  
+        <div className={ this.getClass(task.status) }>  
           <h1 className="text-center mb-3">{ task.metaData.title }</h1><hr />
           <p>This task has been labeled <strong>{ task.creation.priority.level }</strong> by { this.mapIdToUser(task.creation.from.id)}</p>
           <p><strong>Description: </strong>{ task.metaData.description }</p>
@@ -50,7 +59,8 @@ class Task extends Component {
           <ul className="list-unstyled">{this.mapMessageThread(task.messages)}</ul>
           <TaskMessageReply />
           <hr />
-          <h6 className="text-center my-3">Actions:</h6>
+          <h6 className="text-center my-3">Actions:</h6><hr />
+          <TaskStatusActions /><hr />
           <Link to="/dashboard" className="btn btn-outline-primary btn-md">Back to Dashboard</Link>
         </div>
       )
