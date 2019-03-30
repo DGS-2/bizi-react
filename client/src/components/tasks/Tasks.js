@@ -58,32 +58,38 @@ class Tasks extends Component {
     return (
       <div className="container-fluid">
         <div className="row mb-3">
-          <div className="mx-auto">
-            { this.state.showTaskForm ? (
-              <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
-            ) : (
-              <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
-            )}
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+            <div className="mx-auto">
+              { this.state.showTaskForm ? (
+                <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
+              ) : (
+                <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
+              )}
+            </div>            
           </div>
-          <div className="mx-auto">
-            <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 my-3">
+            <div className="mx-auto">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
+                </div>
+                <input type="text" name="input" className="form-control form-control-user" placeholder="Filter Tasks by Title..." onChange={this.onChange} />
               </div>
-              <input type="text" name="input" className="form-control form-control-user" placeholder="Filter Tasks by Title..." onChange={this.onChange} />
-            </div>
+            </div>            
           </div>
-          <div className="mx-auto">
-          <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-3">
+              <div className="mx-auto">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text bg-primary text-white"><i className="fas fa-search"></i></span>
+                  </div>
+                  <select name="priority" onChange={this.onChange} className="form-control">
+                    <option value="">* Filter by Task Priority</option>
+                    <option value="Critical">Critical</option>
+                    <option value="Important">Important</option>
+                  </select>
+                </div>
               </div>
-              <select name="priority" onChange={this.onChange} className="form-control">
-                <option value="">* Filter by Task Priority</option>
-                <option value="Critical">Critical</option>
-                <option value="Important">Important</option>
-              </select>
-            </div>
           </div>
         </div>
         <div className="card-columns">
