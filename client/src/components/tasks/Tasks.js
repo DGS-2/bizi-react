@@ -37,9 +37,12 @@ class Tasks extends Component {
 
   render() {
     const { tasks, loading } = this.props.task
+    const { auth } = this.props
     let taskContent
     
-    const filterTasks = tasks.filter(item => {
+    const userTasks = tasks.filter(item => item.creation.from.id === auth.user.id)
+
+    const filterTasks = userTasks.filter(item => {
       if(this.state.input === '' && this.state.priority === '') return item
       else if(item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '') return item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase())
       else if(item.creation.priority.level === this.state.priority && this.state.input === '') return item.creation.priority.level === this.state.priority
@@ -98,11 +101,13 @@ class Tasks extends Component {
 
 Tasks.propTypes = {
   getTasks: PropTypes.func.isRequired,
-  task: PropTypes.object.isRequired
+  task: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  task: state.tasks
+  task: state.tasks,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { getTasks })(Tasks);

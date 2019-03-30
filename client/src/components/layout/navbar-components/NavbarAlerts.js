@@ -5,6 +5,26 @@ import PropTypes from "prop-types";
 import moment from "moment"
 
 class NavbarAlerts extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      taskCount: 0
+    }
+
+    this.setCount = this.setCount.bind(this)
+  }
+
+  componentDidMount(){
+    let count = this.props.tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length
+    this.setCount(count)
+  }
+
+  setCount = number => {
+    this.setState({
+      taskCount: number
+    })
+  }
+
   render() {
     const { auth, tasks } = this.props
     
@@ -18,6 +38,7 @@ class NavbarAlerts extends Component {
         </div>
       )
     } else {
+      
       messages = (
         <div className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
           <h6 className="dropdown-header">
@@ -36,11 +57,13 @@ class NavbarAlerts extends Component {
                 <span className="font-weight-bold">{ task.metaData.title }</span>
               </div>
             </Link>
+            
             }
-            return true
+            return null
           }) }
         </div>
       )
+     
     }
 
     return (
@@ -48,7 +71,7 @@ class NavbarAlerts extends Component {
         <Link className="nav-link dropdown-toggle" to="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i className="fas fa-bell fa-fw"></i>
           {tasks? (
-            <span className="badge badge-danger badge-counter">{tasks.tasks.length}</span>
+            <span className="badge badge-danger badge-counter">{this.state.taskCount}</span>
           ): null}          
         </Link>
         {messages}

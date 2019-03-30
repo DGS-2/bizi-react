@@ -16,7 +16,7 @@ import  Navbar  from "./components/layout/navbar-components/Navbar";
 import  Register from "./components/auth/Register";
 import  Login from "./components/auth/Login";
 
-import CreateProfile from "./components/create-profile/CreateProfile";
+import CreateProfile from "./components/profile/CreateProfile";
 import Profile from "./components/profile/Profile";
 import Tasks from "./components/tasks/Tasks";
 import Task from "./components/task/Task";
