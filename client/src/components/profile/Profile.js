@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 // Actions
 import { getCurrentProfile } from "../../actions/profileActions"
 
+import AddSkill from "./actions/AddSkill"
+
 
 class Profile extends Component {
   constructor(props){
@@ -52,7 +54,7 @@ class Profile extends Component {
               Home -- Personal Info
             </div>
             <div className="tab-pane container" id="skills">
-              Skills
+              <AddSkill />
             </div>
             <div className="tab-pane container" id="education">
               Education

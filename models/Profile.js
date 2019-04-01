@@ -81,9 +81,7 @@ const ProfileSchema = new Schema({
     }
   },
   skills: [{
-    name: { type: String },
-    proficency: { type: Number },
-    desire: { type: Number }
+    name: { type: String }
   }]
 });
 

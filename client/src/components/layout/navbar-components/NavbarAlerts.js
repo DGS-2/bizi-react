@@ -16,10 +16,11 @@ class NavbarAlerts extends Component {
 
   componentDidMount(){
     let count = this.props.tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length
-    this.setCount(count)
+    // this.setCount(count)
   }
 
-  setCount = number => {
+  setCount = tasks => {
+    let number = tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length
     this.setState({
       taskCount: number
     })
@@ -46,6 +47,7 @@ class NavbarAlerts extends Component {
           </h6>
           { tasks.tasks.map(task => {
             if(task.creation.to.id === auth.user.id){
+              
               return <Link className="dropdown-item d-flex align-items-center" to={`/task/${task._id}`} key={task._id}>
               <div className="mr-3">
                 <div className="icon-circle bg-primary">
@@ -70,9 +72,7 @@ class NavbarAlerts extends Component {
       <div>
         <Link className="nav-link dropdown-toggle" to="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i className="fas fa-bell fa-fw"></i>
-          {tasks? (
-            <span className="badge badge-danger badge-counter">{this.state.taskCount}</span>
-          ): null}          
+          <span className="badge badge-danger badge-counter">{tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length}</span>          
         </Link>
         {messages}
       </div>

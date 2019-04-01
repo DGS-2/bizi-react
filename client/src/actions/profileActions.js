@@ -28,6 +28,14 @@ export const getCurrentProfile = () => dispatch => {
     );
 };
 
+// Add skills
+export const addSkill = (skill, history) => dispatch => {
+  axios
+    .post('/profile/add-skill', skill)
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+}
+
 // Get profile by handle
 export const getProfileByHandle = handle => dispatch => {
   dispatch(setProfileLoading());

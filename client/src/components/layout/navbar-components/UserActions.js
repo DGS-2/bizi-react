@@ -14,11 +14,6 @@ class UserActions extends Component {
 
   render() {
     const { auth, profile } = this.props;
-    console.log(profile)
-
-    const alert = (
-      <span className="badge badge-danger badge-counter"><i className="fas fa-exclamation-circle"></i></span>
-    )
   
     let name , profileLink
     if( profile.profile === null || Object.keys(profile.profile).length === 0 ) {

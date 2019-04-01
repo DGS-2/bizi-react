@@ -39,6 +39,12 @@ class Sidenav extends Component {
             <span>My Calendar</span></Link>
         </li>
         <hr className="sidebar-divider d-none d-md-block" />
+        <li className="nav-item active">
+          <Link className="nav-link" to="/skills">
+            <i className="fas fa-fw fa-search"></i>
+            <span>Find Users</span></Link>
+        </li>
+        <hr className="sidebar-divider d-none d-md-block" />
         <div className="sidebar-heading">
           Addons
         </div>
