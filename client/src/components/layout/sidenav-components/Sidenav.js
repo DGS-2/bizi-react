@@ -39,10 +39,32 @@ class Sidenav extends Component {
             <span>My Calendar</span></Link>
         </li>
         <hr className="sidebar-divider d-none d-md-block" />
-        <li className="nav-item active">
-          <Link className="nav-link" to="/skills">
-            <i className="fas fa-fw fa-search"></i>
-            <span>Find Users</span></Link>
+        <li className="nav-item">
+          <Link to="/#" className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
+            <i className="fas fa-search"></i>
+            <span>Bizi Users</span>
+          </Link>
+          <div id="collapseUsers" className="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">
+            <div className="bg-white py-2 collapse-inner rounded">
+              <h6 className="collapse-header">Find Users:</h6>
+              <Link className="collapse-item" to="/skills">By Skills</Link>
+              <Link className="collapse-item" to="/all-users">By Search</Link>
+            </div>
+          </div>
+        </li>
+        <hr className="sidebar-divider d-none d-md-block" />
+        <li className="nav-item">
+          <Link to="/#" className="nav-link collapsed" data-toggle="collapse" data-target="#collapseActions" aria-expanded="true" aria-controls="collapseActions">
+            <i className="fas fa-infinity"></i>
+            <span>Actions</span>
+          </Link>
+          <div id="collapseActions" className="collapse" aria-labelledby="headingActions" data-parent="#accordionSidebar">
+            <div className="bg-white py-2 collapse-inner rounded">
+              <h6 className="collapse-header">Find Users:</h6>
+              <Link className="collapse-item" to="/teams">View My Teams</Link>
+              <Link className="collapse-item" to="/create-team">Create New Team</Link>
+            </div>
+          </div>
         </li>
         <hr className="sidebar-divider d-none d-md-block" />
         <div className="sidebar-heading">
@@ -60,9 +82,6 @@ class Sidenav extends Component {
               <Link className="collapse-item" to="/register">Register</Link>
               <Link className="collapse-item" to="/forgot-password">Forgot Password</Link>
               <div className="collapse-divider"></div>
-              <h6 className="collapse-header">Other Pages:</h6>
-              <Link className="collapse-item" to="/404">404 Page</Link>
-              <Link className="collapse-item" to="/blank">Blank Page</Link>
             </div>
           </div>
         </li>

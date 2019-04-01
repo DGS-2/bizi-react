@@ -17,7 +17,6 @@ class Skills extends Component {
     if( skills === null ) {
       skillContent = <Spinner />
     } else if( Object.keys(skills) !== 0 ) {
-      console.log(skills)
       if( skills.skills !== null ) {
         skillContent = <SkillsFeed skills={skills.skills} />
       }

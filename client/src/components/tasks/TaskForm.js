@@ -212,7 +212,7 @@ class TaskForm extends Component {
               delimiters={delimiters}
               autocomplete={true}
               autofocus={false}
-              minQueryLength="1"
+              minQueryLength={1}
             />
             </div>
             <small className="form-text text-muted">Tag users this task should be assigned to</small>

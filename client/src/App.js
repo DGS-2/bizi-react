@@ -23,6 +23,7 @@ import Task from "./components/task/Task";
 import Dashboard from './components/dashboard/Dashboard';
 import Calendar from "./components/calendar/Calendar"
 import Skills from "./components/skills/Skills";
+import AllUsers from "./components/all-users/AllUsers";
 
 import "./App.scss";
 
@@ -67,7 +68,8 @@ class App extends Component {
                 <Switch><PrivateRoute exact path="/task/:id" component={ Task } /></Switch>
                 <Switch><PrivateRoute exact path="/create-profile" component={ CreateProfile } /></Switch>
                 <Switch><PrivateRoute exact path="/edit-profile" component={ Profile } /></Switch>
-                <Switch><PrivateRoute exact path="/skills" component={ Skills } /></Switch>              
+                <Switch><PrivateRoute exact path="/skills" component={ Skills } /></Switch>
+                <Switch><PrivateRoute exact path="/all-users" component={ AllUsers } /></Switch>            
               </div>
             </div>
           </div>

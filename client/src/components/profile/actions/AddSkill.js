@@ -2,17 +2,8 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { addSkill, getCurrentProfile } from "../../../actions/profileActions";
-
-import { WithContext as ReactTags } from 'react-tag-input';
-
+import Spinner from "../../shared/Spinner";
 import { getSkills } from "../../../actions/skillActions"
-
-const KeyCodes = {
-  comma: 188,
-  enter: 13,
-};
-
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 class AddSkill extends Component {
   constructor(props){
@@ -28,11 +19,6 @@ class AddSkill extends Component {
     this.toggleFormState = this.toggleFormState.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleAddition = this.handleAddition.bind(this);
-
-    this.changeSuggestionState = this.changeSuggestionState.bind(this);
   }
 
   componentDidMount = () => {
@@ -42,22 +28,6 @@ class AddSkill extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
-  }
-
-  handleDelete(i) {
-    const { tags } = this.state;
-    this.setState({
-      tags: tags.filter((tag, index) => index !== i),
-    });
-  }
-
-  handleAddition(tag) {
-      this.setState(state => ({ tags: [...state.tags, tag] }));
-  }
-
-  changeSuggestionState = items => {
-    // this.setState({suggestions: items})
-    console.log(this.props.skills)
   }
 
   onSubmit = e => {
@@ -85,18 +55,6 @@ class AddSkill extends Component {
       <form onSubmit={this.onSubmit}>
         <div className="form-group">
           <input type="text" className="form-control form-control-user" name="skillName" onChange={this.onChange} value={this.state.skillName} placeholder="Enter the name of your skill..." />
-          {/* <ReactTags 
-            name="skill"
-            placeholder="Start typing to assign task to members"              
-            inputFieldPosition="inline"
-            tags={this.state.tags}
-            suggestions={this.state.suggestions}
-            handleDelete={this.handleDelete}
-            handleAddition={this.handleAddition}
-            delimiters={delimiters}
-            autocomplete={true}
-            autofocus={false}
-          /> */}
         </div>
         <div className="form-group">
           <button className="btn btn-primary btn-xl">Add Skill</button>
@@ -104,8 +62,30 @@ class AddSkill extends Component {
       </form>
     ) 
 
+    let skillList
+    if(profile === null || Object.keys(profile) === 0){
+      skillList = <Spinner />
+    } else if(Object.keys(profile) !== 0){
+      let userProfile = profile.profile
+      if(userProfile){
+        skillList = userProfile.skills.map(item => {
+          return <div className="card" key={item._id}>
+            <div className="card-header"></div>
+            <div className="card-body"><h5 className="text-center">{item.name}</h5></div>
+            <div className="card-footer"></div>
+          </div>
+        })
+      }      
+    }
+
     return (
       <div className="container">
+        <div className="container no-gutters">
+          <h6 className="text-center">Skills Indentified</h6>
+          <div className="card-deck">
+            { skillList }
+          </div>
+        </div>
         <div className="row p-3">
         { !this.state.showForm ? (
             <button className="btn btn-primary btn-xl" onClick={this.toggleFormState}>Add Skill</button>

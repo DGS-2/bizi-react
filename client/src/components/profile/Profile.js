@@ -29,9 +29,9 @@ class Profile extends Component {
               <h6 className="text-dark">{profile ? profile.personalInfo.name.full : '' }</h6>
           </div>
           <ul className="list-group">
-            <li className='list-group-item text-right'>Item</li>
-            <li className='list-group-item text-right'>Item</li>
-            <li className='list-group-item text-right'>Item</li>
+            <li className='list-group-item text-left'>Location</li>
+            <li className='list-group-item text-left'>Duty Position</li>
+            <li className='list-group-item text-left'>Contact Info</li>
           </ul>
         </div>
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9">
