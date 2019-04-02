@@ -19,10 +19,10 @@ class Navbar extends Component {
         <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
           <i className="fa fa-bars"></i>
         </button>
-        <NavbarSearch />
+        {/* <NavbarSearch /> */}
         <ul className="navbar-nav ml-auto">
           <li className="nav-item dropdown no-arrow d-sm-none">
-            <DropdownSearch />
+            {/* <DropdownSearch /> */}
           </li>
           <li className="nav-item dropdown no-arrow mx-1">
             <NavbarAlerts />
