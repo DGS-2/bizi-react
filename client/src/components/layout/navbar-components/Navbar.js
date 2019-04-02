@@ -28,7 +28,7 @@ class Navbar extends Component {
             <NavbarAlerts />
           </li>
           <li className="nav-item dropdown no-arrow mx-1">
-           <NavbarMessages />
+           {/* <NavbarMessages /> */}
           </li>
           <div className="topbar-divider d-none d-sm-block"></div>          
           <li className="nav-item dropdown no-arrow">

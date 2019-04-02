@@ -27,8 +27,12 @@ import Dashboard from './components/dashboard/Dashboard';
 import Calendar from "./components/calendar/Calendar"
 import Skills from "./components/skills/Skills";
 
+import CreateTeam from './components/teams/CreateTeam';
+import Teams from "./components/teams/Teams";
+import Team from "./components/team/Team";
 
 import "./App.scss";
+
 
 
 
@@ -75,6 +79,9 @@ class App extends Component {
                 <Switch><PrivateRoute exact path="/profile/:id" component={ Profile } /></Switch>
                 <Switch><PrivateRoute exact path="/skills" component={ Skills } /></Switch>
                 <Switch><PrivateRoute exact path="/all-users" component={ Profiles } /></Switch>            
+                <Switch><PrivateRoute exact path="/teams" component={ Teams } /></Switch>            
+                <Switch><PrivateRoute exact path="/create-team" component={ CreateTeam } /></Switch>            
+                <Switch><PrivateRoute exact path="/teams/:id" component={ Team } /></Switch>            
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@ import moment from "moment"
 class Task extends Component {
   constructor(props) {
     super(props)
-
+    
     this.mapIdToUser = this.mapIdToUser.bind(this)
     this.mapMessageThread = this.mapMessageThread.bind(this)
     this.getClass = this.getClass.bind(this)
