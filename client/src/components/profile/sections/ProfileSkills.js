@@ -5,7 +5,7 @@ import { addSkill, getCurrentProfile } from "../../../actions/profileActions";
 import Spinner from "../../shared/Spinner";
 import { getSkills } from "../../../actions/skillActions"
 
-class AddSkill extends Component {
+class ProfileSkills extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -69,10 +69,8 @@ class AddSkill extends Component {
       let userProfile = profile.profile
       if(userProfile){
         skillList = userProfile.skills.map(item => {
-          return <div className="card" key={item._id}>
-            <div className="card-header"></div>
-            <div className="card-body"><h5 className="text-center">{item.name}</h5></div>
-            <div className="card-footer"></div>
+          return <div className="card bg-dark" key={item._id}>
+            <div className="card-body"><h5 className="text-center text-white">{item.name}</h5></div>
           </div>
         })
       }      
@@ -99,7 +97,7 @@ class AddSkill extends Component {
   }
 }
 
-AddSkill.propTypes = {
+ProfileSkills.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   addSkill: PropTypes.func.isRequired,
@@ -113,4 +111,4 @@ const mapStateToProps = state => ({
   skills: state.skills
 })
 
-export default connect(mapStateToProps, {addSkill, getCurrentProfile, getSkills})(AddSkill)
+export default connect(mapStateToProps, {addSkill, getCurrentProfile, getSkills})(ProfileSkills)

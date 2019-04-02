@@ -26,7 +26,7 @@ class SkillItem extends Component {
   render() {
     const { skill } = this.props
     return (
-      <div className="card">
+      <div className="card bg-dark">
         <div className="card-header">{skill.name}</div>
         <div className="card-body">
           <ul className="list-unstyled">

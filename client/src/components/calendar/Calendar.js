@@ -40,7 +40,7 @@ class Calendar extends Component {
   }
 
   render() {
-    const { auth, tasks, profile } = this.props
+    const { tasks, profile } = this.props
     
     
     let events
@@ -55,7 +55,6 @@ class Calendar extends Component {
     return (
       <div className="container">
         <h1>My Calendar</h1>
-        {profile.profile? (
           <BigCalendar 
           localizer={localizer}
           style={{height: '75vh'}}
@@ -67,7 +66,6 @@ class Calendar extends Component {
           onSelectEvent={this.onSelectEvent}
           defaultDate={new Date()}
         />
-        ) : null}
       </div>
     )
   }
@@ -75,7 +73,6 @@ class Calendar extends Component {
 
 
 Calendar.propTypes = {
-  auth: PropTypes.object.isRequired,
   tasks: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getTasks: PropTypes.func.isRequired,
@@ -83,7 +80,6 @@ Calendar.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
   tasks: state.tasks,
   profile: state.profile
 })

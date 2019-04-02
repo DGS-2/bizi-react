@@ -18,14 +18,18 @@ import  Login from "./components/auth/Login";
 
 import CreateProfile from "./components/profile/CreateProfile";
 import Profile from "./components/profile/Profile";
-import Tasks from "./components/tasks/Tasks";
+import Profiles from './components/profiles/Profiles';
+
 import Task from "./components/task/Task";
+import Tasks from "./components/tasks/Tasks";
+
 import Dashboard from './components/dashboard/Dashboard';
 import Calendar from "./components/calendar/Calendar"
 import Skills from "./components/skills/Skills";
-import AllUsers from "./components/all-users/AllUsers";
+
 
 import "./App.scss";
+
 
 
 // Check for token
@@ -68,8 +72,9 @@ class App extends Component {
                 <Switch><PrivateRoute exact path="/task/:id" component={ Task } /></Switch>
                 <Switch><PrivateRoute exact path="/create-profile" component={ CreateProfile } /></Switch>
                 <Switch><PrivateRoute exact path="/edit-profile" component={ Profile } /></Switch>
+                <Switch><PrivateRoute exact path="/profile/:id" component={ Profile } /></Switch>
                 <Switch><PrivateRoute exact path="/skills" component={ Skills } /></Switch>
-                <Switch><PrivateRoute exact path="/all-users" component={ AllUsers } /></Switch>            
+                <Switch><PrivateRoute exact path="/all-users" component={ Profiles } /></Switch>            
               </div>
             </div>
           </div>
