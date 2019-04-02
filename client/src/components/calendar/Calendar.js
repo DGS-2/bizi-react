@@ -29,33 +29,27 @@ class Calendar extends Component {
         title: event.metaData.title,
         start: new Date(event.creation.date),
         end: new Date(event.creation.due),
-        allDay: true
+        allDay: true,
+        eventId: event._id
       })
     })
     return arr
   }
 
   onSelectEvent = e => {
-    console.log(e)
+    this.props.history.push(`/task/${e.eventId}`)
   }
 
   render() {
     const { tasks, profile } = this.props
     
-    
+    let calendar
     let events
     if(tasks === null || profile === null ) {
       events = []
     } else if(profile.profile !== null) {
       events = this.mapTasksAsEvent(tasks, profile)
-    }
-
-    
-
-    return (
-      <div className="container">
-        <h1>My Calendar</h1>
-          <BigCalendar 
+      calendar = <BigCalendar 
           localizer={localizer}
           style={{height: '75vh'}}
           events={events}
@@ -65,7 +59,16 @@ class Calendar extends Component {
           end="end"
           onSelectEvent={this.onSelectEvent}
           defaultDate={new Date()}
+          
         />
+    }
+
+    
+
+    return (
+      <div className="container">
+        <h1>My Calendar</h1>
+          { calendar }
       </div>
     )
   }
