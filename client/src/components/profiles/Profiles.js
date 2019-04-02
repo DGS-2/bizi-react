@@ -54,7 +54,7 @@ class Profiles extends Component {
               <p className="lead text-center">Browse and connect with other Bizi members</p>
               <input type="text" className="form-control form-control-user" placeholder="Start Typing to Filter Users by Name..." name="input" onChange={this.onChange} value={this.state.input} /> <hr />
             </div>
-            <div className="row">
+            <div className="card-columns">
               { profileItems }
             </div>
           </div>

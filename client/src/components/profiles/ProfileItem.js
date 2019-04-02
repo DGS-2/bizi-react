@@ -6,7 +6,7 @@ class ProfileItem extends Component {
   render() {
     const { profile } = this.props
     return (
-      <div className="card col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 bg-dark text-white">
+      <div className="card bg-dark text-white">
         <div className="card-header bg-dark">{profile.personalInfo.rank.abreviated} { profile.personalInfo.name.full }</div>
         <div className="card-body">
           <div className="row">
