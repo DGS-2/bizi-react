@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import Spinner from "../shared/Spinner";
 import TaskMessageReply from "../task/TaskMessageReply";
-import TaskStatusActions from "../task/TaskStatusActions";
+import SubTaskActions from "./SubTaskActions";
 import TaskSubTasking from "../task/TaskSubTasking";
 import { getTask } from "../../actions/taskActions";
 import moment from "moment"
@@ -76,7 +76,8 @@ class Task extends Component {
             <TaskMessageReply />
             <hr />
             <h6 className="text-center my-3">Actions:</h6><hr />
-            <TaskStatusActions /><hr />
+            <SubTaskActions />
+            <hr />
             <Link to="/dashboard" className="btn btn-outline-primary btn-md">Back to Dashboard</Link>
           </div>
         )

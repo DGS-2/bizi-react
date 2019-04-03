@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TaskFeed from "./TaskFeed";
 import TaskForm from "./TaskForm";
-
+import Calendar from "../calendar/Calendar";
 import Spinner from "../shared/Spinner";
 
 import { getTasks } from "../../actions/taskActions";
@@ -15,11 +15,13 @@ class Tasks extends Component {
       tasks: this.props.task,
       input: '',
       priority: '',
-      showTaskForm: false
+      showTaskForm: false,
+      showCalendar: false
     }
 
     this.onChange = this.onChange.bind(this)
     this.toggleForm = this.toggleForm.bind(this)
+    this.toggleCalendar = this.toggleCalendar.bind(this)
   }
   componentDidMount(){
     this.props.getTasks()
@@ -33,6 +35,10 @@ class Tasks extends Component {
     this.setState({
       showTaskForm: !this.state.showTaskForm
     })
+  }
+
+  toggleCalendar = () => {
+    this.setState({ showCalendar: !this.state.showCalendar })
   }
 
   render() {
@@ -58,16 +64,18 @@ class Tasks extends Component {
     return (
       <div className="container-fluid">
         <div className="row mb-3">
-          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
-            <div className="mx-auto">
-              { this.state.showTaskForm ? (
-                <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
-              ) : (
-                <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
-              )}
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 my-3">
+            <div className="row no-gutters">
+              <div className="mx-auto">
+                { this.state.showTaskForm ? (
+                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
+                ) : (
+                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
+                )}
+              </div>
             </div>            
           </div>
-          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 my-3">
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 my-3">
             <div className="mx-auto">
               <div className="input-group">
                 <div className="input-group-prepend">
@@ -77,7 +85,7 @@ class Tasks extends Component {
               </div>
             </div>            
           </div>
-          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-3">
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 my-3">
               <div className="mx-auto">
                 <div className="input-group">
                   <div className="input-group-prepend">
@@ -90,6 +98,22 @@ class Tasks extends Component {
                   </select>
                 </div>
               </div>
+          </div>
+          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 my-3">
+            <div className="row no-gutters">
+              <div className="mx-auto">
+                { this.state.showCalendar ? (
+                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleCalendar }><i className="far fa-eye-slash"></i>&nbsp;Hide Calendar</button>
+                ) : (
+                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleCalendar }><i className="far fa-eye"></i>&nbsp;Show Calendar</button>
+                )}
+              </div> 
+            </div>                       
+          </div>
+        </div>
+        <div className="container-fluid my-3">
+          <div className="row no-gutters">
+              { this.state.showCalendar ? <Calendar /> : null }
           </div>
         </div>
         <div className="card-columns">
