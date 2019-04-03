@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TaskFeed from "./TaskFeed";
-import TaskForm from "./TaskForm";
+import SubTaskFeed from "./SubTaskFeed";
+import SubTaskForm from "./SubTaskForm";
 
 import Spinner from "../shared/Spinner";
 
 import { getTasks } from "../../actions/taskActions";
 
-class Tasks extends Component {
+class SubTasks extends Component {
   constructor(props){
     super(props)
     this.state = {
       tasks: this.props.task,
       input: '',
       priority: '',
-      showTaskForm: false
+      showSubTaskForm: false
     }
 
     this.onChange = this.onChange.bind(this)
@@ -31,7 +31,7 @@ class Tasks extends Component {
 
   toggleForm = () => {
     this.setState({
-      showTaskForm: !this.state.showTaskForm
+      showSubTaskForm: !this.state.showSubTaskForm
     })
   }
 
@@ -52,7 +52,7 @@ class Tasks extends Component {
     if(tasks === null || loading) {
       taskContent = <Spinner />
     } else if(Object.keys(tasks) !== 0) {     
-      taskContent = <TaskFeed tasks={filterTasks} />
+      taskContent = <SubTaskFeed tasks={filterTasks} />
     }    
 
     return (
@@ -60,7 +60,7 @@ class Tasks extends Component {
         <div className="row mb-3">
           <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
             <div className="mx-auto">
-              { this.state.showTaskForm ? (
+              { this.state.showSubTaskForm ? (
                 <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
               ) : (
                 <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
@@ -93,9 +93,9 @@ class Tasks extends Component {
           </div>
         </div>
         <div className="card-columns">
-          { this.state.showTaskForm ? (<div className="card border border-primary shadow shadow-sm">
+          { this.state.showSubTaskForm ? (<div className="card border border-primary shadow shadow-sm">
             <div className="card-header">Create a New Task</div>
-            <div className="card-body"><TaskForm /></div>
+            <div className="card-body"><SubTaskForm /></div>
           </div>) : null }
           { taskContent }
         </div>
@@ -105,7 +105,7 @@ class Tasks extends Component {
 }
 
 
-Tasks.propTypes = {
+SubTasks.propTypes = {
   getTasks: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
@@ -116,4 +116,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { getTasks })(Tasks);
+export default connect(mapStateToProps, { getTasks })(SubTasks);

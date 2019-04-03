@@ -16,11 +16,40 @@ router.get('/', (req, res) => {
     .catch(err => res.status(404).json({noTasksFound: 'No tasks were found'}))
 })
 
+//@route    POST /tasks/sub-tasks/:id
+//@desc     Create sub tasks within a task
+//@access   Private
+router.post('/sub-task/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const subTasks = req.body.subTasks
+  // Create Each New Task and get Id to store in original Task's subTasks
+  subTasks.forEach(item => {
+    // Save the new task
+    let newTask = new Task(item)
+    newTask.save().then(sub => {
+      // Find original task
+      Task.findOne({ _id: req.params.id})
+      .then(task => {
+        if(task){
+          // Add newly created task id to original task subTask array
+          task.subTasks = [...task.subTasks].concat(sub)
+          Task.findOneAndUpdate({ _id: req.params.id}, {$set : task}, {new: true})
+            .then(update => res.status(200).json(update))
+            .catch(err => res.status(404).json(err))
+        }
+      })
+      .catch(err => res.status(404).json(err))
+    })
+  })
+
+  
+  
+})
+
 // @route   GET api/tasks/:id
 // @desc    Get task by id
 // @access  public
 router.get('/:id', (req, res) => {
-  Task.findById(req.params.id)
+  Task.findOne({_id: req.params.id})
     .then(task => {
       if(task){
         res.json(task)
@@ -59,6 +88,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
       }
     },
     messages: req.body.messages,
+    subTasks: req.body.subTasks || [],
     tags: req.body.tags || [],
     status: {
       read: false,

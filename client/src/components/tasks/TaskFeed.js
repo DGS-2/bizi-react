@@ -5,7 +5,8 @@ import TaskItem from './TaskItem';
 class TaskFeed extends Component {
   render() {
     const { tasks } = this.props
-    return tasks.map(task => <TaskItem key={task._id} task={task} />)
+    
+    return tasks.map(task => <TaskItem key={task._id} task={ task } subTask={ this.props.subTask } />)
   }
 }
 

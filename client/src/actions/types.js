@@ -14,6 +14,7 @@ export const GET_TASKS = '[TASK] GET_TASKS';
 export const GET_TASK = '[TASK] GET_TASK';
 export const ADD_TASK = '[TASK] ADD_TASK';
 export const DELETE_TASK = '[TASK] DELETE_TASK';
+export const ADD_SUB_TASK = '[TASK] ADD_SUB_TASK';
 
 export const GET_SKILLS = '[SKILL] GET_SKILLS';
 export const GET_SKILL = '[SKILL] GET_SKILL';

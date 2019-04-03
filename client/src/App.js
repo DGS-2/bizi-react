@@ -22,6 +22,7 @@ import Profiles from './components/profiles/Profiles';
 
 import Task from "./components/task/Task";
 import Tasks from "./components/tasks/Tasks";
+import SubTask from './components/sub-task/SubTask';
 
 import Dashboard from './components/dashboard/Dashboard';
 import Calendar from "./components/calendar/Calendar"
@@ -32,9 +33,6 @@ import Teams from "./components/teams/Teams";
 import Team from "./components/team/Team";
 
 import "./App.scss";
-
-
-
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -74,6 +72,7 @@ class App extends Component {
                 <Switch><PrivateRoute exact path="/dashboard" component={ Tasks } /></Switch>
                 <Switch><PrivateRoute exact path="/calendar" component={ Calendar } /></Switch>
                 <Switch><PrivateRoute exact path="/task/:id" component={ Task } /></Switch>
+                <Switch><PrivateRoute exact path="/sub-task/:id" component={ SubTask } /></Switch>
                 <Switch><PrivateRoute exact path="/create-profile" component={ CreateProfile } /></Switch>
                 <Switch><PrivateRoute exact path="/edit-profile" component={ Profile } /></Switch>
                 <Switch><PrivateRoute exact path="/profile/:id" component={ Profile } /></Switch>

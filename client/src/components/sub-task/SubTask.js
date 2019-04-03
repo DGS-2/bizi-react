@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import Spinner from "../shared/Spinner";
-import TaskMessageReply from "./TaskMessageReply";
-import TaskStatusActions from "./TaskStatusActions";
-import TaskSubTasking from "./TaskSubTasking";
+import TaskMessageReply from "../task/TaskMessageReply";
+import TaskStatusActions from "../task/TaskStatusActions";
+import TaskSubTasking from "../task/TaskSubTasking";
 import { getTask } from "../../actions/taskActions";
 import moment from "moment"
 
@@ -34,21 +34,22 @@ class Task extends Component {
     let col = "col-md-8 mx-auto p-3 "
     if(status.completed) col += "border border-success rounded"
     else if(status.disputed) col += "border border-danger rounded"
+    else col += "border border-primary rounded"
     return col
   }
 
   componentDidMount = () => {
-    if(this.props.task.task === null) {
+    if(this.props.task.task === null) {      
       this.props.getTask(this.props.match.params.id)
     } else {
       window.location.reload()
-    } 
+    }   
   }
 
   render() {
     const { task, loading } = this.props.task
     const { auth } = this.props
-    
+    console.log(this.props)
     let taskContent;
 
     if( task === null || loading || Object.keys(task).length === 0 ) {
@@ -58,15 +59,17 @@ class Task extends Component {
         taskContent = (
           <div className={ this.getClass(task.status)}>  
             <h1 className="text-center mb-3">{ task.metaData.title }</h1><hr />
-            <p>This task has been labeled <strong>{ task.creation.priority.level }</strong> by { this.mapIdToUser(task.creation.from.id)}</p>
+            <p>This task is labeled <strong>{ task.creation.priority.level }</strong> assigned to { `${task.creation.to.rank} ${task.creation.to.name}` }</p>              
+            <ul className="list-unstyled">
+              <li className="list-header">Task Status</li>
+              <li className="list-item">{ task.status.read ? <i className="fas fa-check text-success" /> : <i className="fas fa-times text-danger" /> } Read</li>
+              <li className="list-item">{ task.status.completed ? <i className="fas fa-check text-success" /> : <i className="fas fa-times text-danger" /> } Completed</li>
+              <li className="list-item">{ task.status.disputed ? <i className="fas fa-check text-success" /> : <i className="fas fa-times text-danger" /> } Disputed</li>
+            </ul>
             <p><strong>Description: </strong>{ task.metaData.description }</p>
             <p><strong>Created On: </strong>{  moment(task.creation.date).format('YYYY-MMM-DD') }</p>
             <p><strong>Due By: </strong>{  moment(task.creation.due).format('YYYY-MMM-DD') }</p>
-            
-            <div className="container">{ task.creation.to.id === auth.user.id ? <TaskSubTasking task={ task } /> : null }</div>
-            
-            
-            
+            { task.creation.to.id === auth.user.id ? <TaskSubTasking task={ task } /> : null }
             <hr />
             <h6 className="text-center">Message Thread:</h6>
             <ul className="list-unstyled">{this.mapMessageThread(task.messages)}</ul>

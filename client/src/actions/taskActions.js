@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GET_TASK, GET_TASKS, ADD_TASK, DELETE_TASK, GET_ERRORS, TASK_LOADING } from "./types";
+import { GET_TASK, GET_TASKS, ADD_TASK, DELETE_TASK, GET_ERRORS, TASK_LOADING, ADD_SUB_TASK } from "./types";
 
 // Add a task
 export const addTask = taskData => dispatch => {
@@ -100,6 +100,18 @@ export const changeStatus = (taskId, statusData) => dispatch => {
         payload: err.response.data
       })
     })
+}
+
+export const createSubTasks = (taskId, subTasks) => dispatch => {
+  axios.post(`/tasks/sub-task/${taskId}`, subTasks)
+    .then(res => dispatch({
+      type: ADD_SUB_TASK,
+      payload: res.data
+    }))
+    .catch(err => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    }))
 }
 
 // Set Loading State

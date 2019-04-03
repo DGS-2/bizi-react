@@ -1,60 +1,47 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addTask } from "../../actions/taskActions";
+import { createSubTasks, addTask } from "../../actions/taskActions";
 import TextFieldGroup from "../shared/TextFieldGroup";
 import TextAreaFieldGroup from "../shared/TextAreaFieldGroup";
 import SelectListGroup from "../shared/SelectListGroup";
 import { WithContext as ReactTags } from 'react-tag-input';
 import DatePicker from 'react-date-picker';
 import { delimiters } from "../../const/consts";
-import { filterUsers } from "../../functions/functions";
+import { filterOutCurrentUser } from "../../functions/functions";
 
-class TaskForm extends Component {
+class SubTaskForm extends Component {
   constructor(props){
     super(props)
-    
     this.state = {
-      title: '',
-      description: '',
-      classification: '',
-      due: new Date(),
-      to: '',
-      from: '',
-      message: '',
-      tags: '',
+      title: this.props.task.metaData.title || '',
+      description: this.props.task.metaData.description || '',
+      classification: this.props.task.metaData.classification || '',
+      due: this.props.task.creation.due,
       priority: '',
-      errors: {},
-      taggableUsers: [],
-      suggestions: []
+      message: '',
+      taggedUsers: [],
+      errors: {}
     }
     
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleAddition = this.handleAddition.bind(this);
-
     this.buildTask = this.buildTask.bind(this)
-    this.setDueDate = this.setDueDate.bind(this)
-  }
 
-  componentWillReceiveProps(newProps) {
-    if(newProps.errors) {
-      this.setState({errors: newProps.errors})
-    }
-  }
+    this.handleAddition = this.handleAddition.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.setDueDate = this.setDueDate.bind(this)
+  }  
 
   handleDelete(i) {
-    const { taggableUsers } = this.state;
+    const { taggedUsers } = this.state;
     this.setState({
-      taggableUsers: taggableUsers.filter((tag, index) => index !== i),
+      taggedUsers: taggedUsers.filter((tag, index) => index !== i),
     });
   }
 
   handleAddition(tag) {
-      this.setState(state => ({ taggableUsers: [...state.taggableUsers, tag] }));
+      this.setState(state => ({ taggedUsers: [...state.taggedUsers, tag] }));
   }
 
   setDueDate = date => {
@@ -62,22 +49,23 @@ class TaskForm extends Component {
   }
 
   onChange = e => {
-    this.setState({[e.target.name]: e.target.value})
+    this.setState({ [e.target.name]: e.target.value })
   }
 
-  
-
   onSubmit = e => {
-    e.preventDefault();
-    this.state.taggableUsers.forEach(user => {
+    e.preventDefault()
+    let subTasking = {}
+    subTasking.subTasks = []
+    this.state.taggedUsers.forEach(user => {
       let to = this.props.profile.profiles.filter(u => u.user._id === user.id)[0]
-      this.buildTask(to)
+      subTasking.subTasks.push(this.buildTask(to))
     })
     
+    this.props.createSubTasks(this.props.task._id, subTasking)
   }
 
   buildTask = user => {
-    const newTask = {
+    const subTask = {
       metaData: {
         title: this.state.title,
         description: this.state.description,
@@ -85,9 +73,9 @@ class TaskForm extends Component {
       },
       creation: {
         from: {
-          name: this.props.profile.profile.personalInfo.name.full,
+          id: this.props.profile.profile.user._id,
           rank: this.props.profile.profile.personalInfo.rank.abreviated,
-          id: this.props.auth.user.id
+          name: this.props.profile.profile.personalInfo.name.full
         },
         date: Date.now,
         due: this.state.due,
@@ -101,27 +89,28 @@ class TaskForm extends Component {
         }
       },
       messages: [{
-        from: this.props.auth.user.id,
+        from: this.props.profile.profile.user._id,
         message: this.state.message 
-      }],
-      tags: this.state.tags
+      }]
     }
 
-    // console.log(newTask)
-    this.props.addTask(newTask, this.props.history)
+    // this.props.addTask( subTask )
+
+    return subTask
   }
 
   render() {
-    const { errors, taggableUsers } = this.state
+    const { errors, taggedUsers } = this.state
     const { profile } = this.props
-    
-    const suggestions = filterUsers(profile.profiles)
+
+    const suggestions = filterOutCurrentUser(profile.profiles,  profile.profile.user._id)
 
     const options = [
       { label: '* Select Priority Level', value: 0 },
       { label: 'Critical', value: 'Critical' },
       { label: 'Important', value: 'Important' }
     ]
+
     return (
       <div>
         <form className="user" noValidate onSubmit={this.onSubmit} autoComplete="off">
@@ -188,7 +177,7 @@ class TaskForm extends Component {
               name="to"
               placeholder="Start typing to assign task to members"              
               inputFieldPosition="inline"
-              tags={taggableUsers}
+              tags={taggedUsers}
               suggestions={suggestions}
               handleDelete={this.handleDelete}
               handleAddition={this.handleAddition}
@@ -224,17 +213,14 @@ class TaskForm extends Component {
   }
 }
 
-TaskForm.propTypes = {
-  addTask: PropTypes.func.isRequired,
-  filterUsers: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+SubTaskForm.propTypes = {
+  profile: PropTypes.object.isRequired,
+  createSubTasks: PropTypes.func.isRequired,
+  addTask: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors,
   profile: state.profile
 })
 
-export default connect(mapStateToProps, { addTask, filterUsers })(withRouter(TaskForm));
+export default connect(mapStateToProps, { createSubTasks, addTask })(SubTaskForm)

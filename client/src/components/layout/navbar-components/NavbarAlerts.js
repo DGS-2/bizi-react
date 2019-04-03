@@ -15,7 +15,7 @@ class NavbarAlerts extends Component {
   }
 
   componentDidMount(){
-    let count = this.props.tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length
+    let count = this.props.tasks.tasks? this.props.tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length : []
     // this.setCount(count)
   }
 
@@ -39,32 +39,34 @@ class NavbarAlerts extends Component {
         </div>
       )
     } else {
-      
-      messages = (
-        <div className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-          <h6 className="dropdown-header">
-            Alerts Center
-          </h6>
-          { tasks.tasks.map(task => {
-            if(task.creation.to.id === auth.user.id){
-              
-              return <Link className="dropdown-item d-flex align-items-center" to={`/task/${task._id}`} key={task._id}>
-              <div className="mr-3">
-                <div className="icon-circle bg-primary">
-                  <i className="fas fa-tasks text-white"></i>
+      if(tasks.tasks !== null){
+        messages = (
+          <div className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+            <h6 className="dropdown-header">
+              Alerts Center
+            </h6>
+            { tasks.tasks.map(task => {
+              if(task.creation.to.id === auth.user.id){
+                
+                return <Link className="dropdown-item d-flex align-items-center" to={`/task/${task._id}`} key={task._id}>
+                <div className="mr-3">
+                  <div className="icon-circle bg-primary">
+                    <i className="fas fa-tasks text-white"></i>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <div className="small text-gray-500">Due: { moment(task.creation.due).format('DD MMM YYY') }</div>
-                <span className="font-weight-bold">{ task.metaData.title }</span>
-              </div>
-            </Link>
-            
-            }
-            return null
-          }) }
-        </div>
-      )
+                <div>
+                  <div className="small text-gray-500">Due: { moment(task.creation.due).format('DD MMM YYY') }</div>
+                  <span className="font-weight-bold">{ task.metaData.title }</span>
+                </div>
+              </Link>
+              
+              }
+              return null
+            }) }
+          </div>
+        )
+      }
+      
      
     }
 
@@ -72,7 +74,7 @@ class NavbarAlerts extends Component {
       <div>
         <Link className="nav-link dropdown-toggle" to="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i className="fas fa-bell fa-fw"></i>
-          <span className="badge badge-danger badge-counter">{tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length}</span>          
+          <span className="badge badge-danger badge-counter">{ tasks.tasks ? tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length : '0'}</span>          
         </Link>
         {messages}
       </div>
