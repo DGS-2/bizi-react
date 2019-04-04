@@ -31,7 +31,7 @@ class Task extends Component {
   }
 
   getClass = status => {
-    let col = "col-md-8 mx-auto p-3 "
+    let col = "col-md-8 mx-auto p-3 bg-light rounded "
     if(status.completed) col += "border border-success rounded"
     else if(status.disputed) col += "border border-danger rounded"
     else col += "border border-primary rounded"
