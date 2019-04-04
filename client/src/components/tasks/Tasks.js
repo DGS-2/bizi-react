@@ -5,7 +5,7 @@ import TaskFeed from "./TaskFeed";
 import TaskForm from "./TaskForm";
 import Calendar from "../calendar/Calendar";
 import Spinner from "../shared/Spinner";
-
+import NoProfile from "../no-profile/NoProfile";
 import { getTasks } from "../../actions/taskActions";
 
 class Tasks extends Component {
@@ -37,13 +37,20 @@ class Tasks extends Component {
     })
   }
 
+
   toggleCalendar = () => {
     this.setState({ showCalendar: !this.state.showCalendar })
   }
 
   render() {
     const { tasks, loading } = this.props.task
-    const { auth } = this.props
+    const { auth, profile } = this.props
+    console.log(profile)
+    let prompt;
+    if( profile.profile === null ){
+      prompt = <NoProfile /> 
+    }
+    
     let taskContent
     
     const userTasks = tasks? tasks.filter(item => item.creation.from.id === auth.user.id) : []
@@ -61,16 +68,16 @@ class Tasks extends Component {
       taskContent = <TaskFeed tasks={filterTasks} />
     }    
 
-    return (
+    const wrapper = (
       <div className="container-fluid">
         <div className="row mb-3">
           <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 my-3">
             <div className="row no-gutters">
               <div className="mx-auto">
                 { this.state.showTaskForm ? (
-                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
+                  <button className="btn btn-outline-light btn-xl" onClick={ this.toggleForm }><i className="fas fa-minus-circle"></i>&nbsp;Hide Form</button>
                 ) : (
-                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
+                  <button className="btn btn-outline-light btn-xl" onClick={ this.toggleForm }><i className="fas fa-plus-circle"></i>&nbsp;Create Task</button>
                 )}
               </div>
             </div>            
@@ -103,9 +110,9 @@ class Tasks extends Component {
             <div className="row no-gutters">
               <div className="mx-auto">
                 { this.state.showCalendar ? (
-                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleCalendar }><i className="far fa-eye-slash"></i>&nbsp;Hide Calendar</button>
+                  <button className="btn btn-outline-light btn-xl" onClick={ this.toggleCalendar }><i className="far fa-eye-slash"></i>&nbsp;Hide Calendar</button>
                 ) : (
-                  <button className="btn btn-outline-dark btn-xl" onClick={ this.toggleCalendar }><i className="far fa-eye"></i>&nbsp;Show Calendar</button>
+                  <button className="btn btn-outline-light btn-xl" onClick={ this.toggleCalendar }><i className="far fa-eye"></i>&nbsp;Show Calendar</button>
                 )}
               </div> 
             </div>                       
@@ -125,6 +132,12 @@ class Tasks extends Component {
         </div>
       </div>
     )
+
+    return (
+      <div>
+        { profile.profile ? wrapper : prompt }
+      </div>
+    )
   }
 }
 
@@ -132,12 +145,14 @@ class Tasks extends Component {
 Tasks.propTypes = {
   getTasks: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   task: state.tasks,
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 })
 
 export default connect(mapStateToProps, { getTasks })(Tasks);

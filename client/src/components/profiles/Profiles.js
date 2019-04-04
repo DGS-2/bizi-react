@@ -41,7 +41,7 @@ class Profiles extends Component {
         })
         profileItems = biziUsers.map(profile => <ProfileItem key={ profile._id } profile={ profile } />)
       } else {
-        profileItems = <h4 className="text-center">No Profiles Found...</h4>
+        profileItems = <h4 className="text-center text-white">No Profiles Found...</h4>
       }
     }
 
@@ -50,8 +50,8 @@ class Profiles extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <h1 className="text-center">Bizi User Profiles</h1>
-              <p className="lead text-center">Browse and connect with other Bizi members</p>
+              <h1 className="text-center text-white">Bizi User Profiles</h1>
+              <p className="lead text-center text-white">Browse and connect with other Bizi members</p>
               <input type="text" className="form-control form-control-user" placeholder="Start Typing to Filter Users by Name..." name="input" onChange={this.onChange} value={this.state.input} /> <hr />
             </div>
             <div className="card-columns">

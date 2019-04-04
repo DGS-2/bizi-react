@@ -16,8 +16,10 @@ class Calendar extends Component {
     this.onSelectEvent = this.onSelectEvent.bind(this)
   }
   componentDidMount(){
-    this.props.getCurrentProfile()
-    this.props.getTasks()
+    if(this.props.tasks.tasks === null) {
+      this.props.getCurrentProfile()
+      this.props.getTasks()
+    }    
   }
 
   mapTasksAsEvent = (tasks, profile) => {
@@ -37,7 +39,8 @@ class Calendar extends Component {
   }
 
   onSelectEvent = e => {
-    this.props.history.push(`/task/${e.eventId}`)
+    // this.props.history.push(`/task/${e.eventId}`)
+    window.location.assign(`/task/${e.eventId}`)
   }
 
   render() {
@@ -47,7 +50,7 @@ class Calendar extends Component {
     let events
     if(tasks === null || profile === null ) {
       events = []
-    } else if(profile.profile !== null) {
+    } else if(profile.profile !== null && tasks.tasks !== null) {
       events = this.mapTasksAsEvent(tasks, profile)
       calendar = <BigCalendar 
           localizer={localizer}
@@ -66,7 +69,7 @@ class Calendar extends Component {
     
 
     return (
-      <div className="container">
+      <div className="container bg-light rounded p-3">
         <h1>My Calendar</h1>
           { calendar }
       </div>
