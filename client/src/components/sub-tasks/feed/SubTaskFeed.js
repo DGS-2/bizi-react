@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SubTaskItem from './SubTaskItem';
+import SubTaskItem from '../item/SubTaskItem';
 
 class SubTaskFeed extends Component {
   render() {

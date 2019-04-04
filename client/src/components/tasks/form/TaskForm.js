@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addTask } from "../../actions/taskActions";
-import TextFieldGroup from "../shared/TextFieldGroup";
-import TextAreaFieldGroup from "../shared/TextAreaFieldGroup";
-import SelectListGroup from "../shared/SelectListGroup";
+import { addTask } from "../../../actions/taskActions";
+import TextFieldGroup from "../../shared/TextFieldGroup";
+import TextAreaFieldGroup from "../../shared/TextAreaFieldGroup";
+import SelectListGroup from "../../shared/SelectListGroup";
 import { WithContext as ReactTags } from 'react-tag-input';
 import DatePicker from 'react-date-picker';
-import { delimiters } from "../../const/consts";
-import { filterUsers } from "../../functions/functions";
+import { delimiters, priorityOptions } from "../../../const/consts";
+import { filterUsers } from "../../../functions/functions";
 
 class TaskForm extends Component {
   constructor(props){
-    super(props)
-    
+    super(props)    
     this.state = {
       title: '',
       description: '',
@@ -46,14 +45,14 @@ class TaskForm extends Component {
     }
   }
 
-  handleDelete(i) {
+  handleDelete = i => {
     const { taggableUsers } = this.state;
     this.setState({
       taggableUsers: taggableUsers.filter((tag, index) => index !== i),
     });
   }
 
-  handleAddition(tag) {
+  handleAddition = tag => {
       this.setState(state => ({ taggableUsers: [...state.taggableUsers, tag] }));
   }
 
@@ -63,17 +62,14 @@ class TaskForm extends Component {
 
   onChange = e => {
     this.setState({[e.target.name]: e.target.value})
-  }
-
-  
+  } 
 
   onSubmit = e => {
     e.preventDefault();
     this.state.taggableUsers.forEach(user => {
       let to = this.props.profile.profiles.filter(u => u.user._id === user.id)[0]
       this.buildTask(to)
-    })
-    
+    })    
   }
 
   buildTask = user => {
@@ -106,8 +102,7 @@ class TaskForm extends Component {
       }],
       tags: this.state.tags
     }
-
-    // console.log(newTask)
+    
     this.props.addTask(newTask, this.props.history)
   }
 
@@ -116,12 +111,7 @@ class TaskForm extends Component {
     const { profile } = this.props
     
     const suggestions = filterUsers(profile.profiles)
-
-    const options = [
-      { label: '* Select Priority Level', value: 0 },
-      { label: 'Critical', value: 'Critical' },
-      { label: 'Important', value: 'Important' }
-    ]
+    
     return (
       <div>
         <form className="user" noValidate onSubmit={this.onSubmit} autoComplete="off">
@@ -176,7 +166,7 @@ class TaskForm extends Component {
               name="priority"
               value={this.state.priority}
               onChange={this.onChange}
-              options={options}
+              options={priorityOptions}
               error={errors.priority}
               info="Please select a priority level for this task"
             />

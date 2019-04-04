@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Spinner from "../shared/Spinner";
+import Spinner from "../../shared/Spinner";
 import { Link } from "react-router-dom";
 
-import { deleteTask } from "../../actions/taskActions"
+import { deleteTask } from "../../../actions/taskActions"
 
 class TaskItem extends Component {
   constructor(props){
@@ -12,15 +12,10 @@ class TaskItem extends Component {
     this.mapIdToUser = this.mapIdToUser.bind(this)
     this.getCardClass = this.getCardClass.bind(this)
     this.getIconClass = this.getIconClass.bind(this)
-    this.forceRoute = this.forceRoute.bind(this)
   }
 
   onDeleteClick = id => {
     this.props.deleteTask(id)
-  }
-
-  forceRoute = id => {
-    console.log(id)
   }
 
   mapIdToUser = user => {
@@ -60,10 +55,7 @@ class TaskItem extends Component {
       <div className="card-body">
         <h6 className="text-center"><strong>{ task.creation.priority.level } Task</strong></h6><hr/>
         <p><strong>Description: </strong>{ task.metaData.description }</p>
-        <div className="row no-gutters">
-        { this.props.subTask ? 
-          (<Link to={`/sub-task/${task._id}`} className="btn btn-outline-dark btn-sm mx-auto">View Sub Task</Link>) : 
-          (<Link to={`/task/${task._id}`} className="btn btn-outline-dark btn-sm mx-auto">View Task</Link>) }
+          <div className="row no-gutters"><Link to={`/sub-task/${task._id}`} className="btn btn-outline-dark btn-sm mx-auto">View Sub Task</Link>
         </div>
       </div>
       <div className="card-footer">

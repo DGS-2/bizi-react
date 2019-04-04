@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types";
-import {changeStatus} from "../../actions/taskActions"
-
+import {changeStatus} from "../../../actions/taskActions"
+import { taskActions, overrideActions, verifyActions } from "../../../const/consts";
 
 class TaskStatusActions extends Component {
   constructor(props){
@@ -32,29 +31,19 @@ class TaskStatusActions extends Component {
   }
 
   markCompleted = () => {
-    this.setState({
-      completed: true
-    })
+    this.setState({ completed: true })
   }
 
   setDispute = e => {
-    this.setState({
-      disputed: true,
-      reason: e.target.value
-    })
+    this.setState({ disputed: true, reason: e.target.value })
   }
 
-  override = e => {
-    this.setState({
-      disputed: false,
-      reason: ''
-    })
+  override = () => {
+    this.setState({ disputed: false, reason: '' })
   }
 
-  closeOut = e => {
-    this.setState({
-      verified: true
-    })
+  closeOut = () => {
+    this.setState({ verified: true })
   }
 
   onSubmit = e => {
@@ -85,8 +74,7 @@ class TaskStatusActions extends Component {
       <form onSubmit={this.onSubmit}>
         <div className="form-group">
           <select name="override" className="form-control" onChange={this.override}>
-            <option value="">Override Dispute?</option>
-            <option value="true">Yes</option>
+            { overrideActions.map((item, index) => <option value={item.value} key={index}>{item.label}</option>)}
           </select>
         </div>
         <div className="form-group"><button className="btn btn-outline-dark btn-xl">Override</button></div>
@@ -97,8 +85,7 @@ class TaskStatusActions extends Component {
       <form onSubmit={this.onSubmit}>
         <div className="form-group">
           <select name="verify" className="form-control" onChange={this.closeOut}>
-            <option value="">Verify Complete?</option>
-            <option value="true">Yes</option>
+          { verifyActions.map((item, index) => <option value={item.value} key={index}>{item.label}</option>)}
           </select>
         </div>
         <div className="form-group"><button className="btn btn-outline-primary btn-xl">Verify!</button></div>
@@ -120,10 +107,7 @@ class TaskStatusActions extends Component {
               <div className="form-group">
                 <label htmlFor="dispute">Dispute Task</label>
                 <select name="reason" id="dispute" className="form-control" onChange={this.setDispute}>
-                  <option value="">* Select a reason</option>
-                  <option value="Similar Task Assigned">Similar Task Assigned</option>
-                  <option value="I No Longer Have Permissions For This Task">I No Longer Have Permissions For This Task</option>
-                  <option value="Previously Completed">Previously Completed</option>
+                  {taskActions.map((item, index) => <option value={item.value} key={index}>{item.label}</option>)} 
                 </select>
               </div>
               { this.state.disputed ? (<button className="btn btn-outline-danger btn-xl mx-auto">Save</button>) : null }             

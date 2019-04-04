@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addComment } from "../../actions/taskActions"
-import TextAreaFieldGroup from "../shared/TextAreaFieldGroup";
+import { addComment } from "../../../actions/taskActions"
+import TextAreaFieldGroup from "../../shared/TextAreaFieldGroup";
 
 class TaskMessageReply extends Component {
   constructor(props){

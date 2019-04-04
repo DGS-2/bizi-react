@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import SubTaskFeed from "../sub-tasks/SubTaskFeed"
-import SubTaskForm from "../sub-tasks/SubTaskForm";
+import SubTaskFeed from "../../sub-tasks/feed/SubTaskFeed"
+import SubTaskForm from "../../sub-tasks/form/SubTaskForm";
 
 class TaskSubTasking extends Component {
   constructor(props){

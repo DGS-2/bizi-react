@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import Spinner from "../shared/Spinner";
-import TaskMessageReply from "../task/TaskMessageReply";
+import TaskMessageReply from "../task/reply/TaskMessageReply";
 import SubTaskActions from "./SubTaskActions";
-import TaskSubTasking from "../task/TaskSubTasking";
+import TaskSubTasking from "../task/tasking/TaskSubTasking";
 import { getTask } from "../../actions/taskActions";
 import moment from "moment"
 

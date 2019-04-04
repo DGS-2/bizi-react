@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createSubTasks, addTask } from "../../actions/taskActions";
-import TextFieldGroup from "../shared/TextFieldGroup";
-import TextAreaFieldGroup from "../shared/TextAreaFieldGroup";
-import SelectListGroup from "../shared/SelectListGroup";
+import { createSubTasks, addTask } from "../../../actions/taskActions";
+import TextFieldGroup from "../../shared/TextFieldGroup";
+import TextAreaFieldGroup from "../../shared/TextAreaFieldGroup";
+import SelectListGroup from "../../shared/SelectListGroup";
 import { WithContext as ReactTags } from 'react-tag-input';
 import DatePicker from 'react-date-picker';
-import { delimiters } from "../../const/consts";
-import { filterOutCurrentUser } from "../../functions/functions";
+import { delimiters, priorityOptions } from "../../../const/consts";
+import { filterOutCurrentUser } from "../../../functions/functions";
 
 class SubTaskForm extends Component {
   constructor(props){
@@ -94,8 +94,6 @@ class SubTaskForm extends Component {
       }]
     }
 
-    // this.props.addTask( subTask )
-
     return subTask
   }
 
@@ -104,12 +102,6 @@ class SubTaskForm extends Component {
     const { profile } = this.props
 
     const suggestions = filterOutCurrentUser(profile.profiles,  profile.profile.user._id)
-
-    const options = [
-      { label: '* Select Priority Level', value: 0 },
-      { label: 'Critical', value: 'Critical' },
-      { label: 'Important', value: 'Important' }
-    ]
 
     return (
       <div>
@@ -165,7 +157,7 @@ class SubTaskForm extends Component {
               name="priority"
               value={this.state.priority}
               onChange={this.onChange}
-              options={options}
+              options={priorityOptions}
               error={errors.priority}
               info="Please select a priority level for this task"
             />

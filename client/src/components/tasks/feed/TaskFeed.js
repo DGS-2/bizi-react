@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TaskItem from './TaskItem';
+import TaskItem from '../item/TaskItem';
 
 class TaskFeed extends Component {
   render() {

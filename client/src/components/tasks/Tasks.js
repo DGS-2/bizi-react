@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TaskFeed from "./TaskFeed";
-import TaskForm from "./TaskForm";
+import TaskFeed from "./feed/TaskFeed";
+import TaskForm from "./form/TaskForm";
 import Calendar from "../calendar/Calendar";
 import Spinner from "../shared/Spinner";
 import NoProfile from "../no-profile/NoProfile";
@@ -37,7 +37,6 @@ class Tasks extends Component {
     })
   }
 
-
   toggleCalendar = () => {
     this.setState({ showCalendar: !this.state.showCalendar })
   }
@@ -45,26 +44,21 @@ class Tasks extends Component {
   render() {
     const { tasks, loading } = this.props.task
     const { auth, profile } = this.props
-    console.log(profile)
-    let prompt;
-    if( profile.profile === null ){
-      prompt = <NoProfile /> 
-    }
     
-    let taskContent
-    
-    const userTasks = tasks? tasks.filter(item => item.creation.from.id === auth.user.id) : []
-
-    const filterTasks = userTasks.filter(item => {
-      if(this.state.input === '' && this.state.priority === '') return item
-      else if(item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '') return item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase())
-      else if(item.creation.priority.level === this.state.priority && this.state.input === '') return item.creation.priority.level === this.state.priority
-      
-    })
+    let prompt, taskContent, userTasks, filterTasks  
 
     if(tasks === null || loading) {
       taskContent = <Spinner />
-    } else if(Object.keys(tasks) !== 0) {     
+    } else if(Object.keys(tasks) !== 0) {
+      if( profile.profile === null ){
+        prompt = <NoProfile /> 
+      }  
+      userTasks = tasks.filter(item => item.creation.from.id === auth.user.id)
+      filterTasks = userTasks.filter(item => {
+        if(this.state.input === '' && this.state.priority === '') return item
+        else if(item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '') return item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase())
+        else if(item.creation.priority.level === this.state.priority && this.state.input === '') return item.creation.priority.level === this.state.priority        
+      })   
       taskContent = <TaskFeed tasks={filterTasks} />
     }    
 

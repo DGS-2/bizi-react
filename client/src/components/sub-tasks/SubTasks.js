@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import SubTaskFeed from "./SubTaskFeed";
-import SubTaskForm from "./SubTaskForm";
+import SubTaskFeed from "./feed/SubTaskFeed";
+import SubTaskForm from "./form/SubTaskForm";
 
-import Spinner from "../shared/Spinner";
+import Spinner from "../../shared/Spinner";
 
-import { getTasks } from "../../actions/taskActions";
+import { getTasks } from "../../../actions/taskActions";
 
 class SubTasks extends Component {
   constructor(props){
