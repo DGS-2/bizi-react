@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
-import TextFieldGroup from '../shared/TextFieldGroup';
+import TextFieldGroup from '../shared/text-field/TextFieldGroup';
 
 class Login extends Component {
   constructor(){

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import SubTaskFeed from "./feed/SubTaskFeed";
 import SubTaskForm from "./form/SubTaskForm";
 
-import Spinner from "../../shared/Spinner";
+import Spinner from "../../shared/spinner/Spinner";
 
 import { getTasks } from "../../../actions/taskActions";
 

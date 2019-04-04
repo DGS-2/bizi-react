@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-import Spinner from "../shared/Spinner";
+import Spinner from "../shared/spinner/Spinner";
 import TaskMessageReply from "../task/reply/TaskMessageReply";
 import SubTaskActions from "./SubTaskActions";
 import TaskSubTasking from "../task/tasking/TaskSubTasking";

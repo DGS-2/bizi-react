@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
 import PropTypes from "prop-types"
-import Spinner from "../shared/Spinner";
+import Spinner from "../shared/spinner/Spinner";
 import { getTeams } from "../../actions/teamActions";
 import { Link } from "react-router-dom";
 import TeamFeed from "./TeamFeed";

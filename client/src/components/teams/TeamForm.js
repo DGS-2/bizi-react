@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { createTeam } from "../../actions/teamActions";
 import { getProfiles } from "../../actions/profileActions";
 
-import TextFieldGroup from "../shared/TextFieldGroup";
-import TextAreaFieldGroup from "../shared/TextAreaFieldGroup";
+import TextFieldGroup from "../shared/text-field/TextFieldGroup";
+import TextAreaFieldGroup from "../shared/text-area/TextAreaFieldGroup";
 
 import { WithContext as ReactTags } from 'react-tag-input';
 const KeyCodes = {

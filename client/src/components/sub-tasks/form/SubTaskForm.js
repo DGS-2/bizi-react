@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSubTasks, addTask } from "../../../actions/taskActions";
-import TextFieldGroup from "../../shared/TextFieldGroup";
-import TextAreaFieldGroup from "../../shared/TextAreaFieldGroup";
-import SelectListGroup from "../../shared/SelectListGroup";
+import TextFieldGroup from "../../shared/text-field/TextFieldGroup";
+import TextAreaFieldGroup from "../../shared/text-area/TextAreaFieldGroup";
+import SelectListGroup from "../../shared/select-group/SelectListGroup";
 import { WithContext as ReactTags } from 'react-tag-input';
 import DatePicker from 'react-date-picker';
 import { delimiters, priorityOptions } from "../../../const/consts";

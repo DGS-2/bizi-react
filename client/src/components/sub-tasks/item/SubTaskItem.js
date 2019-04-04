@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Spinner from "../../shared/Spinner";
+import Spinner from "../../shared/spinner/Spinner";
 import { Link } from "react-router-dom";
 
 import { deleteTask } from "../../../actions/taskActions"

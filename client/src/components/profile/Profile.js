@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types";
-import Spinner from "../shared/Spinner";
+import Spinner from "../shared/spinner/Spinner";
 import { Link } from "react-router-dom";
 // Actions
 import { getProfileById } from "../../actions/profileActions"

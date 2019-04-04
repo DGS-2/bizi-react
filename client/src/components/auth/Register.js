@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 
-import TextFieldGroup from "../shared/TextFieldGroup"
+import TextFieldGroup from "../shared/text-field/TextFieldGroup"
 
 class Register extends Component {
   constructor(){

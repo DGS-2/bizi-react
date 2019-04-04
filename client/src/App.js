@@ -9,14 +9,14 @@ import { clearCurrentProfile, getCurrentProfile, getProfiles } from './actions/p
 import { Provider } from "react-redux";
 import store from './store';
 
-import PrivateRoute from "./components/shared/PrivateRoute";
+import PrivateRoute from "./components/shared/private-route/PrivateRoute";
 
 import  Sidenav  from "./components/layout/sidenav-components/Sidenav";
 import  Navbar  from "./components/layout/navbar-components/Navbar";
 import  Register from "./components/auth/Register";
 import  Login from "./components/auth/Login";
 
-import CreateProfile from "./components/profile/CreateProfile";
+import CreateProfile from "./components/profile/create/CreateProfile"; 
 import Profile from "./components/profile/Profile";
 import Profiles from './components/profiles/Profiles';
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import Spinner from "../shared/Spinner";
+import Spinner from "../shared/spinner/Spinner";
 
 import { getSkills } from "../../actions/skillActions";
 import SkillsFeed from './SkillsFeed';

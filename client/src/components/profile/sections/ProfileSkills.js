@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { addSkill, getCurrentProfile } from "../../../actions/profileActions";
-import Spinner from "../../shared/Spinner";
+import Spinner from "../../shared/spinner/Spinner";
 import { getSkills } from "../../../actions/skillActions"
 
 class ProfileSkills extends Component {

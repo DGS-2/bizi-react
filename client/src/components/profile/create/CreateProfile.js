@@ -4,17 +4,13 @@ import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types";
 
 // Actions
-import { createProfile } from "../../actions/profileActions"
+import { createProfile } from "../../../actions/profileActions"
 
 // Components
-import TextFieldGroup from "../shared/TextFieldGroup";
-import SelectListGroup from "../shared/SelectListGroup";
+import TextFieldGroup from "../../shared/text-field/TextFieldGroup";
+import SelectListGroup from "../../shared/select-group/SelectListGroup";
 
-// Constants
-import * as wings from "./const/wings";
-import * as groups from "./const/groups";
-import * as squadrons from "./const/squadrons";
-import * as ranks from "./const/ranks";
+import { wings, groups, squadrons, ranks } from "../../../const/consts"
 
 class CreateProfile extends Component {
   constructor(props){

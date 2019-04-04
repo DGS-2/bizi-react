@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TaskFeed from "./feed/TaskFeed";
 import TaskForm from "./form/TaskForm";
 import Calendar from "../calendar/Calendar";
-import Spinner from "../shared/Spinner";
+import Spinner from "../shared/spinner/Spinner";
 import NoProfile from "../no-profile/NoProfile";
 import { getTasks } from "../../actions/taskActions";
 
