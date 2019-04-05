@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import moment from "moment"
+import moment from "moment";
+import { getTasks } from "../../../actions/taskActions";
 
 class NavbarAlerts extends Component {
   constructor(props){
@@ -15,8 +16,7 @@ class NavbarAlerts extends Component {
   }
 
   componentDidMount(){
-    let count = this.props.tasks.tasks? this.props.tasks.tasks.filter(item => item.creation.to.id === this.props.auth.user.id).length : []
-    // this.setCount(count)
+    this.props.getTasks()
   }
 
   setCount = tasks => {
@@ -84,7 +84,8 @@ class NavbarAlerts extends Component {
 
 NavbarAlerts.propTypes = {
   tasks: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  getTasks: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -92,4 +93,4 @@ const mapStateToProps = state => ({
   tasks: state.tasks
 })
 
-export default connect(mapStateToProps)(NavbarAlerts);
+export default connect(mapStateToProps, { getTasks })(NavbarAlerts);
