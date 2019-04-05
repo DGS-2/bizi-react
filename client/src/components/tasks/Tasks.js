@@ -45,16 +45,17 @@ class Tasks extends Component {
     const { tasks, loading } = this.props.task
     const { auth, profile } = this.props
     
-    let prompt, taskContent, userTasks, filterTasks  
+    let  taskContent, userTasks, filterTasks  
 
     if(tasks === null || loading) {
       taskContent = <Spinner />
     } else if(Object.keys(tasks) !== 0) {
       if( profile.profile === null ){
-        prompt = <NoProfile /> 
+        taskContent = <NoProfile /> 
       }  
       userTasks = tasks.filter(item => item.creation.from.id === auth.user.id)
-      filterTasks = userTasks.filter(item => {
+      let myTasks = [...userTasks].concat(tasks.filter(item => item.creation.to.id === auth.user.id))
+      filterTasks = myTasks.filter(item => {
         if(this.state.input === '' && this.state.priority === '') return item
         else if(item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '') return item.metaData.title.toLowerCase().includes(this.state.input.toLowerCase())
         else if(item.creation.priority.level === this.state.priority && this.state.input === '') return item.creation.priority.level === this.state.priority        
@@ -129,7 +130,7 @@ class Tasks extends Component {
 
     return (
       <div>
-        { profile.profile ? wrapper : prompt }
+        { wrapper }
       </div>
     )
   }

@@ -24,7 +24,8 @@ class Calendar extends Component {
 
   mapTasksAsEvent = (tasks, profile) => {
     let arr = []
-    let tasksToMap = tasks.tasks.filter(task => task.creation.from.id === profile.profile.user._id)
+    let tasking = tasks.tasks.filter(task => task.creation.from.id === profile.profile.user._id)
+    let tasksToMap = [...tasking].concat(tasks.tasks.filter(task => task.creation.to.id === profile.profile.user._id))
     tasksToMap.forEach((event, index) => {
       arr.push({
         id: index,
