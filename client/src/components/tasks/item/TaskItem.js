@@ -50,7 +50,8 @@ class TaskItem extends Component {
         ({task.metaData.classification}) { task.metaData.title }
       </div>
       <div className="card-body">
-        <h6 className="text-center"><strong>{ task.creation.priority.level } Task</strong></h6><hr/>
+        <h6 className="text-center"><strong>{ task.creation.priority.level } Task</strong> -- Assigned to { task.creation.to.rank } { task.creation.to.name }</h6><hr/>
+        <p><strong>From: </strong>{ task.creation.from.rank } { task.creation.from.name }</p>
         <p><strong>Description: </strong>{ task.metaData.description }</p>
         <div className="row no-gutters">
         { this.props.subTask ? 
