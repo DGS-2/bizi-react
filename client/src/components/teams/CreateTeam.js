@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TeamForm from "./TeamForm";
+import TeamForm from "./team-form/TeamForm";
 
 
 class CreateTeam extends Component {

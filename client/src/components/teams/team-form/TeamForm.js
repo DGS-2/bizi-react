@@ -1,20 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { createTeam } from "../../actions/teamActions";
-import { getProfiles } from "../../actions/profileActions";
-
-import TextFieldGroup from "../shared/text-field/TextFieldGroup";
-import TextAreaFieldGroup from "../shared/text-area/TextAreaFieldGroup";
-
+import { createTeam } from "../../../actions/teamActions";
+import { getProfiles } from "../../../actions/profileActions";
+import TextFieldGroup from "../../shared/text-field/TextFieldGroup";
+import TextAreaFieldGroup from "../../shared/text-area/TextAreaFieldGroup";
 import { WithContext as ReactTags } from 'react-tag-input';
-const KeyCodes = {
-  comma: 188,
-  enter: 13,
-};
- 
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
-
+import { delimiters } from "../../../const/consts";
+import { filterUsers } from "../../../functions/functions";
 
 class TeamForm extends Component {
   constructor(props){
@@ -32,7 +25,6 @@ class TeamForm extends Component {
 
     this.handleAddition = this.handleAddition.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.filterTaggableUsers = this.filterTaggableUsers.bind(this)
   }
 
   componentDidMount = () => {
@@ -79,19 +71,10 @@ class TeamForm extends Component {
     this.props.createTeam(team)
   }
 
-  filterTaggableUsers = () => {
-    let users = this.props.profile.profiles? this.props.profile.profiles : []
-    let arr = []
-    users.forEach(user => {
-      arr.push({id: user.user._id, text: `${user.personalInfo.rank.abreviated} ${user.personalInfo.name.full}`})
-    })
-    
-    return arr
-  }
-
   render() {
     const { invitations } = this.state
-    const suggestions = this.filterTaggableUsers()
+    const { profile }  = this.props
+    const suggestions = filterUsers(profile.profiles)
 
     return (
       <div className="card">

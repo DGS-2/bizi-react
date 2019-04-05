@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import Spinner from "../shared/spinner/Spinner";
 import { getTeams } from "../../actions/teamActions";
 import { Link } from "react-router-dom";
-import TeamFeed from "./TeamFeed";
+import TeamFeed from "./team-feed/TeamFeed";
 
 class Teams extends Component {
   constructor(props){

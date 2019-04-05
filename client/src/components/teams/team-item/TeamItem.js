@@ -22,7 +22,7 @@ class TeamItem extends Component {
           <div className="col-12">
             <h4 className="text-center">Pending Inivtes</h4>
             <ul className="list-unstlyed">
-              { team.invitations.map(invite => {
+              { team.invitations.filter(item => item.id !== this.props.profile.profile.user._id).map(invite => {
                 return <li className="list-item" key={ invite._id }>{ invite.displayName }</li>
               }) }
             </ul>

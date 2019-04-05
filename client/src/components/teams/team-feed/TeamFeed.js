@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import TeamItem from "./TeamItem";
+import TeamItem from "../team-item/TeamItem";
 
 class TeamFeed extends Component {
   render() {
