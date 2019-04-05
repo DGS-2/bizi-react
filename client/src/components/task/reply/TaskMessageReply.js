@@ -56,11 +56,9 @@ class TaskMessageReply extends Component {
               info="Reply to message thread"
             />
           </div>
-          <hr />          
+                    
           <div>
-            <button className="btn btn-primary btn-user btn-block">
-              Reply
-            </button>
+            { this.state.message !== '' ? <button className="btn btn-primary btn-user btn-block">Reply</button> : null }
           </div>
         </form>
       </div>
