@@ -11,6 +11,8 @@ import store from './store';
 
 import PrivateRoute from "./components/shared/private-route/PrivateRoute";
 
+import Admin from "./components/admin/Admin"
+
 import  Sidenav  from "./components/layout/sidenav-components/Sidenav";
 import  Navbar  from "./components/layout/navbar-components/Navbar";
 import  Register from "./components/auth/Register";
@@ -69,6 +71,7 @@ class App extends Component {
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
                 <Switch><Route exact path="/" component={ Dashboard }></Route></Switch>
+                <Switch><PrivateRoute exact path="/admin-panel" component={ Admin } /></Switch>
                 <Switch><PrivateRoute exact path="/dashboard" component={ Tasks } /></Switch>
                 <Switch><PrivateRoute exact path="/calendar" component={ Calendar } /></Switch>
                 <Switch><PrivateRoute exact path="/task/:id" component={ Task } /></Switch>

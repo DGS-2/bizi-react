@@ -6,7 +6,9 @@ import {
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  EDIT_PROFILE,
+  GET_TARGET_PROFILE
 } from './types';
 
 // Get current profile
@@ -68,6 +70,24 @@ export const getProfileById = id => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_PROFILE,
+        payload: null
+      })  
+    )
+}
+
+export const getTragetProfile = id => dispatch => {
+  dispatch(setProfileLoading())
+  axios
+    .get(`/profile/user/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_TARGET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_TARGET_PROFILE,
         payload: null
       })  
     )
@@ -186,6 +206,19 @@ export const deleteAccount = () => dispatch => {
       );
   }
 };
+
+export const editProfile = (userId, profile) => dispatch => {
+  dispatch(setProfileLoading())
+  axios.post(`/profile/edit/${userId}`, profile)
+    .then(res => dispatch({
+      type: EDIT_PROFILE,
+      payload: res.data
+    }))
+    .catch(err => dispatch({
+      type: EDIT_PROFILE,
+      payload: null
+    }))
+}
 
 // Profile loading
 export const setProfileLoading = () => {

@@ -2,12 +2,15 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE
+  CLEAR_CURRENT_PROFILE,
+  EDIT_PROFILE,
+  GET_TARGET_PROFILE
 } from '../actions/types';
 
 const initialState = {
   profile: null,
   profiles: null,
+  targetProfile: null,
   loading: false
 };
 
@@ -35,6 +38,16 @@ export default function(state = initialState, action) {
         ...state,
         profile: null
       };
+    case EDIT_PROFILE:
+      return {
+        ...state,
+        targetProfile: action.payload
+      }
+    case GET_TARGET_PROFILE:
+      return {
+        ...state,
+        targetProfile: action.payload
+      }
     default:
       return state;
   }

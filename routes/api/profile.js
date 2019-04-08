@@ -93,6 +93,16 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
   });
 })
 
+//@route    POST profile/edit
+//@desc     Admin route to allow for user updates as needed
+//@access   Private
+router.post('/edit/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.body)
+  Profile.findOneAndUpdate({ user: req.params.id }, {$set: req.body}, {new: true})
+    .then(profile => res.json(profile))
+    .catch(err => res.status(400).json({cannotUpdate: "Profile could not be updated"}))
+})
+
 //@route  POST profile/add-skill
 //@desc   Add user to skills from profile
 //@access Private

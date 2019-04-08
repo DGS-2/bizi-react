@@ -24,7 +24,7 @@ class Tasks extends Component {
     this.toggleCalendar = this.toggleCalendar.bind(this)
   }
   componentDidMount(){
-    this.props.getTasks()
+    this.props.getTasks()    
   }
 
   onChange = e => {
@@ -32,9 +32,7 @@ class Tasks extends Component {
   }
 
   toggleForm = () => {
-    this.setState({
-      showTaskForm: !this.state.showTaskForm
-    })
+    this.setState({ showTaskForm: !this.state.showTaskForm })
   }
 
   toggleCalendar = () => {

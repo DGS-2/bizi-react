@@ -10,6 +10,9 @@ const profile = require('./routes/api/profile')
 const skills = require('./routes/api/skills')
 const teams = require('./routes/api/teams')
 
+const http = require('http');
+const socket = require('socket.io');
+
 const app = express();
 
 // Body parser middleware
@@ -50,6 +53,19 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`Server listening on PORT: ${port}`)
+const server = http.createServer(app)
+
+// app.listen(port, () => {
+//   console.log(`Server listening on PORT: ${port}`)
+// })
+
+const io = socket(server);
+
+io.on('connection', socket => {
+  socket.on('Show Me Tasks', () => {
+    let tasks = http.get('/tasks/all')
+    io.sockets.emit("Tasks", tasks)
+  })
 })
+
+server.listen(port, () => console.log(`Listening on PORT: ${port}`))

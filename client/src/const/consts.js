@@ -68,3 +68,23 @@ export const wings = [
   { label: '* Please select your Wing', value: 0 },
   { label: '480th ISRW', value: '480th ISRW' }
 ]
+
+export const privilegeLevels = [
+  { label: "* Please Select Privilege Level", value: 0, title: "" },
+  { label: "User", value: 1, title: "User" },
+  { label: "Supervisor", value: 2, title: "Supervisor" },
+  { label: "NCOIC", value: 3, title: "NCOIC" },
+  { label: "Section Chief", value: 4, title: "Section Chief" },
+  { label: "Flight Chief", value: 5, title: "Flight Chief" },
+  { label: "Flight Commander", value: 6, title: "Flight Commander" },
+  { label: "Operations Superintendent", value: 7, title: "Operations Superintendent" },
+  { label: "Director of Operations", value: 8, title: "Director of Operations" },
+  { label: "Commander Support Staff", value: 9, title: "Commander Support Staff" },
+  { label: "Squadron Cheif Enlisted Manager", value: 10, title: "Squadron Cheif Enlisted Manager" },
+  { label: "Squadron Commander", value: 11, title: "Squadron Commander" },
+  { label: "Group Chief Enlisted Manager", value: 12, title: "Group Chief Enlisted Manager" },
+  { label: "Group Commander Support Staff", value: 13, title: "Group Commander Support Staff" },
+  { label: "Group Director of Operations", value: 14, title: "Group Director of Operations" },
+  { label: "Group Deputy Commander", value: 15, title: "Group Deputy Commander" },
+  { label: "Group Commander", value: 16, title: "Group Commander" },
+]

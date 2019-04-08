@@ -3,10 +3,18 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import logo from "../../../assets/images/bizi_logo.svg";
+import SidenavCalendar from "./calendar/SidenavCalendar";
+import SidenavUsers from "./users/SidenavUsers";
+import SidenavActions from "./actions/SidenavActions";
+import SidenavPages from "./pages/SidenavPages";
+import SidenavAdmin from "./admin/SidenavAdmin";
 
 class Sidenav extends Component {
   render() {
-    const { auth } = this.props
+    const { auth, profile } = this.props
+    
+    let priv
+    if( profile.profile !== null ) priv = profile.profile.personalInfo.privilege.level
 
     let guestLinks = (
       <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -32,59 +40,18 @@ class Sidenav extends Component {
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></Link>
         </li>
+        { priv >= 9 ? <SidenavAdmin /> : null }
         <hr className="sidebar-divider d-none d-md-block" />
-        <li className="nav-item active">
-          <Link className="nav-link" to="/calendar">
-            <i className="fas fa-fw fa-calendar-alt"></i>
-            <span>My Calendar</span></Link>
-        </li>
+        <SidenavCalendar />
         <hr className="sidebar-divider d-none d-md-block" />
-        <li className="nav-item">
-          <Link to="/#" className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
-            <i className="fas fa-search"></i>
-            <span>Bizi Users</span>
-          </Link>
-          <div id="collapseUsers" className="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">
-            <div className="bg-white py-2 collapse-inner rounded">
-              <h6 className="collapse-header">Find Users:</h6>
-              <Link className="collapse-item" to="/skills">By Skills</Link>
-              <Link className="collapse-item" to="/all-users">By Search</Link>
-            </div>
-          </div>
-        </li>
+        <SidenavUsers />
         <hr className="sidebar-divider d-none d-md-block" />
-        <li className="nav-item">
-          <Link to="/#" className="nav-link collapsed" data-toggle="collapse" data-target="#collapseActions" aria-expanded="true" aria-controls="collapseActions">
-            <i className="fas fa-infinity"></i>
-            <span>Actions</span>
-          </Link>
-          <div id="collapseActions" className="collapse" aria-labelledby="headingActions" data-parent="#accordionSidebar">
-            <div className="bg-white py-2 collapse-inner rounded">
-              <h6 className="collapse-header">Find Users:</h6>
-              <Link className="collapse-item" to="/teams">View My Teams</Link>
-              <Link className="collapse-item" to="/create-team">Create New Team</Link>
-            </div>
-          </div>
-        </li>
+        <SidenavActions />
         <hr className="sidebar-divider d-none d-md-block" />
         <div className="sidebar-heading">
           Addons
         </div>
-        <li className="nav-item">
-          <Link className="nav-link collapsed" to="/#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-            <i className="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-          </Link>
-          <div id="collapsePages" className="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div className="bg-white py-2 collapse-inner rounded">
-              <h6 className="collapse-header">Login Screens:</h6>
-              <Link className="collapse-item" to="/login">Login</Link>
-              <Link className="collapse-item" to="/register">Register</Link>
-              <Link className="collapse-item" to="/forgot-password">Forgot Password</Link>
-              <div className="collapse-divider"></div>
-            </div>
-          </div>
-        </li>
+        <SidenavPages />
         <div className="text-center d-none d-md-inline">
           <button className="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
@@ -100,11 +67,13 @@ class Sidenav extends Component {
 }
 
 Sidenav.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 })
 
 

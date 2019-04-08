@@ -53,7 +53,6 @@ class TaskMessageReply extends Component {
               value={this.state.message}
               onChange={this.onChange}
               errors={ errors.message }
-              info="Reply to message thread"
             />
           </div>
                     
