@@ -18,7 +18,6 @@ class ProfileSettings extends Component {
   componentDidMount = () => {}
 
   onChange = e => {
-    console.log({ [e.target.name]: e.target.value })
     this.setState({ [e.target.name]: e.target.value })
   }
 

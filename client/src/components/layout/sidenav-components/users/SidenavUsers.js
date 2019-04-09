@@ -6,7 +6,7 @@ class SidenavUsers extends Component {
     return (
       <li className="nav-item">
         <Link to="/#" className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
-          <i className="fas fa-search"></i>
+          <i className="fas fa-search text-light"></i>
           <span>Bizi Users</span>
         </Link>
         <div id="collapseUsers" className="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">

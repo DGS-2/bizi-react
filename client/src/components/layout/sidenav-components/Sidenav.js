@@ -48,7 +48,7 @@ class Sidenav extends Component {
         <hr className="sidebar-divider d-none d-md-block" />
         <SidenavActions />
         <hr className="sidebar-divider d-none d-md-block" />
-        <div className="sidebar-heading">
+        <div className="sidebar-heading text-light">
           Addons
         </div>
         <SidenavPages />

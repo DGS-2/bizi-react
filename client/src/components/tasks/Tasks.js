@@ -121,7 +121,7 @@ class Tasks extends Component {
             <div className="card-header">Create a New Task</div>
             <div className="card-body"><TaskForm /></div>
           </div>) : null }
-          { taskContent }
+          { !this.state.showCalendar? taskContent : null }
         </div>
       </div>
     )

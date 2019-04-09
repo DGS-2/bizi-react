@@ -6,7 +6,7 @@ class SidenavActions extends Component {
     return (
       <li className="nav-item">
           <Link to="/#" className="nav-link collapsed" data-toggle="collapse" data-target="#collapseActions" aria-expanded="true" aria-controls="collapseActions">
-            <i className="fas fa-infinity"></i>
+            <i className="fas fa-infinity text-light"></i>
             <span>Actions</span>
           </Link>
           <div id="collapseActions" className="collapse" aria-labelledby="headingActions" data-parent="#accordionSidebar">
