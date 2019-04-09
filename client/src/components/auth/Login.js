@@ -89,12 +89,6 @@ class Login extends Component {
                             error={errors.password}
                           />
                         </div>
-                        <div className="form-group">
-                          <div className="custom-control custom-checkbox small">
-                            <input type="checkbox" className="custom-control-input" id="customCheck" />
-                            <label className="custom-control-label" forhtml="customCheck">Remember Me</label>
-                          </div>
-                        </div>
                         <button className="btn btn-primary btn-user btn-block">
                           Login
                         </button>

@@ -64,10 +64,10 @@ class ProfileHeader extends Component {
   }
 
   render() {
-    const { admin } = this.props
-
+    const { admin, accountOwner } = this.props
+    
     let header, contactInfo
-    if( admin ) {
+    if( admin || accountOwner ) {
       header = <h6 className="text-white">{ this.state.rank } { this.state.name } <button className="mr-auto" onClick={this.editRankAndName}><i className="fas fa-edit text-success"></i></button></h6>
       contactInfo = <form onSubmit={this.changeContactInfo}>
         <ul className="list-group">

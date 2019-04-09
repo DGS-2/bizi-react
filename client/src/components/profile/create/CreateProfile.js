@@ -88,7 +88,7 @@ class CreateProfile extends Component {
   
   render() {
     const { errors } = this.state.errors
-    const { user } = this.props.auth
+    // const { user } = this.props.auth
     const rank = ranks
     const wing = wings
     const group = groups

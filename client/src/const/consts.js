@@ -87,4 +87,5 @@ export const privilegeLevels = [
   { label: "Group Director of Operations", value: 14, title: "Group Director of Operations" },
   { label: "Group Deputy Commander", value: 15, title: "Group Deputy Commander" },
   { label: "Group Commander", value: 16, title: "Group Commander" },
+  { label: "Developer", value: 1000, title: "Developer" }
 ]

@@ -36,7 +36,7 @@ class UserActions extends Component {
         </span>        
       )
       profileLink = (
-        <Link className="dropdown-item" to='/edit-profile'>
+        <Link className="dropdown-item" to={{ pathname: '/edit-profile', state: { admin: true, accountOwner: true }}} >
           <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           Profile
         </Link>

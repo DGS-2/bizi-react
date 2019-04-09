@@ -49,7 +49,7 @@ class ProfileSkills extends Component {
   }
   
   render() {
-    const { auth, profile, skills } = this.props
+    const { profile } = this.props
 
     const form = (
       <form onSubmit={this.onSubmit}>
@@ -65,7 +65,7 @@ class ProfileSkills extends Component {
     let skillList
     if(profile === null || Object.keys(profile) === 0){
       skillList = <Spinner />
-    } else if(Object.keys(profile) !== 0){
+    } else if(Object.keys(profile) !== 0 && this.props.accountOwner){
       let userProfile = profile.profile
       if(userProfile){
         skillList = userProfile.skills.map(item => {
