@@ -36,7 +36,7 @@ class Admin extends Component {
     const { viewDepth } = props.location.state
     let users
 
-    if( profile.profiles !== null ){ 
+    if( profile.profiles !== null && profile.profile !== null ){ 
       if( viewDepth === "all" ){
         users = profile.profiles.map(p => {
           return { 
