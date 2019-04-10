@@ -18,56 +18,68 @@ class Profile extends Component {
   constructor(props){
     super(props)
     this.state = {
-      id: this.getId()
+      id: '',
+      targetProfile: null
     }
 
     this.getProfile = this.getProfile.bind(this)
-    this.getId = this.getId.bind(this)
-  }
-
-  getId = () => {
-    console.log(this.props)
-    let id
-    if( this.props.location.state ) {
-      if(this.props.location.state.accountOwner) {
-        id = this.props.auth.user.id
-      } else {
-        id = this.props.match.params.id
-      }
-    }
-    else id = this.props.match.params.id
-
-    return id
   }
 
   componentDidMount = () => {
-    if(this.props.profile.targetProfile === null ){
-      this.getProfile()            
+    this.getProfile()
+  }
+
+  componentDidUpdate = (props, state) => {
+    const { id } = state
+    const { targetProfile } = props.profile
+    const { location, auth, match } = props
+
+    let target
+    if( location.state ) {
+      if( location.state.accountOwner ) target = auth.user.id
+      else target = match.params.id 
     } else {
-      window.location.reload()   
+      target = match.params.id
     }
+    
+    if( id === '' ) this.setState({ id: target })
+    else if( id !== target ) this.setState({ id: target })
+    
+
+    if( targetProfile !== null ) { 
+      if( state.targetProfile === null ) this.setState({ targetProfile: targetProfile })
+      else if( state.targetProfile !== null ){
+        if( targetProfile._id !== state.targetProfile._id ) this.setState({ targetProfile: targetProfile })
+      }
+    }
+    
   }
 
   getProfile = () => {
-    this.props.getTragetProfile(this.state.id)
+    const { location, match } = this.props
+    let id
+    if( this.state.id === '' ) id = location.state.auth ? location.state.auth.user.id : match.params.id
+    else if ( this.state.id !== '') id = this.state.id
+    
+    this.props.getTragetProfile( id )
   }
 
   render() {
-    const { profile } = this.props
+    const { targetProfile } = this.state
     
     const { state } = this.props.location
 
     let content
 
-    if(profile === null) {
+    if( targetProfile === null ) {
       content = <Spinner />
     } else {
-      if( profile.targetProfile !== null) {
+      if( targetProfile !== null ) {
         content = 
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-            <ProfileHeader profile={ profile.targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
+            <ProfileHeader profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
             </div>          
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
               <ul className="nav nav-tabs">
@@ -86,16 +98,16 @@ class Profile extends Component {
               </ul>
               <div className="tab-content">
                 <div className="tab-pane container active" id="home">
-                  <ProfileAbout profile={ profile.targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
+                  <ProfileAbout profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
                 </div>
                 <div className="tab-pane container" id="skills">
-                  <ProfileSkills profile={ profile.targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
+                  <ProfileSkills profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
                 </div>
                 <div className="tab-pane container" id="education">
-                  <ProfileEducation profile={ profile.targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
+                  <ProfileEducation profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
                 </div>
                 <div className="tab-pane container" id="settings">
-                  <ProfileSettings profile={ profile.targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
+                  <ProfileSettings profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
                 </div>
               </div>
             </div>

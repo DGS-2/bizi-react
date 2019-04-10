@@ -8,12 +8,12 @@ class ProfileHeader extends Component {
   constructor(props){
     super(props)
     this.state = {
-      rank: this.props.profile.personalInfo.rank.abreviated || '',
-      name: this.props.profile.personalInfo.name.full || '',
-      location: this.props.profile.organization.squadron || '',
+      rank: '',
+      name: '',
+      location: '',
       position: '',
       contact: {
-        email: this.props.profile.contactInfo.email.unclass || '',
+        email: '',
         phone: ''
       },
       editRankAndName: false,
@@ -35,6 +35,21 @@ class ProfileHeader extends Component {
 
   editRankAndName = () => {
     this.setState({ editRankAndName: !this.state.editRankAndName })
+  }
+
+  componentDidMount = () => {
+    const { profile } = this.props
+    
+    this.setState({ 
+      rank: profile.personalInfo.rank.abreviated, 
+      name: profile.personalInfo.name.full,
+      location: profile.organization.squadron,
+      position: '',
+      contact: {
+        email: profile.contactInfo.email.unclass || '',
+        phone: ''
+      }, 
+    })
   }
 
   changeRankAndName = e => {

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom"
 import { getProfiles } from "../../actions/profileActions"
 
 class Admin extends Component {
-  constructor(props){
-    super(props)
+  constructor( props ){
+    super( props )
     this.state = {
       editUser: false,
       userId: '',
@@ -17,6 +17,7 @@ class Admin extends Component {
     
     this.onChange = this.onChange.bind(this)
     this.mapUsers = this.mapUsers.bind(this)
+    this.getUserObj = this.getUserObj.bind(this)
   }
 
   componentDidMount = () => {
@@ -39,38 +40,29 @@ class Admin extends Component {
     if( profile.profiles !== null && profile.profile !== null ){ 
       if( viewDepth === "all" ){
         users = profile.profiles.map(p => {
-          return { 
-            name: `${p.personalInfo.rank.abreviated} ${p.personalInfo.name.full}`, 
-            privilege: p.personalInfo.privilege ? p.personalInfo.privilege.title : '', 
-            squadron: p.organization.squadron ? p.organization.squadron : '', 
-            flight: p.organization.flight ? p.organization.flight : '', 
-            id: p.user._id 
-          }
+          return this.getUserObj(p)
         })
       } else if( viewDepth === "squadron" ){
         users = profile.profiles.filter(p => p.organization.squadron === profile.profile.organization.squadron).map(p => {
-          return { 
-            name: `${p.personalInfo.rank.abreviated} ${p.personalInfo.name.full}`, 
-            privilege: p.personalInfo.privilege ? p.personalInfo.privilege.title : '', 
-            squadron: p.organization.squadron ? p.organization.squadron : '', 
-            flight: p.organization.flight ? p.organization.flight : '', 
-            id: p.user._id 
-          }
+          return this.getUserObj(p)
         })
       }  else if( viewDepth === "group" ){
         users = profile.profiles.filter(p => p.organization.group === profile.profile.organization.group).map(p => {
-          return { 
-            name: `${p.personalInfo.rank.abreviated} ${p.personalInfo.name.full}`, 
-            privilege: p.personalInfo.privilege ? p.personalInfo.privilege.title : '', 
-            squadron: p.organization.squadron ? p.organization.squadron : '', 
-            flight: p.organization.flight ? p.organization.flight : '', 
-            id: p.user._id 
-          }
+          return this.getUserObj(p)
         })
       }  
-      
     }    
     this.setState({ users: users })
+  }
+
+  getUserObj = p => {
+    return { 
+      name: `${p.personalInfo.rank.abreviated} ${p.personalInfo.name.full}`, 
+      privilege: p.personalInfo.privilege ? p.personalInfo.privilege.title : '', 
+      squadron: p.organization.squadron ? p.organization.squadron : '', 
+      flight: p.organization.flight ? p.organization.flight : '', 
+      id: p.user._id 
+    }
   }
 
   render() {      
@@ -82,7 +74,7 @@ class Admin extends Component {
         </div>
         <div className="container-fluid">
           <table className="table table-bordered text-white rounded">
-            <thead>
+            <thead className="text-center">
               <tr>
                 <th>Rank/Name</th>
                 <th>Privilege Level</th>
@@ -93,10 +85,10 @@ class Admin extends Component {
             </thead>
             <tbody>
               { this.state.users ? this.state.users.filter(u => {
-                if(this.state.input === '') return u
-                else if( u.name.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '' ) return u.name.toLowerCase().includes(this.state.input.toLowerCase())
-                else if( u.squadron.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '' ) return u.squadron.toLowerCase().includes(this.state.input.toLowerCase())
-                else if( u.flight.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '' ) return u.flight.toLowerCase().includes(this.state.input.toLowerCase())
+                if( this.state.input === '' ) return u
+                else if( u.name.toLowerCase().includes( this.state.input.toLowerCase() ) && this.state.input !== '' ) return u.name.toLowerCase().includes( this.state.input.toLowerCase() )
+                else if( u.squadron.toLowerCase().includes( this.state.input.toLowerCase() ) && this.state.input !== '' ) return u.squadron.toLowerCase().includes( this.state.input.toLowerCase() )
+                else if( u.flight.toLowerCase().includes( this.state.input.toLowerCase() ) && this.state.input !== '' ) return u.flight.toLowerCase().includes( this.state.input.toLowerCase() )
               }).map(user => {
                 return <tr key={user.id}>
                   <td>{ user.name }</td>
