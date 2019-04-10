@@ -13,7 +13,8 @@ class ProfileSkills extends Component {
       displayName: '',
       showForm: false,
       suggestions: [],
-      tags: []
+      tags: [],
+      userSkills: null
     }
 
     this.toggleFormState = this.toggleFormState.bind(this);
@@ -24,6 +25,20 @@ class ProfileSkills extends Component {
   componentDidMount = () => {
     this.props.getCurrentProfile()
     this.props.getSkills()
+  }
+
+  componentWillReceiveProps = ( props, state ) => {
+    const { profile, skills } = props
+
+    let arr = []
+
+    if(skills.skills) skills.skills.forEach(skill => {
+      skill.claimedBy.forEach(item => {
+        if( item.id === profile.profile.user._id ) arr.push({ name: skill.name })
+      })
+    })
+
+    if( arr.length > 0 ) this.setState({ userSkills: arr })
   }
 
   onChange = e => {
@@ -49,8 +64,6 @@ class ProfileSkills extends Component {
   }
   
   render() {
-    const { profile } = this.props
-
     const form = (
       <form onSubmit={this.onSubmit}>
         <div className="form-group">
@@ -61,20 +74,13 @@ class ProfileSkills extends Component {
         </div>
       </form>
     ) 
-
-    let skillList
-    if(profile === null || Object.keys(profile) === 0){
-      skillList = <Spinner />
-    } else if(Object.keys(profile) !== 0 && this.props.accountOwner){
-      let userProfile = profile.profile
-      if(userProfile){
-        skillList = userProfile.skills.map(item => {
-          return <div className="card bg-dark" key={item._id}>
-            <div className="card-body"><h5 className="text-center text-white">{item.name}</h5></div>
-          </div>
-        })
-      }      
-    }
+    
+    let skillList 
+    if( this.state.userSkills !== null ) skillList = this.state.userSkills.map((item, i) => {
+      return <div className="card bg-light" key={i}>
+        <div className="card-body"><h5 className="text-center text-dark">{item.name}</h5></div>
+      </div>
+    })
 
     return (
       <div className="container">

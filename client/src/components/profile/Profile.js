@@ -41,11 +41,10 @@ class Profile extends Component {
     } else {
       target = match.params.id
     }
-    
+
     if( id === '' ) this.setState({ id: target })
     else if( id !== target ) this.setState({ id: target })
     
-
     if( targetProfile !== null ) { 
       if( state.targetProfile === null ) this.setState({ targetProfile: targetProfile })
       else if( state.targetProfile !== null ){
@@ -56,9 +55,19 @@ class Profile extends Component {
   }
 
   getProfile = () => {
-    const { location, match } = this.props
+    const { location, match, auth } = this.props
+    
     let id
-    if( this.state.id === '' ) id = location.state.auth ? location.state.auth.user.id : match.params.id
+    if( this.state.id === '' ) {
+      if( location.state ){
+        if( location.state.auth  ) id = location.state.auth.user.id
+        else if( location.state.accountOwner ) id = auth.user.id
+        else id = match.params.id
+      }
+      else {
+        id = match.params.id
+      }
+    }
     else if ( this.state.id !== '') id = this.state.id
     
     this.props.getTragetProfile( id )

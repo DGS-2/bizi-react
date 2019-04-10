@@ -16,7 +16,7 @@ class SkillItem extends Component {
 
     let content = claimed.map(u => {
       return <li className="list-item" key={u._id}>
-        <Link to={`/profile/${u.id}`}>{ u.displayName }</Link>
+        <Link to={{ pathname: `/profile/${u.id}` }}>{ u.displayName }</Link>
       </li>
     })
 

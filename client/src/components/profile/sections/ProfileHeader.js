@@ -145,7 +145,8 @@ class ProfileHeader extends Component {
       <div className="card hovercard">
       <div className="cardheader"></div>
         <div className="avatar">
-          <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Dummy User Icon" />
+          <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Dummy User Icon" /><br />
+          { accountOwner ? <div className="row no-gutters"><div className="px-5 ml-auto"><i className="fas fa-camera text-white"></i><hr /></div></div> : null }
         </div>
         { header }
         <div className="bottom">
