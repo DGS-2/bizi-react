@@ -13,9 +13,14 @@ class Sidenav extends Component {
   render() {
     const { auth, profile } = this.props
     
-    let priv
-    if( profile.profile !== null ) priv = profile.profile.personalInfo.privilege.level
-
+    let priv, privLink
+    if( profile.profile !== null ) {
+      if( profile.profile.personalInfo.privilege ) priv = profile.profile.personalInfo.privilege
+      if(priv.level >= 9 ){
+        privLink = <SidenavAdmin priv={ priv } profile={profile.profile} />
+      }
+    } 
+  
     let guestLinks = (
       <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
           <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
@@ -40,7 +45,7 @@ class Sidenav extends Component {
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></Link>
         </li>
-        { priv >= 9 ? <SidenavAdmin /> : null }
+        { privLink }
         <hr className="sidebar-divider d-none d-md-block" />
         <SidenavCalendar />
         <hr className="sidebar-divider d-none d-md-block" />

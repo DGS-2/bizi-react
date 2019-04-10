@@ -34,6 +34,7 @@ class ProfileSettings extends Component {
     let id = profile.user
 
     this.props.editProfile(id, profile)
+    window.location.reload()
   }
 
   render() {
@@ -53,7 +54,7 @@ class ProfileSettings extends Component {
                 <div className="form-group">
                   <select name="privilege" className="form-control" value={ this.state.privilege } onChange={ this.onChange }>
                     { privilegeLevels.map(item => {
-                      return <option value={item.title} key={ item.value }>{ item.label }</option>
+                      return <option value={item.title} key={ item.title }>{ item.label }</option>
                     }) }
                   </select>
                 </div>

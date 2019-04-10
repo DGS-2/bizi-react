@@ -75,17 +75,32 @@ export const privilegeLevels = [
   { label: "Supervisor", value: 2, title: "Supervisor" },
   { label: "NCOIC", value: 3, title: "NCOIC" },
   { label: "Section Chief", value: 4, title: "Section Chief" },
-  { label: "Flight Chief", value: 5, title: "Flight Chief" },
+
+  { label: "Flight Chief", value: 6, title: "Flight Chief" },
   { label: "Flight Commander", value: 6, title: "Flight Commander" },
-  { label: "Operations Superintendent", value: 7, title: "Operations Superintendent" },
+
+  { lable: "Squadron Program Manager", value: 7, title: "Squadron Progam Manager" },
+
+  { label: "Senior Civilian", value: 8, title: "Senior Civilian" },
+  { label: "Operations Superintendent", value: 8, title: "Operations Superintendent" },
   { label: "Director of Operations", value: 8, title: "Director of Operations" },
+
   { label: "Commander Support Staff", value: 9, title: "Commander Support Staff" },
-  { label: "Squadron Cheif Enlisted Manager", value: 10, title: "Squadron Cheif Enlisted Manager" },
-  { label: "Squadron Commander", value: 11, title: "Squadron Commander" },
-  { label: "Group Chief Enlisted Manager", value: 12, title: "Group Chief Enlisted Manager" },
-  { label: "Group Commander Support Staff", value: 13, title: "Group Commander Support Staff" },
+
+  { label: "First Sergeant", value: 10, title: "First Sergeant" },
+
+  { label: "Squadron Executive", value: 11, title: "Squadron Executive" },
+  { label: "Squadron Superintendent", value: 11, title: "Squadron Superintendent" },
+  { label: "Squadron Commander", value: 11, title: "Squadron Commander" },  
+  
+  { label: "Group Program Manager", value: 12, title: "Group Program Manager" },
+
   { label: "Group Director of Operations", value: 14, title: "Group Director of Operations" },
-  { label: "Group Deputy Commander", value: 15, title: "Group Deputy Commander" },
+
+  { label: "Group Superintendent", value: 16, title: "Group Superintendent" },
+  { label: "Group Executive", value: 16, title: "Group Executive" },
+  { label: "Group Deputy Commander", value: 16, title: "Group Deputy Commander" },
   { label: "Group Commander", value: 16, title: "Group Commander" },
+
   { label: "Developer", value: 1000, title: "Developer" }
 ]

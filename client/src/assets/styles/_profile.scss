@@ -1,0 +1,51 @@
+.hovercard {
+  position: relative;
+  padding-top: 0;
+  overflow: hidden;
+  text-align: center;
+  background-color: rgba(214, 224, 226, 0.2);
+  .cardheader {
+    background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 29%, rgba(0,212,255,1) 100%);
+    background-size: cover;
+    height: 135px;
+  }
+  .avatar {
+    position: relative;
+    top: -50px;
+    margin-bottom: -50px;
+    img {
+      width: 100px;
+      height: 100px;
+      max-width: 100px;
+      max-height: 100px;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      border: 5px solid rgba(255,255,255,0.5);
+    }
+  }
+  .info {
+    padding: 4px 8px 10px;
+    .title {
+      margin-bottom: 4px;
+      font-size: 24px;
+      line-height: 1;
+      color: $white;
+      vertical-align: middle;
+    }
+    .desc {
+      padding: 1rem 0;
+      overflow: hidden;
+      text-align: left;
+      font-size: 1rem;
+      line-height: 20px;
+      color: $white;
+      text-overflow: ellipsis;
+    }
+  }
+  .bottom {
+    padding: 0 20px;
+    margin-bottom: 17px;
+  }
+}

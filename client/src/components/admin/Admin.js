@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
-import SelectListGroup from "../shared/select-group/SelectListGroup"
-import { privilegeLevels } from "../../const/consts"
+import { getProfiles } from "../../actions/profileActions"
 
 class Admin extends Component {
   constructor(props){
@@ -12,32 +11,69 @@ class Admin extends Component {
       editUser: false,
       userId: '',
       user: '',
-      input: ''
+      input: '',
+      users: []
     }
-
+    
     this.onChange = this.onChange.bind(this)
-    this.setUser = this.setUser.bind(this)
+    this.mapUsers = this.mapUsers.bind(this)
+  }
+
+  componentDidMount = () => {
+    this.props.getProfiles()
+  }
+
+  componentWillReceiveProps = props => {
+    this.mapUsers(props)
   }
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value })    
   }
 
-  setUser = user => {
-    console.log(user)
-  }
-
-  render() {
-    const { profile } = this.props
+  mapUsers = props => {
+    const { profile } = props
+    const { viewDepth } = props.location.state
     let users
-    if( profile.profiles !== null ){
-      users = profile.profiles.filter(p => {
-        if(this.state.input === '') return p
-        else if(p.personalInfo.name.full.toLowerCase().includes(this.state.input.toLowerCase())) 
-          return p.personalInfo.name.full.toLowerCase().includes(this.state.input.toLowerCase()) 
-      })
-    }
-    
+
+    if( profile.profiles !== null ){ 
+      if( viewDepth === "all" ){
+        users = profile.profiles.map(p => {
+          return { 
+            name: `${p.personalInfo.rank.abreviated} ${p.personalInfo.name.full}`, 
+            privilege: p.personalInfo.privilege ? p.personalInfo.privilege.title : '', 
+            squadron: p.organization.squadron ? p.organization.squadron : '', 
+            flight: p.organization.flight ? p.organization.flight : '', 
+            id: p.user._id 
+          }
+        })
+      } else if( viewDepth === "squadron" ){
+        users = profile.profiles.filter(p => p.organization.squadron === profile.profile.organization.squadron).map(p => {
+          return { 
+            name: `${p.personalInfo.rank.abreviated} ${p.personalInfo.name.full}`, 
+            privilege: p.personalInfo.privilege ? p.personalInfo.privilege.title : '', 
+            squadron: p.organization.squadron ? p.organization.squadron : '', 
+            flight: p.organization.flight ? p.organization.flight : '', 
+            id: p.user._id 
+          }
+        })
+      }  else if( viewDepth === "group" ){
+        users = profile.profiles.filter(p => p.organization.group === profile.profile.organization.group).map(p => {
+          return { 
+            name: `${p.personalInfo.rank.abreviated} ${p.personalInfo.name.full}`, 
+            privilege: p.personalInfo.privilege ? p.personalInfo.privilege.title : '', 
+            squadron: p.organization.squadron ? p.organization.squadron : '', 
+            flight: p.organization.flight ? p.organization.flight : '', 
+            id: p.user._id 
+          }
+        })
+      }  
+      
+    }    
+    this.setState({ users: users })
+  }
+
+  render() {      
     return (
       <div className="col-8 mx-auto">
         <h1 className="text-center text-white">Admin Panel</h1>
@@ -56,13 +92,18 @@ class Admin extends Component {
               </tr>
             </thead>
             <tbody>
-              { users ? users.map(user => {
-                return <tr key={user.user._id}>
-                  <td>{ user.personalInfo.rank.abreviated } { user.personalInfo.name.full }</td>
-                  <td>{ user.personalInfo.privilege ? user.personalInfo.privilege.title : null }</td>
-                  <td>{ user.organization.squadron }</td>
-                  <td>{ user.organization.flight }</td>
-                  <td><Link className="btn btn-xs btn-primary" to={{pathname: `/profile/${user.user._id}`, state: { admin: true } }} >Edit</Link></td>
+              { this.state.users ? this.state.users.filter(u => {
+                if(this.state.input === '') return u
+                else if( u.name.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '' ) return u.name.toLowerCase().includes(this.state.input.toLowerCase())
+                else if( u.squadron.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '' ) return u.squadron.toLowerCase().includes(this.state.input.toLowerCase())
+                else if( u.flight.toLowerCase().includes(this.state.input.toLowerCase()) && this.state.input !== '' ) return u.flight.toLowerCase().includes(this.state.input.toLowerCase())
+              }).map(user => {
+                return <tr key={user.id}>
+                  <td>{ user.name }</td>
+                  <td>{ user.privilege ? user.privilege : null }</td>
+                  <td>{ user.squadron }</td>
+                  <td>{ user.flight }</td>
+                  <td><Link className="btn btn-xs btn-primary" to={{pathname: `/profile/${user.id}`, state: { admin: true } }} >Edit</Link></td>
                 </tr>
               }) : null }
             </tbody>            
@@ -74,11 +115,12 @@ class Admin extends Component {
 }
 
 Admin.propTypes = {
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  getProfiles: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   profile: state.profile
 })
 
-export default connect(mapStateToProps)(Admin)
+export default connect( mapStateToProps, { getProfiles } )( Admin )
