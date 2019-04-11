@@ -11,7 +11,9 @@ class Profiles extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      input: ''
+      input: '',
+      loading: false,
+      profiles: []
     }
 
     this.onChange = this.onChange.bind(this)
@@ -22,17 +24,21 @@ class Profiles extends Component {
   }
 
   componentDidMount = () => {
-    this.props.getProfiles()
+    if(this.props.profile.profiles === null) this.props.getProfiles()
+  }
+
+  componentWillReceiveProps = props => {
+    const { profile } = props
+    this.setState({ profiles: profile.profiles, loading: profile.loading })
   }
 
   render() {
-    const { profiles, loading } = this.props.profile
-
+    const { profiles, loading } = this.state
     let profileItems;
 
     if(profiles === null || loading) {
       profileItems = <Spinner />
-    } else{
+    } else {
       if(profiles.length > 0) {
         let biziUsers = profiles.filter(p => {
           if(this.state.input === '') return p

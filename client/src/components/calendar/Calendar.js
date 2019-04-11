@@ -6,26 +6,33 @@ import BigCalendar from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import { getTasks } from "../../actions/taskActions";
 import { getCurrentProfile } from "../../actions/profileActions";
+import Spinner from "../shared/spinner/Spinner";
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
 class Calendar extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      events: []
+    }
     this.mapTasksAsEvent = this.mapTasksAsEvent.bind(this)
     this.onSelectEvent = this.onSelectEvent.bind(this)
   }
   componentDidMount(){
-    if(this.props.tasks.tasks === null) {
-      this.props.getCurrentProfile()
+    const { tasks } = this.props.tasks
+    const { profile } = this.props.profile
+    if(tasks === null) {
       this.props.getTasks()
-    }    
+    } else {
+      this.mapTasksAsEvent( tasks, profile )
+    }
   }
 
   mapTasksAsEvent = (tasks, profile) => {
     let arr = []
-    let tasking = tasks.tasks.filter(task => task.creation.from.id === profile.profile.user._id)
-    let tasksToMap = [...tasking].concat(tasks.tasks.filter(task => task.creation.to.id === profile.profile.user._id))
+    let tasking = tasks.filter(task => task.creation.from.id === profile.user._id)
+    let tasksToMap = [...tasking].concat(tasks.filter(task => task.creation.to.id === profile.user._id))
     tasksToMap.forEach((event, index) => {
       arr.push({
         id: index,
@@ -33,41 +40,31 @@ class Calendar extends Component {
         start: new Date(event.creation.date),
         end: new Date(event.creation.due),
         allDay: true,
-        eventId: event._id
+        eventId: event._id,
+        priority: event.creation.priority.level,
+        description: event.metaData.description
       })
     })
-    return arr
+    this.setState({ events: arr })
   }
 
   onSelectEvent = e => {
-    // this.props.history.push(`/task/${e.eventId}`)
     window.location.assign(`/task/${e.eventId}`)
   }
 
-  render() {
-    const { tasks, profile } = this.props
-    
-    let calendar
-    let events
-    if(tasks === null || profile === null ) {
-      events = []
-    } else if(profile.profile !== null && tasks.tasks !== null) {
-      events = this.mapTasksAsEvent(tasks, profile)
-      calendar = <BigCalendar 
+  render() {    
+    let calendar = 
+        <BigCalendar 
           localizer={localizer}
           style={{height: '75vh'}}
-          events={events}
+          events={this.state.events}
           step={60}
           showMultiDayTimes
           startAccessor="start"
           end="end"
           onSelectEvent={this.onSelectEvent}
           defaultDate={new Date()}
-          
         />
-    }
-
-    
 
     return (
       <div className="container bg-light rounded p-3">

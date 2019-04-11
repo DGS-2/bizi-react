@@ -49,7 +49,6 @@ class Task extends Component {
   render() {
     const { task, loading } = this.props.task
     const { auth } = this.props
-    console.log(this.props)
     let taskContent;
 
     if( task === null || loading || Object.keys(task).length === 0 ) {
@@ -83,9 +82,7 @@ class Task extends Component {
         )
       }
       
-    }
-
-    
+    }    
     return (
       <div className="container-fluid">
         { taskContent }
