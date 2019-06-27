@@ -35,6 +35,8 @@ export const groups = [
 
 export const ranks = [
   { label: '* Please select your rank', value: 0 },
+  { label: 'Contractor', value: 'Ctr' },
+  { label: 'Civilian', value: 'Civilian' },
   { label: 'Airman Basic', value: 'AB' },
   { label: 'Airman First Class', value: 'A1C' },
   { label: 'Senior Ariman', value: 'SrA' },

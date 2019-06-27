@@ -67,7 +67,7 @@ class CreateProfile extends Component {
           full: this.state.rank,
           abreviated: ranks.filter(rank => rank.label === this.state.rank)[0].value
         },
-        privilege: {
+        privilege: { 
           title: '',
           level: ''
         }
