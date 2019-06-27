@@ -15,11 +15,10 @@ class Sidenav extends Component {
     
     let priv, privLink
     if( profile.profile !== null ) {
-      if( profile.profile.personalInfo.privilege ) priv = profile.profile.personalInfo.privilege
-      if(priv.level >= 9 ){
-        privLink = <SidenavAdmin priv={ priv } profile={profile.profile} />
+      if(profile.profile.personalInfo ){
+        if(profile.profile.personalInfo.privilege >= 9) privLink = <SidenavAdmin priv={ priv } profile={profile.profile} />
       }
-    } 
+    }
   
     let guestLinks = (
       <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
