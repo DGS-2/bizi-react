@@ -28,7 +28,7 @@ import SubTask from './components/sub-task/SubTask';
 
 import Dashboard from './components/dashboard/Dashboard';
 import Calendar from "./components/calendar/Calendar"
-import Skills from "./components/skills/Skills";
+
 
 import CreateTeam from './components/teams/CreateTeam';
 import Teams from "./components/teams/Teams";
@@ -79,7 +79,6 @@ class App extends Component {
                 <Switch><PrivateRoute exact path="/create-profile" component={ CreateProfile } /></Switch>
                 <Switch><PrivateRoute exact path="/edit-profile" component={ Profile } /></Switch>
                 <Switch><PrivateRoute exact path="/profile/:id" component={ Profile } /></Switch>
-                <Switch><PrivateRoute exact path="/skills" component={ Skills } /></Switch>
                 <Switch><PrivateRoute exact path="/all-users" component={ Profiles } /></Switch>            
                 <Switch><PrivateRoute exact path="/teams" component={ Teams } /></Switch>            
                 <Switch><PrivateRoute exact path="/create-team" component={ CreateTeam } /></Switch>            

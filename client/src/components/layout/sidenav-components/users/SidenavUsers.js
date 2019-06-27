@@ -12,8 +12,7 @@ class SidenavUsers extends Component {
         <div id="collapseUsers" className="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">
           <div className="bg-white py-2 collapse-inner rounded">
             <h6 className="collapse-header">Find Users:</h6>
-            <Link className="collapse-item" to="/skills">By Skills</Link>
-            <Link className="collapse-item" to="/all-users">By Search</Link>
+            <Link className="collapse-item" to="/all-users">Search</Link>
           </div>
         </div>
       </li>

@@ -13,16 +13,8 @@ class ProfileItem extends Component {
             <div className="col-12">
               <p> { profile.organization.wing } </p>
               <p> { profile.organization.group }, { profile.organization.squadron } </p>
-              <p> {profile.organization.flight} </p>
+              <p> Organization: {profile.organization.flight} </p>
               <p><strong>Contact: </strong>{ profile.contactInfo.email.unclass }</p>
-            </div>
-            <div className="col-12">
-              <h4 className="text-center">Skill Set</h4><hr />
-              <ul className="list-unstyled">
-                { profile.skills.slice(0, 4).map(item => {
-                  return <li className="list-item" key={item._id}><i className="fas fa-check pr-2 text-success" />{ item.name }</li>
-                }) }
-              </ul>
             </div>
           </div>
         </div>
