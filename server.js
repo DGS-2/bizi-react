@@ -7,7 +7,6 @@ const path = require('path');
 const users = require('./routes/api/users')
 const tasks = require('./routes/api/tasks')
 const profile = require('./routes/api/profile')
-const skills = require('./routes/api/skills')
 const teams = require('./routes/api/teams')
 
 const http = require('http');
@@ -38,7 +37,6 @@ require('./config/passport')(passport);
 app.use("/users", users);
 app.use("/tasks", tasks);
 app.use("/profile", profile);
-app.use("/skills", skills);
 app.use("/teams", teams);
 
 // Server static assets if in production
