@@ -1,40 +1,44 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from 'history';
 
+// Externals
+import { Chart } from 'react-chartjs-2';
+
+// Material helpers
+import { ThemeProvider } from '@material-ui/styles';
+
+// ChartJS helpers
+import { chartjs } from './helpers';
+
+// Web Token
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
+
+// Actions
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import { clearCurrentProfile, getCurrentProfile, getProfiles } from './actions/profileActions';
 
 import { Provider } from "react-redux";
 import store from './store';
 
-import PrivateRoute from "./components/shared/private-route/PrivateRoute";
+// Theme
+import theme from './theme';
 
-import Admin from "./components/admin/Admin"
+// Styles
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import './assets/scss/index.scss';
 
-import  Sidenav  from "./components/layout/sidenav-components/Sidenav";
-import  Navbar  from "./components/layout/navbar-components/Navbar";
-import  Register from "./components/auth/Register";
-import  Login from "./components/auth/Login";
+// Routes
+import Routes from './Routes';
 
-import CreateProfile from "./components/profile/create/CreateProfile"; 
-import Profile from "./components/profile/Profile";
-import Profiles from './components/profiles/Profiles';
+// Browser history
+const browserHistory = createBrowserHistory();
 
-import Task from "./components/task/Task";
-import Tasks from "./components/tasks/Tasks";
-import SubTask from './components/sub-task/SubTask';
-
-import Dashboard from './components/dashboard/Dashboard';
-import Calendar from "./components/calendar/Calendar"
-
-
-import CreateTeam from './components/teams/CreateTeam';
-import Teams from "./components/teams/Teams";
-import Team from "./components/team/Team";
-
-import "./App.scss";
+// Configure ChartJS
+Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
+  draw: chartjs.draw
+});
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -62,31 +66,11 @@ class App extends Component {
   render() {
     return (
       <Provider store={ store }>
-        <Router>
-          <div className="App" id="wrapper">
-            <Sidenav />
-            <div id="content-wrapper" className="d-flex flex-column">
-              <div id="content">
-                <Navbar />                
-                <Route exact path="/register" component={ Register } />
-                <Route exact path="/login" component={ Login } />
-                <Switch><Route exact path="/" component={ Dashboard }></Route></Switch>
-                <Switch><PrivateRoute exact path="/admin-panel" component={ Admin } /></Switch>
-                <Switch><PrivateRoute exact path="/dashboard" component={ Tasks } /></Switch>
-                <Switch><PrivateRoute exact path="/calendar" component={ Calendar } /></Switch>
-                <Switch><PrivateRoute exact path="/task/:id" component={ Task } /></Switch>
-                <Switch><PrivateRoute exact path="/sub-task/:id" component={ SubTask } /></Switch>
-                <Switch><PrivateRoute exact path="/create-profile" component={ CreateProfile } /></Switch>
-                <Switch><PrivateRoute exact path="/edit-profile" component={ Profile } /></Switch>
-                <Switch><PrivateRoute exact path="/profile/:id" component={ Profile } /></Switch>
-                <Switch><PrivateRoute exact path="/all-users" component={ Profiles } /></Switch>            
-                <Switch><PrivateRoute exact path="/teams" component={ Teams } /></Switch>            
-                <Switch><PrivateRoute exact path="/create-team" component={ CreateTeam } /></Switch>            
-                <Switch><PrivateRoute exact path="/teams/:id" component={ Team } /></Switch>            
-              </div>
-            </div>
-          </div>
-        </Router>
+        <ThemeProvider theme={theme}>
+          <Router history={browserHistory}>
+            <Routes />
+          </Router>
+        </ThemeProvider>
       </Provider>
     );
   }

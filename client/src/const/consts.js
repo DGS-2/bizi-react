@@ -6,7 +6,7 @@ export const KeyCodes = {
 export const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 export const priorityOptions = [
-  { label: '* Select Priority Level', value: 0 },
+  { label: '', value: 0 },
   { label: 'Critical', value: 'Critical' },
   { label: 'Important', value: 'Important' }
 ]
