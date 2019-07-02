@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 
 import { getTasks } from "../../../../actions/taskActions";
+import { logoutUser } from "../../../../actions/authActions";
+import { clearCurrentProfile } from "../../../../actions/profileActions";
 
 // Material helpers
 import { withStyles } from '@material-ui/core';
@@ -52,11 +54,15 @@ class Topbar extends Component {
     this.signal = false;
   }
 
-  handleSignOut = () => {
+  handleSignOut = e => {
+    e.preventDefault();
+    this.props.clearCurrentProfile();
+    this.props.logoutUser();
+
     const { history } = this.props;
 
     localStorage.setItem('isAuthenticated', false);
-    history.push('/sign-in');
+    history.push('/login');
   };
 
   handleShowNotifications = event => {
@@ -151,7 +157,9 @@ Topbar.propTypes = {
   isSidebarOpen: PropTypes.bool,
   onToggleSidebar: PropTypes.func,
   title: PropTypes.string,
-  getTasks: PropTypes.func
+  getTasks: PropTypes.func,
+  logoutUser: PropTypes.func.isRequired,
+  clearCurrentProfile: PropTypes.func.isRequired
 };
 
 Topbar.defaultProps = {
@@ -166,5 +174,5 @@ const mapStateToProps = state => ({
 export default compose(
   withRouter,
   withStyles(styles),
-  connect(mapStateToProps, {getTasks})
+  connect(mapStateToProps, { getTasks, logoutUser, clearCurrentProfile })
 )(Topbar);

@@ -34,11 +34,10 @@ class Footer extends Component {
           className={classes.company}
           variant="body1"
         >
-          &copy; Devias Io. 2019
+          &copy; Taskr
         </Typography>
         <Typography variant="caption">
-          Created with love for the environment. By designers and developers who
-          love to work together in offices!
+          
         </Typography>
       </div>
     );

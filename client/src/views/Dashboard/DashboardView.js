@@ -20,20 +20,21 @@ import {
 // Component styles
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing.unit * 4,
+    height: '100%'
   },
   item: {
     height: '100%'
   }
 });
 
-class Dashboard extends Component {
+class DashboardView extends Component {
   render() {
     const { classes } = this.props;
-
+    
     return (
       <DashboardLayout title="Dashboard">
-        <div className={classes.root}>
+        <div className={classes.root}> 
           <Grid
             container
             spacing={4}
@@ -56,8 +57,8 @@ class Dashboard extends Component {
   }
 }
 
-Dashboard.propTypes = {
+DashboardView.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(DashboardView);

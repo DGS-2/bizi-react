@@ -23,20 +23,7 @@ import {
 // Component styles
 import styles from './styles';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
+import { dgsSites } from '../../../../const/consts';
 
 class Account extends Component {
   constructor(props) {
@@ -46,29 +33,46 @@ class Account extends Component {
       lastName: '',
       email: '',
       phone: '',
-      unit: '',
-      dgs: ''
+      site: '',
+      unit: ''
     };
-    console.log(this.props.user)
+    
   }
 
   componentDidMount = () => {
     const { user } = this.props
-    if(user ) {
+    if(Object.entries(user).length !== 0) {
       this.setState({
         firstName: user.personalInfo.name.first,
         lastName: user.personalInfo.name.last,
-        email: user.contactInfo.email.unclass
+        email: user.contactInfo.email.unclass,
+        unit: user.organization.squadron
+      })
+    } else {
+      this.setState({
+        firstName: 'Please Update',
+        lastName: 'Please Update',
+        email: 'Please Update',
+        unit: 'Please Update'
       })
     }
   }
 
   componentWillReceiveProps = props => {
-    if(props.user ) {
+    const { user } = props
+    if(Object.entries(user).length !== 0) {
       this.setState({
-        firstName: props.user.personalInfo.name.first,
-        lastName: props.user.personalInfo.name.last,
-        email: props.user.contactInfo.email.unclass
+        firstName: user.personalInfo.name.first,
+        lastName: user.personalInfo.name.last,
+        email: user.contactInfo.email.unclass,
+        unit: user.organization.squadron
+      })
+    } else {
+      this.setState({
+        firstName: 'Please Update',
+        lastName: 'Please Update',
+        email: 'Please Update',
+        unit: 'Please Update'
       })
     }
   }
@@ -81,7 +85,7 @@ class Account extends Component {
 
   render() {
     const { classes, className, ...rest } = this.props;
-    const { firstName, lastName, phone, unit, dgs, email } = this.state;
+    const { firstName, lastName, phone, unit, email } = this.state;
     
     const rootClassName = classNames(classes.root, className);
 
@@ -92,7 +96,7 @@ class Account extends Component {
       >
         <PortletHeader>
           <PortletLabel
-            subtitle="The information can be edited"
+            subtitle="Update your infomration here"
             title="Profile"
           />
         </PortletHeader>
@@ -141,7 +145,7 @@ class Account extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                label="Select State"
+                label="Select Site"
                 margin="dense"
                 onChange={this.handleChange}
                 required
@@ -149,7 +153,7 @@ class Account extends Component {
                 SelectProps={{ native: true }}
                 value={unit}
                 variant="outlined">
-                {states.map(option => (
+                {dgsSites.map(option => (
                   <option
                     key={option.value}
                     value={option.value}
@@ -160,10 +164,10 @@ class Account extends Component {
               </TextField>
               <TextField
                 className={classes.textField}
-                label="DGS assigned"
+                label="Unit assigned"
                 margin="dense"
                 required
-                value={dgs}
+                value={unit}
                 variant="outlined"
               />
             </div>

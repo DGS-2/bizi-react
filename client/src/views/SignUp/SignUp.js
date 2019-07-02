@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 // Externals
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import validate from 'validate.js';
 import _ from 'underscore';
 
-// Actions
-import { loginUser } from "../../actions/authActions";
-
 // Material helpers
 import { withStyles } from '@material-ui/core';
 
+import { registerUser } from '../../actions/authActions';
+
 // Material components
 import {
-  Grid,
   Button,
-  IconButton,
   CircularProgress,
+  Grid,
+  IconButton,
   TextField,
   Typography
 } from '@material-ui/core';
@@ -27,14 +25,16 @@ import {
 // Material icons
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 
+// Shared utilities
+import validators from '../../common/validators';
 
 // Component styles
 import styles from './styles';
 
-// Form validation schema
-import schema from './schema';
+validate.validators.checked = validators.checked;
 
-const signIn = () => {
+// Service methods
+const signUp = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(true);
@@ -42,24 +42,21 @@ const signIn = () => {
   });
 };
 
-class SignIn extends Component {
-  state = {
-    values: {
+class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
-      password: ''
-    },
-    touched: {
-      email: false,
-      password: false
-    },
-    errors: {
-      email: null,
-      password: null
-    },
-    isValid: false,
-    isLoading: false,
-    submitError: null
-  };
+      password: '',
+      password2: '',
+      isToken: false,
+      errors: {},
+      isLoading: false
+    };
+  }
 
   handleBack = () => {
     const { history } = this.props;
@@ -67,62 +64,45 @@ class SignIn extends Component {
     history.goBack();
   };
 
-  validateForm = _.debounce(() => {
-    const { values } = this.state;
+  onChange = e => {
+    this.setState({[e.target.name] : e.target.value});
+  }
 
-    const newState = { ...this.state };
-    const errors = validate(values, schema);
+  handleSignUp = async () => {
+    if(this.state.password === this.state.password2) {
+      try {
+        const { history } = this.props;
 
-    newState.errors = errors || {};
-    newState.isValid = errors ? false : true;
+        this.setState({ isLoading: true });
 
-    this.setState(newState);
-  }, 300);
-
-  handleFieldChange = (field, value) => {
-    const newState = { ...this.state };
-
-    newState.submitError = null;
-    newState.touched[field] = true;
-    newState.values[field] = value;
-
-    this.setState(newState, this.validateForm);
-  };
-
-  handleSignIn = async () => {
-    try {
-      const { history } = this.props;
-      const { values } = this.state;
-
-      this.setState({ isLoading: true });
-      
-      await signIn(this.props.loginUser({email: values.email, password: values.password}));
-
-      // localStorage.setItem('isAuthenticated', true);
-
-      history.push('/dashboard');
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        serviceError: error
-      });
+        let user = {
+          name: `${this.state.firstName} ${this.state.lastName}`,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          email: this.state.email,
+          password: this.state.password,
+          password2: this.state.password2,
+          isToken: false
+        };
+        
+        await signUp(this.props.registerUser(user));
+  
+        history.push('/login');
+      } catch (error) {
+        this.setState({
+          isLoading: false,
+          serviceError: error
+        });
+      }
+    } else {
+      this.setState({errors: {error: 'Passwords Do Not Match'}});
     }
+    
   };
 
   render() {
     const { classes } = this.props;
-    const {
-      values,
-      touched,
-      errors,
-      isValid,
-      submitError,
-      isLoading
-    } = this.state;
-
-    const showEmailError = touched.email && errors.email;
-    const showPasswordError = touched.password && errors.password;
-
+    
     return (
       <div className={classes.root}>
         <Grid
@@ -176,92 +156,88 @@ class SignIn extends Component {
                 </IconButton>
               </div>
               <div className={classes.contentBody}>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={this.handleSignUp}>
                   <Typography
                     className={classes.title}
                     variant="h2"
                   >
-                    Sign in
-                  </Typography>
-                  
-                  <Typography
-                    className={classes.sugestion}
-                    variant="body1"
-                  >
-                    Login with email address
+                    Create new account
                   </Typography>
                   <div className={classes.fields}>
                     <TextField
                       className={classes.textField}
-                      label="Email address"
-                      name="email"
-                      onChange={event =>
-                        this.handleFieldChange('email', event.target.value)
-                      }
-                      type="text"
-                      value={values.email}
+                      label="First name"
+                      name="firstName"
+                      onChange={this.onChange}
+                      value={this.state.firstName}
                       variant="outlined"
                     />
-                    {showEmailError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.email[0]}
-                      </Typography>
-                    )}
+                    <TextField
+                      className={classes.textField}
+                      label="Last name"
+                      onChange={this.onChange}
+                      value={this.state.lastName}
+                      name="lastName"
+                      variant="outlined"
+                    />
+                    <TextField
+                      className={classes.textField}
+                      label="Email address"
+                      name="email"
+                      onChange={this.onChange}
+                      value={this.state.email}
+                      variant="outlined"
+                    />
                     <TextField
                       className={classes.textField}
                       label="Password"
-                      name="password"
-                      onChange={event =>
-                        this.handleFieldChange('password', event.target.value)
-                      }
+                      onChange={this.onChange}
                       type="password"
-                      value={values.password}
+                      name="password"
+                      value={this.state.password}
                       variant="outlined"
                     />
-                    {showPasswordError && (
+                    <TextField
+                      className={classes.textField}
+                      label="Verify Password"
+                      onChange={this.onChange}
+                      type="password"
+                      name="password2"
+                      value={this.state.password2}
+                      variant="outlined"
+                    />
+                    {this.state.errors && (
                       <Typography
                         className={classes.fieldError}
                         variant="body2"
                       >
-                        {errors.password[0]}
+                        {this.state.errors.error}
                       </Typography>
                     )}
                   </div>
-                  {submitError && (
-                    <Typography
-                      className={classes.submitError}
-                      variant="body2"
-                    >
-                      {submitError}
-                    </Typography>
-                  )}
-                  {isLoading ? (
+                  {this.state.isLoading ? (
                     <CircularProgress className={classes.progress} />
                   ) : (
                     <Button
-                      className={classes.signInButton}
+                      className={classes.signUpButton}
                       color="primary"
-                      disabled={!isValid}
-                      onClick={this.handleSignIn}
+                      onClick={this.handleSignUp}
                       size="large"
                       variant="contained"
                     >
-                      Sign in now
+                      Sign up now
                     </Button>
                   )}
                   <Typography
-                    className={classes.signUp}
+                    className={classes.signIn}
                     variant="body1"
                   >
-                    Don't have an account?{' '}
+                    Have an account?{' '}
                     <Link
-                      className={classes.signUpUrl}
-                      to="/sign-up"
+                      className={classes.signInUrl}
+                      to="/sign-in"
                     >
-                      Sign up
+                      Sign In
                     </Link>
                   </Typography>
                 </form>
@@ -274,18 +250,19 @@ class SignIn extends Component {
   }
 }
 
-SignIn.propTypes = {
+SignUp.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  registerUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 })
 
-export default compose( withRouter, withStyles(styles), connect(mapStateToProps, {loginUser}) )(SignIn);
+export default compose(
+  withRouter,
+  withStyles(styles),
+  connect(mapStateToProps, { registerUser })
+)(SignUp);

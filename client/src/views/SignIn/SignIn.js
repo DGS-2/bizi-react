@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // Externals
 import PropTypes from 'prop-types';
@@ -7,16 +8,18 @@ import compose from 'recompose/compose';
 import validate from 'validate.js';
 import _ from 'underscore';
 
+// Actions
+import { loginUser } from "../../actions/authActions";
+
 // Material helpers
 import { withStyles } from '@material-ui/core';
 
 // Material components
 import {
-  Button,
-  Checkbox,
-  CircularProgress,
   Grid,
+  Button,
   IconButton,
+  CircularProgress,
   TextField,
   Typography
 } from '@material-ui/core';
@@ -24,8 +27,6 @@ import {
 // Material icons
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 
-// Shared utilities
-import validators from '../../common/validators';
 
 // Component styles
 import styles from './styles';
@@ -33,10 +34,7 @@ import styles from './styles';
 // Form validation schema
 import schema from './schema';
 
-validate.validators.checked = validators.checked;
-
-// Service methods
-const signUp = () => {
+const signIn = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(true);
@@ -44,28 +42,19 @@ const signUp = () => {
   });
 };
 
-class SignUp extends Component {
+class SignIn extends Component {
   state = {
     values: {
-      firstName: '',
-      lastName: '',
       email: '',
-      password: '',
-      policy: false
+      password: ''
     },
     touched: {
-      firstName: false,
-      lastName: false,
       email: false,
-      password: false,
-      policy: null
+      password: false
     },
     errors: {
-      firstName: null,
-      lastName: null,
       email: null,
-      password: null,
-      policy: null
+      password: null
     },
     isValid: false,
     isLoading: false,
@@ -100,21 +89,19 @@ class SignUp extends Component {
     this.setState(newState, this.validateForm);
   };
 
-  handleSignUp = async () => {
+  handleSignIn = async () => {
     try {
-      const { history } = this.props;
+      const { history, auth } = this.props;
       const { values } = this.state;
 
       this.setState({ isLoading: true });
+      
+      await signIn(this.props.loginUser({email: values.email, password: values.password}));
 
-      await signUp({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password
-      });
-
-      history.push('/sign-in');
+      // localStorage.setItem('isAuthenticated', true);
+      if(auth.user.isToken) history.push('/change-password');
+      else history.push('/dashboard');
+      
     } catch (error) {
       this.setState({
         isLoading: false,
@@ -134,16 +121,8 @@ class SignUp extends Component {
       isLoading
     } = this.state;
 
-    const showFirstNameError =
-      touched.firstName && errors.firstName ? errors.firstName[0] : false;
-    const showLastNameError =
-      touched.lastName && errors.lastName ? errors.lastName[0] : false;
-    const showEmailError =
-      touched.email && errors.email ? errors.email[0] : false;
-    const showPasswordError =
-      touched.password && errors.password ? errors.password[0] : false;
-    const showPolicyError =
-      touched.policy && errors.policy ? errors.policy[0] : false;
+    const showEmailError = touched.email && errors.email;
+    const showPasswordError = touched.password && errors.password;
 
     return (
       <div className={classes.root}>
@@ -162,21 +141,20 @@ class SignUp extends Component {
                   className={classes.quoteText}
                   variant="h1"
                 >
-                  Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                  they sold out High Life.
+                  Taskr. Visualising your workload and workflow between users and customers.
                 </Typography>
                 <div className={classes.person}>
                   <Typography
                     className={classes.name}
                     variant="body1"
                   >
-                    Takamaru Ayako
+                    
                   </Typography>
                   <Typography
                     className={classes.bio}
                     variant="body2"
                   >
-                    Manager at inVision
+                    
                   </Typography>
                 </div>
               </div>
@@ -198,55 +176,21 @@ class SignUp extends Component {
                 </IconButton>
               </div>
               <div className={classes.contentBody}>
-                <form className={classes.form}>
+                <form className={classes.form} autoComplete="off">
                   <Typography
                     className={classes.title}
                     variant="h2"
                   >
-                    Create new account
+                    Sign in
                   </Typography>
+                  
                   <Typography
-                    className={classes.subtitle}
+                    className={classes.sugestion}
                     variant="body1"
                   >
-                    Use your work email to create new account... it's free.
+                    Login with email address
                   </Typography>
                   <div className={classes.fields}>
-                    <TextField
-                      className={classes.textField}
-                      label="First name"
-                      name="firstName"
-                      onChange={event =>
-                        this.handleFieldChange('firstName', event.target.value)
-                      }
-                      value={values.firstName}
-                      variant="outlined"
-                    />
-                    {showFirstNameError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.firstName[0]}
-                      </Typography>
-                    )}
-                    <TextField
-                      className={classes.textField}
-                      label="Last name"
-                      onChange={event =>
-                        this.handleFieldChange('lastName', event.target.value)
-                      }
-                      value={values.lastName}
-                      variant="outlined"
-                    />
-                    {showLastNameError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.lastName[0]}
-                      </Typography>
-                    )}
                     <TextField
                       className={classes.textField}
                       label="Email address"
@@ -254,6 +198,7 @@ class SignUp extends Component {
                       onChange={event =>
                         this.handleFieldChange('email', event.target.value)
                       }
+                      type="text"
                       value={values.email}
                       variant="outlined"
                     />
@@ -268,6 +213,7 @@ class SignUp extends Component {
                     <TextField
                       className={classes.textField}
                       label="Password"
+                      name="password"
                       onChange={event =>
                         this.handleFieldChange('password', event.target.value)
                       }
@@ -283,38 +229,6 @@ class SignUp extends Component {
                         {errors.password[0]}
                       </Typography>
                     )}
-                    <div className={classes.policy}>
-                      <Checkbox
-                        checked={values.policy}
-                        className={classes.policyCheckbox}
-                        color="primary"
-                        name="policy"
-                        onChange={() =>
-                          this.handleFieldChange('policy', !values.policy)
-                        }
-                      />
-                      <Typography
-                        className={classes.policyText}
-                        variant="body1"
-                      >
-                        I have read the &nbsp;
-                        <Link
-                          className={classes.policyUrl}
-                          to="#"
-                        >
-                          Terms and Conditions
-                        </Link>
-                        .
-                      </Typography>
-                    </div>
-                    {showPolicyError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.policy[0]}
-                      </Typography>
-                    )}
                   </div>
                   {submitError && (
                     <Typography
@@ -328,26 +242,26 @@ class SignUp extends Component {
                     <CircularProgress className={classes.progress} />
                   ) : (
                     <Button
-                      className={classes.signUpButton}
+                      className={classes.signInButton}
                       color="primary"
                       disabled={!isValid}
-                      onClick={this.handleSignUp}
+                      onClick={this.handleSignIn}
                       size="large"
                       variant="contained"
                     >
-                      Sign up now
+                      Sign in now
                     </Button>
                   )}
                   <Typography
-                    className={classes.signIn}
+                    className={classes.signUp}
                     variant="body1"
                   >
-                    Have an account?{' '}
+                    Don't have an account?{' '}
                     <Link
-                      className={classes.signInUrl}
-                      to="/sign-in"
+                      className={classes.signUpUrl}
+                      to="/sign-up"
                     >
-                      Sign In
+                      Sign up
                     </Link>
                   </Typography>
                 </form>
@@ -360,13 +274,18 @@ class SignUp extends Component {
   }
 }
 
-SignUp.propTypes = {
+SignIn.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-export default compose(
-  withRouter,
-  withStyles(styles)
-)(SignUp);
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+})
+
+export default compose( withRouter, withStyles(styles), connect(mapStateToProps, {loginUser}) )(SignIn);

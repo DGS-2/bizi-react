@@ -18,7 +18,7 @@ import { Dashboard as DashboardLayout } from '../../layouts';
 import { getProfiles } from "../../actions/profileActions";
 
 // Custom components
-import { UsersToolbar, UsersTable } from './components';
+import { UsersToolbar, UsersTable, UserForm } from './components';
 
 // Component styles
 import styles from './styles';
@@ -31,7 +31,8 @@ class UserList extends Component {
     limit: 10,
     users: [],
     selectedUsers: [],
-    error: null
+    error: null,
+    showUserForm: false
   };
 
   async pullProfiles() {
@@ -72,7 +73,13 @@ class UserList extends Component {
     this.setState({ selectedUsers });
   };
 
-  renderUsers(users) {
+  toggleAddUser = () => {
+    this.setState({
+      showUserForm: !this.state.showUserForm
+    });
+  }
+
+  renderUsers() {
     const { classes, profile } = this.props;
     const { isLoading, error } = this.state;
 
@@ -108,7 +115,8 @@ class UserList extends Component {
     return (
       <DashboardLayout title="Users">
         <div className={classes.root}>
-          <UsersToolbar selectedUsers={selectedUsers} />
+          <UsersToolbar selectedUsers={selectedUsers} toggleAddUser={this.toggleAddUser} isOpen={this.state.showUserForm} />
+          <div className={classes.content}>{this.state.showUserForm ? <UserForm toggleAddUser={this.toggleAddUser} /> : null}</div>
           <div className={classes.content}>{this.renderUsers()}</div>
         </div>
       </DashboardLayout>

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // Material helpers
@@ -33,11 +32,18 @@ import { Portlet, PortletContent } from '../../../../components';
 import styles from './styles';
 
 class UsersTable extends Component {
-  state = {
-    selectedUsers: [],
-    rowsPerPage: 10,
-    page: 0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedUsers: [],
+      rowsPerPage: 10,
+      page: 0
+    };
+
+    console.log(props)
+  }
+
+  
 
   handleSelectAll = event => {
     const { users, onSelect } = this.props;
@@ -91,7 +97,7 @@ class UsersTable extends Component {
   render() {
     const { classes, className, users } = this.props;
     const { activeTab, selectedUsers, rowsPerPage, page } = this.state;
-    console.log(users);
+    
     const rootClassName = classNames(classes.root, className);
 
     return (
@@ -213,7 +219,8 @@ UsersTable.propTypes = {
   classes: PropTypes.object.isRequired,
   onSelect: PropTypes.func,
   onShowDetails: PropTypes.func,
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  toggleAddUser: PropTypes.func
 };
 
 UsersTable.defaultProps = {

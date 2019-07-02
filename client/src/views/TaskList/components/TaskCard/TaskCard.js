@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-
+import moment from "moment";
+import compose from "recompose/compose";
+import { connect } from "react-redux";
 // Externals
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -24,31 +26,33 @@ import styles from './styles';
 
 class TaskCard extends Component {
   render() {
-    const { classes, className, product } = this.props;
-
+    console.log(this.props)
+    const { classes, className, task } = this.props;
+    
     const rootClassName = classNames(classes.root, className);
 
     return (
       <Paper className={rootClassName}>
-        <div className={classes.imageWrapper}>
-          <img
-            alt="Product"
-            className={classes.image}
-            src={product.imageUrl}
-          />
+        <div className={classes.details}>
+          <Typography
+            className={classes.title}
+            variant="h2"
+          >
+            {task.metaData.classification}
+          </Typography>
         </div>
         <div className={classes.details}>
           <Typography
             className={classes.title}
             variant="h4"
           >
-            {product.title}
+            {task.metaData.title}
           </Typography>
           <Typography
             className={classes.description}
             variant="body1"
           >
-            {product.description}
+            {task.metaData.description}
           </Typography>
         </div>
         <Divider />
@@ -58,14 +62,22 @@ class TaskCard extends Component {
             className={classes.updateText}
             variant="body2"
           >
-            Updated 2hr ago
+            Created on {moment(task.creation.date).format('MMM DD YYYY')}
+          </Typography>
+          <Typography
+            className={classes.updateText}
+            variant="body2"
+          >
+            <strong>
+              Due by {moment(task.creation.due).format('MMM DD YYYY')}
+            </strong>            
           </Typography>
           <GetAppIcon className={classes.downloadsIcon} />
           <Typography
             className={classes.downloadsText}
             variant="body2"
           >
-            {product.totalDownloads} Downloads
+            test
           </Typography>
         </div>
       </Paper>
@@ -76,7 +88,12 @@ class TaskCard extends Component {
 TaskCard.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  product: PropTypes.object.isRequired
+  task: PropTypes.object.isRequired,
+  profile: PropTypes.object
 };
 
-export default withStyles(styles)(TaskCard);
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default compose(withStyles(styles), connect(mapStateToProps) )(TaskCard);

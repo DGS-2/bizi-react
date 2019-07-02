@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 // Externals
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -24,10 +25,23 @@ import { DisplayMode, SearchInput } from '../../../../components';
 import styles from './styles';
 
 class UsersToolbar extends Component {
+  constructor(props) {
+    super(props);  
+    
+  }
+
   render() {
-    const { classes, className, selectedUsers } = this.props;
+    const { classes, className, selectedUsers, profile } = this.props;
 
     const rootClassName = classNames(classes.root, className);
+
+    let addUserButton = false;
+
+    if(profile.profile) {
+      if(profile.profile.personalInfo.privilege.level >= 8) {
+        addUserButton = true;          
+      }     
+    }
 
     return (
       <div className={rootClassName}>
@@ -56,13 +70,14 @@ class UsersToolbar extends Component {
             <ArrowUpwardIcon className={classes.exportIcon} />
             Export
           </Button>
-          <Button
+          { addUserButton ? (<Button
             color="primary"
             size="small"
             variant="outlined"
+            onClick={this.props.toggleAddUser}
           >
-            Add
-          </Button>
+            {this.props.isOpen ? 'Cancel' : 'Add User'}
+          </Button>) : null}
         </div>
         <div className={classes.row}>
           <SearchInput
@@ -80,11 +95,16 @@ class UsersToolbar extends Component {
 UsersToolbar.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  selectedUsers: PropTypes.array
+  selectedUsers: PropTypes.array,
+  profile: PropTypes.object
 };
 
 UsersToolbar.defaultProps = {
   selectedUsers: []
 };
 
-export default withStyles(styles)(UsersToolbar);
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default compose(withStyles(styles), connect(mapStateToProps))(UsersToolbar);

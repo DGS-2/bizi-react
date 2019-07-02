@@ -38,7 +38,7 @@ export default {
     dark: '#95591E'
   },
   danger: {
-    contrastText: white,
+    contrastText: white, 
     main: '#ED4740',
     light: '#FEF6F6',
     dark: '#BF0E08'

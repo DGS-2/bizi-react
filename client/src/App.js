@@ -48,8 +48,8 @@ if (localStorage.jwtToken) {
   const decoded = jwt_decode(localStorage.jwtToken);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
-  store.dispatch(getCurrentProfile());
-  store.dispatch(getProfiles())
+  store.dispatch(getCurrentProfile()); 
+  store.dispatch(getProfiles());
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
@@ -59,7 +59,8 @@ if (localStorage.jwtToken) {
     store.dispatch(clearCurrentProfile());
     // Redirect to login
     window.location.href = '/login';
-  }
+  } 
+  else browserHistory.push('/dashboard');
 }
 
 class App extends Component {

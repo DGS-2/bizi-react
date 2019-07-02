@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 // Externals
 import PropTypes from 'prop-types';
 
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 
 // Form
-import TaskForm from "./components/TaskForm";
+import TaskForm from "./components/TaskForm/TaskForm";
 
 import { getTasks } from '../../actions/taskActions';
 
@@ -55,8 +56,8 @@ class TaskList extends Component {
 
       await this.props.getTasks();
 
-      const { tasks } = this.props.tasks;
-
+      const { tasks } = this.props.task.tasks;
+      console.log(tasks);
       if (this.signal) {
         this.setState({
           isLoading: false,
@@ -76,9 +77,16 @@ class TaskList extends Component {
 
   componentWillMount() {
     this.signal = true;
+    this.getTasks();    
+  }
 
-    this.getTasks();
-    
+  componentWillReceiveProps = props => {
+    if(props.task.tasks !== null) {
+      this.setState({
+        tasks: props.task.tasks,
+        tasksTotal: props.task.tasks.length
+      })
+    }    
   }
 
   componentWillUnmount() {
@@ -111,7 +119,7 @@ class TaskList extends Component {
         {tasks.map(task => (
           <Grid
             item
-            key={task.id}
+            key={task._id}
             lg={4}
             md={6}
             xs={12}
@@ -139,7 +147,7 @@ class TaskList extends Component {
           <div className={classes.content}>{ this.state.isFormOpen ? <TaskForm /> : null }</div>
           <div className={classes.content}>{this.renderTasks()}</div>
           <div className={classes.pagination}>
-            <Typography variant="caption">1-6 of 20</Typography>
+            <Typography variant="caption"></Typography>
             <IconButton>
               <ChevronLeftIcon />
             </IconButton>
@@ -168,4 +176,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 })
 
-export default connect(mapStateToProps, {getTasks})(withStyles(styles)(TaskList));
+export default compose( withStyles(styles), connect(mapStateToProps, { getTasks }))(TaskList);

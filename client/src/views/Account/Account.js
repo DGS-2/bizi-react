@@ -27,7 +27,6 @@ class Account extends Component {
   state = { tabIndex: 0 };
 
   render() {
-    console.log(this.props.profile)
     const { classes, profile } = this.props;
     
     return (

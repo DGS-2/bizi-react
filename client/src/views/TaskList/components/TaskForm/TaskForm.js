@@ -122,69 +122,56 @@ class TaskForm extends Component {
           tags: this.state.tags
         }
         
-        this.props.addTask(newTask, this.props.history)
+        this.props.addTask(newTask, this.props.history);
       }
       render() {
         const { taggableUsers } = this.state
         
         const { classes, profile } = this.props;
 
-        const suggestions = filterUsers(profile.profiles)
+        const suggestions = filterUsers(profile.profiles);
 
-        console.log({props: this.props, state: this.state, users: suggestions});
-
-        let header = (
-            <PortletHeader>
-              <PortletLabel
-                subtitle="Create your task and assign it"
-                title="Create"
-              />
-            </PortletHeader>
-          )
-          
-          let footer = (
-            <PortletFooter className={classes.portletFooter}>
-              <Button
-                color="primary"
-                variant="contained"
-              >
-                Create Task
-              </Button>
-            </PortletFooter>
-          )
-      
-          let form = (
-            <form
-                autoComplete="off"
-                noValidate
-              >
+        return (
+          <form
+            autoComplete="off"
+            noValidate
+            onSubmit={this.onSubmit}
+          >
+            <Portlet>
+              <PortletHeader>
+                <PortletLabel
+                  subtitle="Create your task and assign it"
+                  title="Create"
+                />
+              </PortletHeader>              
+              <PortletContent noPadding>
                 <div className={classes.field}>
-                    <TextField 
-                        className={classes.textField}
-                        helperText="Please apply the proper classification for this task"
-                        label="Task classification"
-                        margin="dense"
-                        required
-                        fullWidth
-                        value={this.state.classification}
-                        variant="outlined"
-                        name="classification"
-                        onChange={this.onChange}
+                      <TextField 
+                          className={classes.textField}
+                          helperText="Please apply the proper classification for this task"
+                          label="Task classification"
+                          margin="dense"
+                          required
+                          fullWidth
+                          value={this.state.classification}
+                          variant="outlined"
+                          name="classification"
+                          onChange={this.onChange}
+                      />
+                  </div>
+                <div className={classes.field}>
+                  <TextField
+                      className={classes.textField}
+                      helperText="Please assign a title to this task"
+                      label="Task name"
+                      margin="dense"
+                      required
+                      fullWidth
+                      value={this.state.title}
+                      variant="outlined"
+                      name="title"
+                      onChange={this.onChange}
                     />
-                </div>
-                <div className={classes.field}>
-                <TextField
-                    className={classes.textField}
-                    helperText="Please assign a title to this task"
-                    label="Task name"
-                    margin="dense"
-                    required
-                    fullWidth
-                    value={this.state.title}
-                    variant="outlined"
-                    name="title"
-                    onChange={this.onChange}
-                  />
                 </div>
                 <div className={classes.field}>
                   <TextField
@@ -210,76 +197,75 @@ class TaskForm extends Component {
                     label="Start message thread"
                     variant="outlined"
                     className={classes.textField}
+                    onChange={this.onChange}
                   />
                 </div>
                 <div className={classes.field}>
-                    <TextField
-                        className={classes.textField}
-                        label="Select a Priority"
-                        margin="dense"
-                        name="priority"
-                        onChange={this.onChange}
-                        required
-                        select
-                        SelectProps={{ native: true }}
-                        value={this.state.priority}
-                        variant="outlined">
-                        {priorityOptions.map(option => (
-                        <option
-                            key={option.value}
-                            value={option.value}
-                        >
-                            {option.label}
-                        </option>
-                        ))}
-                    </TextField>
+                  <TextField
+                      className={classes.textField}
+                      label="Select a Priority"
+                      margin="dense"
+                      name="priority"
+                      onChange={this.onChange}
+                      required
+                      select
+                      SelectProps={{ native: true }}
+                      value={this.state.priority}
+                      variant="outlined">
+                      {priorityOptions.map(option => (
+                      <option
+                          key={option.value}
+                          value={option.value}
+                      >
+                          {option.label}
+                      </option>
+                      ))}
+                  </TextField>
+                </div>
+                <div className={classes.field}>                   
+                  <ReactTags 
+                      name="to"
+                      placeholder="Start typing to assign task to members"              
+                      inputFieldPosition="inline"
+                      tags={taggableUsers}
+                      suggestions={suggestions}
+                      handleDelete={this.handleDelete}
+                      handleAddition={this.handleAddition}
+                      delimiters={delimiters}
+                      autocomplete={true}
+                      autofocus={false}
+                      minQueryLength={1}
+                      classNames={{
+                        tags: classes.ReactTags__tags,
+                        tagInput: classes.ReactTags__tagInput,
+                        tagInputField: classes.ReactTags__tagInputField,
+                        selected: classes.ReactTags__selected,
+                        tag: classes.ReactTags__selected,
+                        remove: classes.ReactTags__selected,
+                        suggestions: classes.ReactTags__suggestions
+                      }}
+                  />                    
                 </div>
                 <div className={classes.field}>
-                   
-                        <ReactTags 
-                            name="to"
-                            placeholder="Start typing to assign task to members"              
-                            inputFieldPosition="inline"
-                            tags={taggableUsers}
-                            suggestions={suggestions}
-                            handleDelete={this.handleDelete}
-                            handleAddition={this.handleAddition}
-                            delimiters={delimiters}
-                            autocomplete={true}
-                            autofocus={false}
-                            minQueryLength={1}
-                            classNames={{
-                              tags: classes.ReactTags__tags,
-                              tagInput: classes.ReactTags__tagInput,
-                              tagInputField: classes.ReactTags__tagInputField,
-                              selected: classes.ReactTags__selected,
-                              tag: classes.ReactTags__selected,
-                              remove: classes.ReactTags__selected,
-                              suggestions: classes.ReactTags__suggestions
-                            }}
-                        />
-                    
+                  <DatePicker
+                      onChange={this.setDueDate}
+                      value={this.state.due}
+                      className="form-controlnodemon"
+                  />
                 </div>
-                <div className={classes.field}>
-                    <DatePicker
-                        onChange={this.setDueDate}
-                        value={this.state.due}
-                        className="form-controlnodemon"
-                    />
-                </div>
-              </form>
-          )
-      
-          let portlet = (
-            <Portlet>
-              {header}
-            <PortletContent noPadding>
-              {form}
-            </PortletContent>
-            {footer}
-          </Portlet>);
-
-          return portlet;
+              </PortletContent>
+              <PortletFooter className={classes.portletFooter}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                >
+                  Create Task
+                </Button>
+              </PortletFooter>            
+            </Portlet>
+          </form>
+        );
       }
 }
 

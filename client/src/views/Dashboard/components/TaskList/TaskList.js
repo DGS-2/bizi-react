@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -13,10 +14,12 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import {
-  Button,
   IconButton,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Menu,
+  MenuItem,
+  LinearProgress
 } from '@material-ui/core';
 
 // Material icons
@@ -45,7 +48,10 @@ class TaskList extends Component {
     limit: 4,
     tasks: [],
     tasksTotal: 0,
-    error: null
+    error: null,
+    isOpen: false,
+    showMore: '',
+    anchorEl: null
   };
 
   async getTasks() {
@@ -54,13 +60,12 @@ class TaskList extends Component {
 
       this.props.getTasks();
 
-      const { tasks } = this.props
-
+      const { task } = this.props
       if (this.signal) {
         this.setState({
           isLoading: false,
-          tasks: tasks.tasks,
-          tasksTotal: tasks.tasks.length
+          tasks: task.tasks,
+          tasksTotal: task.tasks.length
         });
       }
     } catch (error) {
@@ -76,16 +81,55 @@ class TaskList extends Component {
   componentWillMount() {
     this.signal = true;
 
-    this.props.getTasks();
+    this.getTasks();
+  }
+
+  
+
+  componentWillReceiveProps = props => {
+    const { profile, task } = props
+    let profileExists;
+    
+    if(profile.profile === null || Object.entries(profile.profile).length === 0 ) profileExists = false;
+    else profileExists = true;
+
+    if(task.tasks !== null && profileExists) {
+      this.setState({
+        tasks: task.tasks.filter(item => item.creation.to.id === profile.profile.user._id),
+        tasksTotal: task.tasks.filter(item => item.creation.to.id === profile.profile.user._id).length
+      })
+    }    
   }
 
   componentWillUnmount() {
     this.signal = false;
   }
 
-  renderTasks() {
+  handleClick = event => {
+    this.setState({
+      anchorEl: event.currentTarget,
+      isOpen: !this.state.isOpen
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
+
+  getValue = status => {
+    let value
+    if(status.completed) value = 100
+    if(status.read) value = 25
+    if(status.disputed || status) value = 0
+
+    return value
+  }
+
+  renderUserTasks() {
     const { classes } = this.props;
-    const { isLoading, tasks } = this.state;
+    const { isLoading, tasks } = this.state;        
 
     if (isLoading) {
       return (
@@ -100,7 +144,7 @@ class TaskList extends Component {
         <Typography variant="h6">There are no tasks available</Typography>
       );
     }
-
+    
     return (
       <Fragment>
         {tasks.map((task, i) => (
@@ -109,26 +153,43 @@ class TaskList extends Component {
             key={i}
           >
             <div className={classes.productDetails}>
-              <Link to="#">
                 <Typography
                   className={classes.productTitle}
                   variant="h5"
                 >
-                  {task.title}
+                  {task.metaData.title}
                 </Typography>
-              </Link>
               <Typography
                 className={classes.productTimestamp}
                 variant="body2"
               >
                 
               </Typography>
+              <div>
+                <Typography className={classes.value} variant="h6">PROGRESS {this.getValue(task.status)}% </Typography>
+                <LinearProgress 
+                  variant="indeterminate"
+                  value={this.getValue(task.status)}
+                />
+              </div>
             </div>
             <div>
-              <IconButton>
-                <MoreVertIcon />
+              <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+                <MoreVertIcon  />
               </IconButton>
+              <Menu
+                id={"simple-menu_" + i}
+                anchorEl={this.state.anchorEl}
+                keepMounted
+                open={this.state.isOpen}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.handleClose}><Link to={"/task/" + task._id}>View Task</Link></MenuItem>
+                <MenuItem onClick={this.handleClose}>View Progress</MenuItem>
+                <MenuItem onClick={this.handleClose}>Action</MenuItem>
+              </Menu>
             </div>
+            
           </div>
         ))}
       </Fragment>
@@ -136,34 +197,25 @@ class TaskList extends Component {
   }
 
   render() {
-    const { classes, className, ...rest } = this.props;
+    const { classes, className } = this.props;
     const { tasksTotal } = this.state;
-
+    
     const rootClassName = classNames(classes.root, className);
-
+    
     return (
       <Portlet
-        {...rest}
+        // {...rest}
         className={rootClassName}
       >
         <PortletHeader noDivider>
           <PortletLabel
             subtitle={`${tasksTotal} in total`}
-            title="Latest tasks"
+            title="My tasks"
           />
         </PortletHeader>
         <PortletContent className={classes.portletContent}>
-          {this.renderTasks()}
+          {this.renderUserTasks()}
         </PortletContent>
-        <PortletFooter className={classes.portletFooter}>
-          <Button
-            color="primary"
-            size="small"
-            variant="text"
-          >
-            View all <ArrowRightIcon />
-          </Button>
-        </PortletFooter>
       </Portlet>
     );
   }
@@ -184,4 +236,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 })
 
-export default connect(mapStateToProps, { getTasks })(withStyles(styles)(TaskList));
+export default compose(connect(mapStateToProps, { getTasks }), withStyles(styles)) (TaskList);

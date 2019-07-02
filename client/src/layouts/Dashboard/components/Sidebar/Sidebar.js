@@ -40,15 +40,18 @@ class Sidebar extends Component {
   render() {
     
     const { classes, className, profile } = this.props;
-
     const rootClassName = classNames(classes.root, className);
+
+    let name, title;
+    if(profile.profile === null || Object.entries(profile.profile).length === 0) name = "Guest"
+    else name = profile.profile.user.name;
 
     return (
       <nav className={rootClassName}>
         <div className={classes.logoWrapper}>
           <Link
             className={classes.logoLink}
-            to="/"
+            to="/dashboard"
           >
             <img
               alt="Taskr logo"
@@ -61,22 +64,22 @@ class Sidebar extends Component {
         <div className={classes.profile}>
           <Link to="/edit-profile">
             <Avatar
-              alt="Roman Kutepov"
+              alt=""
               className={classes.avatar}
-              src="/images/avatars/avatar_1.png"
+              
             />
           </Link>
           <Typography
             className={classes.nameText}
             variant="h6"
           >
-           { profile.profile ? profile.profile.user.name : ("") }
+           { name }
           </Typography>
           <Typography
             className={classes.bioText}
             variant="caption"
           >
-            { profile.profile ? profile.profile.personalInfo.privilege.title : ("") }
+            {title}
           </Typography>
         </div>
         <Divider className={classes.profileDivider} />
@@ -84,79 +87,76 @@ class Sidebar extends Component {
           component="div"
           disablePadding
         >
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/dashboard"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Dashboard"
-            />
-          </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/all-users"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Users"
-            />
-          </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/tasks"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Tasks"
-            />
-          </ListItem>
-          
-         
-          
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/edit-profile"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <AccountBoxIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Account"
-            />
-          </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/settings"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Settings"
-            />
-          </ListItem>
+          <NavLink to="/dashboard">
+            <ListItem
+              
+              className={classes.listItem}            
+            >            
+              <ListItemIcon className={classes.listItemIcon}>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Dashboard"
+              />            
+            </ListItem>
+          </NavLink>
+          <NavLink to="/all-users">
+            <ListItem
+              
+              className={classes.listItem}            
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Users"
+              />
+            </ListItem>
+          </NavLink>
+          <NavLink to="/tasks">
+            <ListItem
+              
+              className={classes.listItem}
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Tasks"
+              />
+            </ListItem>
+          </NavLink>
+          <NavLink to="/edit-profile">
+            <ListItem
+              
+              className={classes.listItem}
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <AccountBoxIcon />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Account"
+              />
+            </ListItem>
+          </NavLink>
+          <NavLink to="/settings">
+            <ListItem
+              
+              className={classes.listItem}
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Settings"
+              />
+            </ListItem>
+          </NavLink>          
         </List>
         <Divider className={classes.listDivider} />
         <List
@@ -191,7 +191,8 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  history: PropTypes.object
 };
 
 const mapStateToProps = state => ({

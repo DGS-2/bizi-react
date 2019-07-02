@@ -25,24 +25,34 @@ class AccountProfile extends Component {
       avatar: '',
       timeZone: ''
     }
-    console.log(this.props.user)
   }
 
   componentDidMount = () => {
     const { user } = this.props
-    if(user) {
+    if(Object.entries(user).length !== 0) {
       this.setState({
         name: user.personalInfo.name.full,
         location: user.organization.wing
+      })
+    } else {
+      this.setState({
+        name: 'Please Update',
+        location: 'Please Update'
       })
     }
   }
 
   componentWillReceiveProps = props => {
-    if(props.user) {
+    const { user } = props
+    if(Object.entries(user).length !== 0) {
       this.setState({
-        name: props.user.personalInfo.name.full,
-        location: props.user.organization.wing
+        name: user.personalInfo.name.full,
+        location: user.organization.wing
+      })
+    } else {
+      this.setState({
+        name: 'Please Update',
+        location: 'Please Update'
       })
     }
   
