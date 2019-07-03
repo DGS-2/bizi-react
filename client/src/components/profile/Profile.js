@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 // Actions
 import { getTragetProfile } from "../../actions/profileActions";
 
-import ProfileSkills from "./sections/ProfileSkills";
 import ProfileHeader from "./sections/ProfileHeader";
 import ProfileAbout from "./sections/ProfileAbout";
 import ProfileEducation from './sections/ProfileEducation';
@@ -108,9 +107,6 @@ class Profile extends Component {
               <div className="tab-content">
                 <div className="tab-pane container active" id="home">
                   <ProfileAbout profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
-                </div>
-                <div className="tab-pane container" id="skills">
-                  <ProfileSkills profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />
                 </div>
                 <div className="tab-pane container" id="education">
                   <ProfileEducation profile={ targetProfile } admin={ state? state.admin : null } accountOwner={ state? state.accountOwner : null  } />

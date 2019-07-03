@@ -40,7 +40,8 @@ router.post('/register', (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        isToken: req.body.isToken
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -83,7 +84,7 @@ router.post('/login', (req, res) => {
           if(isMatch) {
             // User matched
 
-            const payload = { id: user.id, name: user.name } // Create JWT payload
+            const payload = { id: user.id, name: user.name, isToken: user.isToken } // Create JWT payload
             // Sign token
             // @payload   JWT details
             // @secret    secret key for validation
@@ -97,8 +98,49 @@ router.post('/login', (req, res) => {
           }
         })
         .catch( err => console.log(err) )
-    })
+    });
 })
+
+// @route   POST api/users/reset-password
+// @desc    Reset registered user password
+// @access  private
+router.post('/reset-password', passport.authenticate('jwt', {session: false}), (req, res) => {
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+  const id = req.body.id;
+  User.findOne({ _id: id })
+    .then( user => {
+      if(!user) {
+        errors.email = "User not found"
+        return res.status(404).json(errors)
+      }
+
+      // Check password
+      bcrypt.compare( currentPassword, user.password )
+        .then( isMatch => {
+          if(isMatch) {
+            // User matched
+            // Update password
+            bcrypt.genSalt(10, (err, salt) => {
+              bcrypt.hash(newPassword, salt, (err, hash) => {
+                if(err) throw err;
+                  User.findOneAndUpdate(
+                    {_id: user._id},
+                    { $set: {"password" : hash} }
+                  ) 
+                  .then( user => res.json(user) )
+                  .catch(err => console.log(err))
+              })
+            })
+          } else {
+            errors.password = "Password incorrect"
+            return res.status(400).json(errors);
+          }
+        })
+        .catch( err => console.log(err) );
+    });
+});
+
 
 // @route   GET api/users/current
 // @desc    Return current user

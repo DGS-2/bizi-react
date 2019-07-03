@@ -6,7 +6,7 @@ export const KeyCodes = {
 export const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 export const priorityOptions = [
-  { label: '* Select Priority Level', value: 0 },
+  { label: '', value: 0 },
   { label: 'Critical', value: 'Critical' },
   { label: 'Important', value: 'Important' }
 ]
@@ -34,7 +34,8 @@ export const groups = [
 ]
 
 export const ranks = [
-  { label: '* Please select your rank', value: 0 },
+  { label: '', value: 0 },
+
   { label: 'Contractor', value: 'Ctr' },
   { label: 'Civilian', value: 'Civilian' },
   { label: 'Airman Basic', value: 'AB' },
@@ -51,9 +52,9 @@ export const ranks = [
   { label: 'Major', value: 'Maj' },
   { label: 'Lieutenant Colonel', value: 'Lt. Col' },
   { label: 'Colonel', value: 'Col' },
-  { label: 'Brigadeir General', value: 'Brig Gen' },
+  { label: 'Brigadier General', value: 'Brig Gen' },
   { label: 'Major General', value: 'Maj Gen' },
-  { label: 'Lietenant General', value: 'Lt. Gen' },
+  { label: 'Lieutenant General', value: 'Lt. Gen' },
   { label: 'General', value: 'Gen' }
 ]
 
@@ -105,4 +106,13 @@ export const privilegeLevels = [
   { label: "Group Commander", value: 16, title: "Group Commander" },
 
   { label: "Developer", value: 1000, title: "Developer" }
+];
+
+export const dgsSites = [
+  { label: '', value: '' },
+  { label: 'DGS-1', value: '1' },
+  { label: 'DGS-2', value: '2' },
+  { label: 'DGS-3', value: '3' },
+  { label: 'DGS-4', value: '4' },
+  { label: 'DGS-5', value: '5' },
 ]
