@@ -65,7 +65,7 @@ class Register extends Component {
               <div className="col-lg-7">
                 <div className="p-5">
                   <div className="text-center">
-                    <h1 className="h4 text-gray-900 mb-4">Create an Account!</h1>
+                    <h1 className="h4 text-gray-900 mb-4">Create your Taskr Account!</h1>
                   </div>
                   <form className="user" noValidate onSubmit={this.onSubmit}>
                     <div className="form-group row">

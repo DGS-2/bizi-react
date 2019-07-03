@@ -14,19 +14,21 @@ class Sidenav extends Component {
     const { auth, profile } = this.props
     
     let priv, privLink
-    if( profile.profile !== null ) { 
+
+    if( profile.profile !== null ) {
+
       if(profile.profile.personalInfo ){
         if(profile.profile.personalInfo.privilege >= 9) privLink = <SidenavAdmin priv={ priv } profile={profile.profile} />
       }
-    } 
+    }
   
     let guestLinks = (
       <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
           <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
             <div className="sidebar-brand-icon rotate-n-15">
-              <img className="img-fluid" src={logo} alt="Bizi Logo" />
+              <img className="img-fluid" src={logo} alt="Taskr Logo" />
             </div>
-            <div className="sidebar-brand-text mx-3">Bizi</div>
+            <div className="sidebar-brand-text mx-3">Taskr</div>
           </Link>
         </ul>
     )
@@ -34,9 +36,9 @@ class Sidenav extends Component {
       <ul className="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
         <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
           <div className="sidebar-brand-icon rotate-n-15">
-            <img className="img-fluid" src={logo} alt="Bizi Logo" />
+            <img className="img-fluid" src={logo} alt="Taskr Logo" />
           </div>
-          <div className="sidebar-brand-text mx-3">Bizi</div>
+          <div className="sidebar-brand-text mx-3">Taskr</div>
         </Link>
         <hr className="sidebar-divider my-0" />
         <li className="nav-item active">
