@@ -1,10 +1,10 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode'; 
 
 import { GET_ERRORS, SET_CURRENT_USER, SET_REGISTERED_USER } from './types';
 
-import { getCurrentProfile, getProfiles } from "./profileActions"
+import { getCurrentProfile, getProfiles } from "./profileActions";
 
 // Register User
 export const registerUser = (userData) => dispatch => {
@@ -38,6 +38,13 @@ export const adminRegisterUser = (userData) => dispatch => {
       })
     );
 };
+
+// Reset Password
+export const resetPassword = (data, history) => {
+  axios.post('/users/reset-password', data)
+    .then(res => history.push('/dashboard'))
+    .catch(err => console.log(err))
+}
 
 // Login - Get User Token
 export const loginUser = userData => dispatch => {

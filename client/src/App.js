@@ -60,7 +60,7 @@ if (localStorage.jwtToken) {
     // Redirect to login
     window.location.href = '/login';
   } 
-  else browserHistory.push('/dashboard');
+  // else browserHistory.push('/dashboard');
 }
 
 class App extends Component {
