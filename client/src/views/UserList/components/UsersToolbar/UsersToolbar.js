@@ -25,11 +25,6 @@ import { DisplayMode, SearchInput } from '../../../../components';
 import styles from './styles';
 
 class UsersToolbar extends Component {
-  constructor(props) {
-    super(props);  
-    
-  }
-
   render() {
     const { classes, className, selectedUsers, profile } = this.props;
 

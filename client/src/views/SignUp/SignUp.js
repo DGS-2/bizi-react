@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import validate from 'validate.js';
-import _ from 'underscore';
 
 // Material helpers
 import { withStyles } from '@material-ui/core';

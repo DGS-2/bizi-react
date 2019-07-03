@@ -24,7 +24,6 @@ import {
 
 // Material icons
 import {
-  ArrowRight as ArrowRightIcon,
   MoreVert as MoreVertIcon
 } from '@material-ui/icons';
 
@@ -33,8 +32,7 @@ import {
   Portlet,
   PortletHeader,
   PortletLabel,
-  PortletContent,
-  PortletFooter
+  PortletContent
 } from '../../../../components';
 
 // Component styles

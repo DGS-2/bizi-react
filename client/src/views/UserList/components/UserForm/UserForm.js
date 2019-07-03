@@ -177,7 +177,6 @@ class UserForm extends Component {
                           margin="dense"
                           required
                           fullWidth
-                          value={this.state.name}
                           variant="outlined"
                           name="password"
                           value={this.state.password}
@@ -247,7 +246,6 @@ class UserForm extends Component {
                             SelectProps={{ native: true }}
                             value={this.state.rank}
                             name="rank"
-                            onChange={this.onChange}
                             variant="outlined">
                             {ranks.map(option => (
                             <option
@@ -290,7 +288,6 @@ class UserForm extends Component {
                             select
                             SelectProps={{ native: true }}
                             name="site"
-                            onChange={this.onChange}
                             value={this.state.site}
                             variant="outlined">
                             {dgsSites.map(option => (
