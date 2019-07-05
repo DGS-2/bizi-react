@@ -10,5 +10,15 @@ export default theme => ({
       paddingRight: theme.spacing.unit * 3,
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2
+    },
+    fieldError: {
+      color: theme.palette.danger.main,
+      marginBottom: theme.spacing.unit * 2,
+      marginTop: theme.spacing.unit
+    },
+    fieldSuccess: {
+      color: theme.palette.success.main,
+      marginBottom: theme.spacing.unit * 2,
+      marginTop: theme.spacing.unit
     }
   });

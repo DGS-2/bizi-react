@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Externals
 import PropTypes from 'prop-types';
+import compose from 'recompose/compose';
 import classNames from 'classnames';
 
 // Material helpers
@@ -16,37 +18,66 @@ import {
   PortletHeader,
   PortletLabel,
   PortletContent,
-  PortletFooter
+  PortletFooter,
 } from '../../../../components';
+
+import {Typography} from '@material-ui/core';
 
 // Component styles
 import styles from './styles';
 
+// Actions
+import { resetPassword } from '../../../../actions/authActions';
+
+const reset = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1500);
+  });
+};
+
 class Password extends Component {
   state = {
-    values: {
-      password: '',
-      confirm: ''
+    currentPassword: '',
+    newPassword: '',
+    verifyPassword: '',
+    message: ''
+  };
+
+  onChange = e => {
+    this.setState({[e.target.name]: e.target.value});
+  }
+
+  handleSubmit = async () => {
+    try {
+      const { auth } = this.props;
+      const { currentPassword, newPassword } = this.state;
+      let obj = {
+        id: auth.user.id,
+        currentPassword: currentPassword,
+        newPassword: newPassword
+      };
+
+      reset(this.props.resetPassword(obj, null));
+
+      this.setState({message: 'Your password was reset successfully'});      
+      
+    } catch (error) {
+      this.setState({
+        message: 'We could not update your password. Please contact your administrator'
+      });
     }
-  };
-
-  handleFieldChange = (field, value) => {
-    const newState = { ...this.state };
-
-    newState.values[field] = value;
-
-    this.setState(newState, this.validateForm);
-  };
+  }
 
   render() {
-    const { classes, className, ...rest } = this.props;
-    const { values } = this.state;
+    const { classes, className } = this.props;
+    const { currentPassword, newPassword, verifyPassword, message } = this.state;
 
     const rootClassName = classNames(classes.root, className);
-
+    
     return (
       <Portlet
-        {...rest}
         className={rootClassName}
       >
         <PortletHeader>
@@ -60,34 +91,58 @@ class Password extends Component {
             <TextField
               className={classes.textField}
               label="Password"
-              name="password"
-              onChange={event =>
-                this.handleFieldChange('password', event.target.value)
-              }
+              name="currentPassword"
+              onChange={this.onChange}
               type="password"
-              value={values.password}
+              value={currentPassword}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.textField}
+              label="Password"
+              name="newPassword"
+              onChange={this.onChange}
+              type="password"
+              value={newPassword}
               variant="outlined"
             />
             <TextField
               className={classes.textField}
               label="Confirm password"
-              name="confirm"
-              onChange={event =>
-                this.handleFieldChange('confirm', event.target.value)
-              }
+              name="verifyPassword"
+              onChange={this.onChange}
               type="password"
-              value={values.confirm}
+              value={verifyPassword}
               variant="outlined"
             />
+            {newPassword !== verifyPassword  && (
+              <Typography
+                className={classes.fieldError}
+                variant="body2"
+              >
+                Passwords Do Not Match
+              </Typography>
+            )}
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button
-            color="primary"
-            variant="outlined"
-          >
-            Update
-          </Button>
+          {newPassword === verifyPassword && message === '' && (
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={this.handleSubmit}
+            >
+              Update
+            </Button>
+          )}
+          {message && (
+            <Typography
+              className={classes.fieldSuccess}
+              variant="body2"
+            >
+              {message}
+            </Typography>
+          )}
         </PortletFooter>
       </Portlet>
     );
@@ -96,7 +151,17 @@ class Password extends Component {
 
 Password.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  resetPassword: PropTypes.func,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  profile: PropTypes.object
 };
 
-export default withStyles(styles)(Password);
+const mapStateToProps = state => ({
+  auth: state.auth,
+  profile: state.profile,
+  errors: state.errors
+});
+
+export default compose(withStyles(styles), connect(mapStateToProps, {resetPassword}))(Password);

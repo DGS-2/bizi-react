@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode'; 
 
-import { GET_ERRORS, SET_CURRENT_USER, SET_REGISTERED_USER } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, SET_REGISTERED_USER, CHANGE_PASSWORD } from './types';
 
 import { getCurrentProfile, getProfiles } from "./profileActions";
 
@@ -12,7 +12,6 @@ export const registerUser = (userData) => dispatch => {
     .post('/users/register', userData)
     .then(res => res.data)
     .catch(err => {
-        console.log(err)
         dispatch({
           type: GET_ERRORS,
           payload: err.response.data
@@ -34,16 +33,27 @@ export const adminRegisterUser = (userData) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err
       })
     );
 };
 
 // Reset Password
-export const resetPassword = (data, history) => {
+export const resetPassword = (data, history) => dispatch => {
   axios.post('/users/reset-password', data)
-    .then(res => history.push('/dashboard'))
-    .catch(err => console.log(err))
+  .then(res => {
+    dispatch({
+      type: CHANGE_PASSWORD,
+      payload: res.data
+    })
+    history.push('/dashboard')
+  })
+  .catch(err => 
+    dispatch({
+      type: GET_ERRORS,
+      payload: err
+    })  
+  );
 }
 
 // Login - Get User Token
