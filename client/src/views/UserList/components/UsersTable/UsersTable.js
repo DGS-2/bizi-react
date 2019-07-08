@@ -39,8 +39,6 @@ class UsersTable extends Component {
       rowsPerPage: 10,
       page: 0
     };
-
-    console.log(props)
   }
 
   

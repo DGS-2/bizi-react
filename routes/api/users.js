@@ -129,7 +129,7 @@ router.post('/reset-password', passport.authenticate('jwt', {session: false}), (
                     { $set: {"password" : hash} }
                   ) 
                   .then( user => res.json(user) )
-                  .catch(err => console.log(err))
+                  .catch(err => err )
               })
             })
           } else {
@@ -137,7 +137,7 @@ router.post('/reset-password', passport.authenticate('jwt', {session: false}), (
             return res.status(400).json(errors);
           }
         })
-        .catch( err => console.log(err) );
+        .catch( err => err );
     });
 });
 

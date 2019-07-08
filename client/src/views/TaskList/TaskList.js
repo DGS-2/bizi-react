@@ -57,7 +57,6 @@ class TaskList extends Component {
       await this.props.getTasks();
 
       const { tasks } = this.props.task.tasks;
-      console.log(tasks);
       if (this.signal) {
         this.setState({
           isLoading: false,
@@ -124,7 +123,7 @@ class TaskList extends Component {
             md={6}
             xs={12}
           >
-            <Link to="#">
+            <Link to={'task/' + task._id}>
               <TaskCard task={task} />
             </Link>
           </Grid>

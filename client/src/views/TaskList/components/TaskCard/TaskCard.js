@@ -26,7 +26,6 @@ import styles from './styles';
 
 class TaskCard extends Component {
   render() {
-    console.log(this.props)
     const { classes, className, task } = this.props;
     
     const rootClassName = classNames(classes.root, className);
