@@ -85,10 +85,12 @@ export const addComment = (taskId, commentData) => dispatch => {
       })
     })
 }
-
+ 
 export const changeStatus = (taskId, statusData) => dispatch => {
+  console.log(statusData);
   axios.post(`/tasks/set-status/${taskId}`, statusData)
     .then(res => {
+      console.log(res.data);
       dispatch({
         type: GET_TASK,
         payload: res.data

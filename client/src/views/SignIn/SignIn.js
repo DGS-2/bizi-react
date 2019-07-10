@@ -61,6 +61,12 @@ class SignIn extends Component {
     submitError: null
   };
 
+  componentDidMount = () => {
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push('/dashboard');
+    }
+  }
+
   handleBack = () => {
     const { history } = this.props;
 

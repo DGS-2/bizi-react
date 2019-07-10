@@ -54,27 +54,8 @@ class Notifications extends Component {
                   <Typography variant="body1">Email</Typography>
                 </div>
               </div>
-              <div className={classes.field}>
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-                <div>
-                  <Typography variant="body1">Push Notifications</Typography>
-                  <Typography variant="caption">
-                    For your mobile or tablet device
-                  </Typography>
-                </div>
-              </div>
-              <div className={classes.field}>
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-                <div>
-                  <Typography variant="body1">Text Messages</Typography>
-                </div>
-              </div>
+              
+              
               <div className={classes.field}>
                 <Checkbox
                   color="primary"
@@ -96,12 +77,6 @@ class Notifications extends Component {
                 <Checkbox color="primary" />
                 <div>
                   <Typography variant="body1">Email</Typography>
-                </div>
-              </div>
-              <div className={classes.field}>
-                <Checkbox color="primary" />
-                <div>
-                  <Typography variant="body1">Push Notifications</Typography>
                 </div>
               </div>
               <div className={classes.field}>

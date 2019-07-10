@@ -4,7 +4,7 @@ export default {
   common: {
     black,
     white,
-    neutral: '#E4E7EB',
+    neutral: '#c4cbd4',
     muted: '#9EA0A4'
   },
   primary: {
