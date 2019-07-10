@@ -149,27 +149,31 @@ router.post('/reply/:id', passport.authenticate('jwt', {session: false}), (req, 
 })
 
 router.post('/set-status/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
-  Task.findById(req.params.id)
-    .then(task => {
-      task.response = {
-        completed: {
-          date: req.body.completed.date,
-          verified: req.body.completed.verified
-        },
-        disputed: {
-          reason: req.body.disputed.reason,
-          accepted: req.body.disputed.accepted
-        }
-      }
-      task.status = {
-        read: req.body.status.read,
-        completed: req.body.status.completed,
-        disputed: req.body.status.disputed
-      }
-      
-      task.save().then(task => res.json(task))
-    })
-    .catch(err => res.status(404).json({tasknotfound: "No Task Found"}))
+  let status = {
+    open: req.body.status.open,
+    inProgress: req.body.status.inProgress,
+    resolved: req.body.status.resolved,
+    reopened: req.body.status.reopened,
+    closed: req.body.status.closed
+  };
+
+  let workflow = {
+    readyForReview: req.body.workflow.readyForReview,
+    reviewed: req.body.workflow.reviewed,
+    blocked: req.body.workflow.blocked,
+    pendingApproval: req.body.workflow.pendingApproval,
+    approved: req.body.workflow.approved,
+    completed: req.body.workflow.completed
+  };
+  
+  Task.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: {"status" : status, "workflow": workflow} }
+  )
+  .then(task => {
+    res.json(task)
+  })
+  .catch(err => res.status(404).json({tasknotfound: "No Task Found"}))
 })
 
 module.exports = router;

@@ -1,4 +1,4 @@
 module.exports = {
-  connection : process.env.MONGO_URI,
-  secret : process.env.SECRET
+  connection : 'mongodb://127.0.0.1:27017/taskr?gssapiServiceName=mongodb',
+  secret : 'h3IdCeOp3KnuKQ5Bsr8jjLZEJ1mPpRW2fYKk599B'
 }

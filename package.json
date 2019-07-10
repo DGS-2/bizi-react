@@ -11,6 +11,7 @@
     "body-parser": "^1.18.3",
     "chart.js": "^2.8.0",
     "concurrently": "^4.1.0",
+    "cypress": "^3.3.2",
     "express": "^4.16.4",
     "fullcalendar": "^3.10.0",
     "history": "^4.9.0",
@@ -31,7 +32,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "cypress": "cypress open"
   },
   "author": "Scott Capps",
   "license": "ISC"

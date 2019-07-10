@@ -58,36 +58,36 @@ const TaskSchema = new Schema({
       time: { type: Date, default: Date.now }
     }],
     status: {
-      read: { type: Boolean, default: false },
-      completed: { type: Boolean, default: false },
-      disputed: { type: Boolean, default: false }
+      open: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      inProgress: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      resolved: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      reopened: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      closed: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } }
     },
-    response: {
-      completed: {
-        date: { type: Date, default: Date.now },
-        verified: { type: Boolean, default: false }
-      },
-      disputed: {
-        reason: { type: String },
-        accepted: { type: Boolean, default: false }
-      }
+    workflow: {
+      readyForReview: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      reviewed: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      blocked: { isStarted: {type: Boolean, required: false, default: false}, reason: { type: String, default: '' }, date: { type: Date } },
+      pendingApproval: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      approved: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+      completed: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } }
     }
   }],
   tags: [String],
   status: {
-    read: { type: Boolean, default: false },
-    completed: { type: Boolean, default: false },
-    disputed: { type: Boolean, default: false }
+    open: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    inProgress: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    resolved: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    reopened: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    closed: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } }
   },
-  response: {
-    completed: {
-      date: { type: Date, default: Date.now },
-      verified: { type: Boolean, default: false }
-    },
-    disputed: {
-      reason: { type: String },
-      accepted: { type: Boolean, default: false }
-    }
+  workflow: {
+    readyForReview: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    reviewed: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    blocked: { isStarted: {type: Boolean, required: false, default: false}, reason: { type: String, default: '' }, date: { type: Date } },
+    pendingApproval: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    approved: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } },
+    completed: { isStarted: {type: Boolean, required: false, default: false}, date: { type: Date } }
   }
 })
 
