@@ -19,7 +19,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   Typography
 } from '@material-ui/core';
 
