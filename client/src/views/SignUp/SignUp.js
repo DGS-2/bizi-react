@@ -119,21 +119,20 @@ class SignUp extends Component {
                   className={classes.quoteText}
                   variant="h1"
                 >
-                  Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                  they sold out High Life.
+                  Taskr. Visualising your workload and workflow between users and customers. 
                 </Typography>
                 <div className={classes.person}>
                   <Typography
                     className={classes.name}
                     variant="body1"
                   >
-                    Takamaru Ayako
+                    
                   </Typography>
                   <Typography
                     className={classes.bio}
                     variant="body2"
                   >
-                    Manager at inVision
+                    
                   </Typography>
                 </div>
               </div>
