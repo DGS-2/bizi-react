@@ -19,7 +19,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   Typography
 } from '@material-ui/core';
 
@@ -159,7 +158,7 @@ class Sidebar extends Component {
           </NavLink>          
         </List>
         <Divider className={classes.listDivider} />
-        <List
+        {/* <List
           component="div"
           disablePadding
           subheader={
@@ -182,7 +181,7 @@ class Sidebar extends Component {
               primary="Customer support"
             />
           </ListItem>
-        </List>
+        </List> */}
       </nav>
     );
   }
