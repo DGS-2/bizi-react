@@ -76,7 +76,7 @@ class TaskProgress extends Component {
                         style={{ color: '#e86971' }}
                     >
                         <h3>Task Opened</h3>
-                        <p>This task was opened on {moment(this.state.open.date).format('DD MMM YYYY')}</p>
+                        <p>This task was set to open on {moment(this.state.open.date).format('DD MMM YYYY')}</p>
                     </TimelineItem>
                 )}
                 {this.state.inProgress.isStarted && (
