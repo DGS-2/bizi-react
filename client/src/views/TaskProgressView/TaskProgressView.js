@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core';
 
 // Form
 
-import { TaskItemToolbar, TaskItemProgress } from './components'
+import { TaskItemProgress } from '../TaskItem/components'
 
 import { getTask } from '../../actions/taskActions';
 
@@ -24,12 +24,10 @@ import {
 // Shared layouts
 import { Dashboard as DashboardLayout } from '../../layouts';
 
-import TaskCard from '../TaskList/components/TaskCard/TaskCard';
-
 // Component styles
 import styles from './styles';
 
-class TaskItem extends Component {
+class TaskProgressView extends Component {
   signal = true;
 
   state = {
@@ -87,7 +85,7 @@ class TaskItem extends Component {
 
     if (task === null) {
       return (
-        <Typography variant="h6">Your task could not be found</Typography>
+        <Typography variant="h6">The requested task could not be found</Typography>
       );
     }
 
@@ -107,8 +105,7 @@ class TaskItem extends Component {
             md={6}
             xs={6}
           >
-            <TaskItemToolbar task={task}/>
-            <TaskCard task={task} />
+            <Typography variant="h3">Task -- {task.metaData.title} -- Status Update</Typography>
             <TaskItemProgress task={task} />
           </Grid>
         
@@ -133,7 +130,7 @@ class TaskItem extends Component {
   }
 }
 
-TaskItem.propTypes = {
+TaskProgressView.propTypes = {
   classes: PropTypes.object.isRequired,
   getTask: PropTypes.func.isRequired,
   tasks: PropTypes.object.isRequired,
@@ -148,4 +145,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 })
 
-export default compose( withStyles(styles), connect(mapStateToProps, { getTask }))(TaskItem);
+export default compose( withStyles(styles), connect(mapStateToProps, { getTask }))(TaskProgressView);

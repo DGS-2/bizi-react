@@ -10,6 +10,7 @@ import SignUp from './views/SignUp/SignUp';
 import SignIn from './views/SignIn/SignIn';
 import TaskList from './views/TaskList/TaskList';
 import TaskItem from './views/TaskItem/TaskItem';
+import TaskProgressView from './views/TaskProgressView/TaskProgressView';
 import UserList from './views/UserList/UserList';
 import ResetPassword from './views/ResetPassword/ResetPassword';
 
@@ -19,6 +20,7 @@ export default class Routes extends Component {
             <div>
                 <Switch>
                     <Route exact path="/sign-up" component={ SignUp } />
+                    <Route exact path="/" component={ SignIn } />
                     <Route exact path="/login" component={ SignIn } />
                     <PrivateRoute exact path="/reset-password" component={ResetPassword} />
                     <PrivateRoute exact path="/dashboard" component={ DashboardView } /> 
@@ -27,6 +29,7 @@ export default class Routes extends Component {
                     <PrivateRoute exact path="/settings" component={Settings} />
                     <PrivateRoute exact path="/tasks" component={TaskList} />
                     <PrivateRoute exact path="/task/:id" component={TaskItem} />
+                    <PrivateRoute exact path="/task-progress/:id" component ={TaskProgressView} />
                 </Switch> 
             </div>
         )

@@ -118,9 +118,9 @@ class TaskList extends Component {
 
   getValue = status => {
     let value
-    if(status.completed) value = 100
-    if(status.read) value = 25
-    if(status.disputed || status) value = 0
+    if(status.open.isStarted || status.reopened.isStarted) value = 10;
+    if(status.open.isStarted && status.inProgress.isStarted) value = 50;
+    if(status.resolved.isStarted) value = 100;
 
     return value
   }
@@ -166,7 +166,8 @@ class TaskList extends Component {
               <div>
                 <Typography className={classes.value} variant="h6">PROGRESS {this.getValue(task.status)}% </Typography>
                 <LinearProgress 
-                  variant="indeterminate"
+                  variant="buffer"
+                  valueBuffer={this.getValue(task.status)}
                   value={this.getValue(task.status)}
                 />
               </div>
@@ -183,8 +184,7 @@ class TaskList extends Component {
                 onClose={this.handleClose}
               >
                 <MenuItem onClick={this.handleClose}><Link to={"/task/" + task._id}>View Task</Link></MenuItem>
-                <MenuItem onClick={this.handleClose}>View Progress</MenuItem>
-                <MenuItem onClick={this.handleClose}>Action</MenuItem>
+                <MenuItem onClick={this.handleClose}><Link to={"/task-progress/" + task._id}>View Progress</Link></MenuItem>
               </Menu>
             </div>
             

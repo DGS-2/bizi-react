@@ -15,7 +15,7 @@ import { Typography, Divider } from '@material-ui/core';
 // Material icons
 import {
   AccessTime as AccessTimeIcon,
-  GetApp as GetAppIcon
+  Share as GetAppIcon
 } from '@material-ui/icons';
 
 // Shared components
@@ -76,7 +76,7 @@ class TaskCard extends Component {
             className={classes.downloadsText}
             variant="body2"
           >
-            test
+            share
           </Typography>
         </div>
       </Paper>
