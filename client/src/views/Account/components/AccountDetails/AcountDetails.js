@@ -77,15 +77,15 @@ class Account extends Component {
     }
   }
 
-  handleChange = e => {
+  onChange = e => {
     this.setState({
-      state: e.target.value
+      [e.target.name]: e.target.value
     });
   };
 
   render() {
     const { classes, className, ...rest } = this.props;
-    const { firstName, lastName, phone, unit, email } = this.state;
+    const { firstName, lastName, phone, unit, email, site } = this.state;
     
     const rootClassName = classNames(classes.root, className);
 
@@ -112,6 +112,8 @@ class Account extends Component {
                 label="First name"
                 margin="dense"
                 required
+                name="firstName"
+                onChange={this.onChange}
                 value={firstName}
                 variant="outlined"
               />
@@ -120,6 +122,8 @@ class Account extends Component {
                 label="Last name"
                 margin="dense"
                 required
+                name="lastName"
+                onChange={this.onChange}
                 value={lastName}
                 variant="outlined"
               />
@@ -130,6 +134,8 @@ class Account extends Component {
                 label="Email Address"
                 margin="dense"
                 required
+                name="email"
+                onChange={this.onChange}
                 value={email}
                 variant="outlined"
               />
@@ -147,11 +153,12 @@ class Account extends Component {
                 className={classes.textField}
                 label="Select Site"
                 margin="dense"
-                onChange={this.handleChange}
+                onChange={this.onChange}
                 required
                 select
                 SelectProps={{ native: true }}
-                value={unit}
+                value={site}
+                name="site"
                 variant="outlined">
                 {dgsSites.map(option => (
                   <option
@@ -167,6 +174,8 @@ class Account extends Component {
                 label="Unit assigned"
                 margin="dense"
                 required
+                name="unit"
+                onChange={this.onChange}
                 value={unit}
                 variant="outlined"
               />
