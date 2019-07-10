@@ -115,10 +115,10 @@ class TaskItemToolbar extends Component {
             Create Sub-Task
           </Button>
           <Button value={'open'} onClick={this.updateStatus} disabled={this.state.open.isStarted}>Open</Button>
-          <Button value={'inProgress'} onClick={this.updateStatus} disabled={this.state.inProgress.isStarted && !this.state.open.isStarted}>In Progress</Button>
-          <Button value={'resolved'} onClick={this.updateStatus} disabled={this.state.resolved.isStarted && !this.state.open.isStarted}>Resolved</Button>
+          <Button value={'inProgress'} onClick={this.updateStatus} disabled={this.state.inProgress.isStarted && this.state.open.isStarted}>In Progress</Button>
+          <Button value={'resolved'} onClick={this.updateStatus} disabled={this.state.resolved.isStarted && this.state.open.isStarted}>Resolved</Button>
           <Button value={'reopened'} onClick={this.updateStatus} disabled={this.state.reopened.isStarted  && !this.state.open.isStarted}>Reopened</Button>
-          <Button value={'closed'} onClick={this.updateStatus} disabled={this.state.closed.isStarted && !this.state.open.isStarted}>Closed</Button>
+          <Button value={'closed'} onClick={this.updateStatus} disabled={this.state.closed.isStarted && this.state.open.isStarted}>Closed</Button>
           <Button
             aria-controls="workflow-menu"
             aria-haspopup="true"
