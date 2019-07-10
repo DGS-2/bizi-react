@@ -18,9 +18,6 @@ import {
   MenuItem
 } from '@material-ui/core';
 
-// Shared components
-import { DisplayMode } from '../../../../components';
-
 // Component styles
 import styles from './styles';
 
@@ -155,7 +152,7 @@ class TaskItemToolbar extends Component {
             </MenuItem>            
           </Menu>
           <span className={classes.spacer} />
-          <DisplayMode mode="list" />
+          
         </div>
       </div>
     );
