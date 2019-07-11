@@ -212,6 +212,23 @@ export const editProfile = (userId, profile) => dispatch => {
     }))
 }
 
+export const updatePersonalDetails = (updateData) => dispatch => {
+  axios
+    .post(`/profile/update-details`, updateData)
+      .then(res => {
+        dispatch({
+          type: EDIT_PROFILE,
+          payload: res.data
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: EDIT_PROFILE,
+          payload: null
+        });
+      });
+}
+
 // Profile loading
 export const setProfileLoading = () => {
   return {

@@ -23,6 +23,8 @@ import {
 // Component styles
 import styles from './styles';
 
+import { updatePersonalDetails } from '../../../../actions/profileActions';
+
 import { dgsSites } from '../../../../const/consts';
 
 class Account extends Component {
@@ -41,12 +43,13 @@ class Account extends Component {
 
   componentDidMount = () => {
     const { user } = this.props
-    if(Object.entries(user).length !== 0) {
+    if(user && Object.entries(user).length !== 0) {
       this.setState({
         firstName: user.personalInfo.name.first,
         lastName: user.personalInfo.name.last,
         email: user.contactInfo.email.unclass,
-        unit: user.organization.squadron
+        unit: user.organization.squadron || '',
+        phone: user.contactInfo.phone.unclass
       })
     } else {
       this.setState({
@@ -60,12 +63,13 @@ class Account extends Component {
 
   componentWillReceiveProps = props => {
     const { user } = props
-    if(Object.entries(user).length !== 0) {
+    if(user && Object.entries(user).length !== 0) {
       this.setState({
         firstName: user.personalInfo.name.first,
         lastName: user.personalInfo.name.last,
         email: user.contactInfo.email.unclass,
-        unit: user.organization.squadron
+        unit: user.organization.squadron || '',
+        phone: user.contactInfo.phone.unclass
       })
     } else {
       this.setState({
@@ -82,6 +86,20 @@ class Account extends Component {
       [e.target.name]: e.target.value
     });
   };
+
+  updateProfile = () => {
+    let updateToBeMade = {
+      name: this.state.firstName + ' ' + this.state.lastName,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      phone: this.state.phone,
+      site: this.state.site,
+      unit: this.state.unit
+    };
+
+    this.props.updatePersonalDetails(updateToBeMade);
+  }
 
   render() {
     const { classes, className, ...rest } = this.props;
@@ -143,8 +161,10 @@ class Account extends Component {
                 className={classes.textField}
                 label="Phone Number"
                 margin="dense"
-                type="number"
+                type="text"
                 value={phone}
+                name="phone"
+                onChange={this.onChange}
                 variant="outlined"
               />
             </div>
@@ -186,6 +206,7 @@ class Account extends Component {
           <Button
             color="primary"
             variant="contained"
+            onClick={this.updateProfile}
           >
             Save details
           </Button>
@@ -198,11 +219,12 @@ class Account extends Component {
 Account.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.object
+  profile: PropTypes.object,
+  updatePersonalDetails: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default compose(withStyles(styles), connect(mapStateToProps))(Account);
+export default compose(withStyles(styles), connect(mapStateToProps, {updatePersonalDetails}))(Account);

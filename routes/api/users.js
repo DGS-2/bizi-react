@@ -11,7 +11,7 @@ const validateLoginInput = require('../../validation/login');
 
 // Load User model
 const User = require("../../models/User");
-
+const Profile = require('../../models/Profile');
 // @route GET api/users/
 // @desc 
 // @access public
@@ -43,13 +43,95 @@ router.post('/register', (req, res) => {
         password: req.body.password,
         isToken: req.body.isToken
       });
+      
+      const newProfile = new Profile({
+        organization: {
+          wing: '',
+          group: '',
+          squadron: '',
+          flight: '',
+          team: '',
+          office: ''
+        },
+        personalInfo: {
+          name: {
+            full: req.body.name,
+            first: req.body.firstName,
+            last: req.body.lastName
+          },
+          rank: {
+            full: req.body.rank.label,
+            abreviated: req.body.rank.value
+          },
+          privilege: {
+            title: '',
+            level: 1
+          },
+          tags: [],
+          teams: [{
+            teamId: ''
+          }],
+          invitations: [{
+            teamId: '',
+            accepted: false
+          }],
+          bio: '',
+          education: {
+            military: [{
+              year: '',
+              school: {
+                name: '',
+                unit: '',
+                location: {
+                  base: '',
+                  state: ''
+                },
+                joint: false
+              }
+            }],
+            professional: [{
+              year: '',
+              award: '', // Degree or Certificate
+              school: {
+                name: '',
+                state: ''
+              }
+            }]
+          },
+          assignments: [{
+            from: '',
+            to: '',
+            position: '',
+            squadron: '',
+            location: '',
+            joint: false
+          }]
+        },
+        contactInfo: {
+          email: {
+            unclass: req.body.email
+          },
+          phone: {
+            unclass: ''
+          }
+        },
+        skills: [{
+          name: ''
+        }]
+      });
 
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if(err) throw err;
           newUser.password = hash;
           newUser.save()
-            .then( user => res.json(user) )
+            .then( user => {
+              newProfile.user = user._id;
+
+              newProfile.save().then((user, profile) => {
+                res.json(user)
+              })
+            })
             .catch(err => console.log(err))
         })
       })

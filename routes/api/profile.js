@@ -27,6 +27,33 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
       .catch(err => res.status(404).json(err));
 })
 
+router.post('/update-details', passport.authenticate('jwt', {session: false}), (req, res) => {  
+  Profile.findOne({user: req.user.id}).then(profile => {
+    let details = {
+      personalInfo: {
+        name: {
+          full: req.body.name,
+          first: req.body.firstName,
+          last: req.body.lastName
+        }
+      },
+      contactInfo: {
+        email: { unclass: req.body.email },
+        phone: { unclass: req.body.phone }
+      },
+      organization: {
+        site: req.body.site,
+        squadron: req.body.unit
+      }
+    };
+    Profile.findOneAndUpdate(
+      { user: req.user.id },
+      { $set: details },
+      { new: true }
+    ).then(profile => res.json(profile));
+  })
+})
+
 // @route   POST api/profile
 // @desc    Create or edit user profile 
 // @access  Private

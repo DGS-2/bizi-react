@@ -29,10 +29,10 @@ class AccountProfile extends Component {
 
   componentDidMount = () => {
     const { user } = this.props
-    if(Object.entries(user).length !== 0) {
+    if(user && Object.entries(user).length !== 0) {
       this.setState({
         name: user.personalInfo.name.full,
-        location: user.organization.wing
+        location: user.organization.wing || ''
       })
     } else {
       this.setState({
@@ -44,10 +44,10 @@ class AccountProfile extends Component {
 
   componentWillReceiveProps = props => {
     const { user } = props
-    if(Object.entries(user).length !== 0) {
+    if(user && Object.entries(user).length !== 0) {
       this.setState({
         name: user.personalInfo.name.full,
-        location: user.organization.wing
+        location: user.organization.wing || ''
       })
     } else {
       this.setState({

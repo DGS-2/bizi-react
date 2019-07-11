@@ -24,6 +24,8 @@ import {
 // Material icons
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 
+import { ranks } from '../../const/consts';
+
 // Shared utilities
 import validators from '../../common/validators';
 
@@ -31,6 +33,8 @@ import validators from '../../common/validators';
 import styles from './styles';
 
 validate.validators.checked = validators.checked;
+
+
 
 // Service methods
 const signUp = () => {
@@ -53,7 +57,8 @@ class SignUp extends Component {
       password2: '',
       isToken: false,
       errors: {},
-      isLoading: false
+      isLoading: false,
+      rank: ''
     };
   }
 
@@ -81,9 +86,10 @@ class SignUp extends Component {
           email: this.state.email,
           password: this.state.password,
           password2: this.state.password2,
-          isToken: false
+          isToken: false,
+          rank: ranks.filter(rank => rank.value === this.state.rank)[0]
         };
-        
+        console.log(user);
         await signUp(this.props.registerUser(user));
   
         history.push('/login');
@@ -178,6 +184,26 @@ class SignUp extends Component {
                       name="lastName"
                       variant="outlined"
                     />
+                    <TextField
+                      className={classes.textField}
+                      label="Select Your Rank"
+                      margin="dense"
+                      onChange={this.onChange}
+                      required
+                      select
+                      SelectProps={{ native: true }}
+                      value={this.state.rank}
+                      name="rank"
+                      variant="outlined">
+                      {ranks.map(option => (
+                        <option
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </option>
+                      ))}
+                    </TextField>
                     <TextField
                       className={classes.textField}
                       label="Email address"

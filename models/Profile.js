@@ -8,6 +8,7 @@ const ProfileSchema = new Schema({
   },
   organization: {
     wing: String,
+    site: String,
     group: String,
     squadron: String,
     flight: String,
@@ -22,7 +23,7 @@ const ProfileSchema = new Schema({
     },
     rank: {
       full: { type: String },
-      abreviated: { type: String, required: true }
+      abreviated: { type: String }
     },
     promotionDates: {
       rank: { type: String },

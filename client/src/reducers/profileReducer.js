@@ -41,6 +41,7 @@ export default function(state = initialState, action) {
     case EDIT_PROFILE:
       return {
         ...state,
+        profile: action.payload,
         targetProfile: action.payload
       }
     case GET_TARGET_PROFILE:
