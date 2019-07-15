@@ -32,7 +32,9 @@ class UserList extends Component {
     users: [],
     selectedUsers: [],
     error: null,
-    showUserForm: false
+    showUserForm: false,
+    tableView: 'Standard',
+    filter: ''
   };
 
   async pullProfiles() {
@@ -79,6 +81,31 @@ class UserList extends Component {
     });
   }
 
+  setTableView = view => {
+    this.setState({tableView: view});
+  }
+
+  filterUsers = e => {
+    this.setState({filter: e.target.value})
+  }
+
+  filteredUsers = users => {
+    const { filter } = this.state;
+    let filtered;
+    filtered = users.filter(user => {
+      if(filter === '') return user;
+      else if(user.personalInfo.name.full.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.organization.wing.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.organization.group.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.organization.flight.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.organization.squadron.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.personalInfo.rank.abreviated.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.personalInfo.privilege.title.toLowerCase().includes(filter.toLowerCase())) return user;
+      return null;
+    });
+    return filtered;
+  }
+
   renderUsers() {
     const { classes, profile } = this.props;
     const { isLoading, error } = this.state;
@@ -103,7 +130,8 @@ class UserList extends Component {
       <UsersTable
         //
         onSelect={this.handleSelect}
-        users={profile.profiles !== null ? profile.profiles : []}
+        users={profile.profiles !== null ? this.filteredUsers(profile.profiles) : []}
+        view={this.state.tableView}
       />
     );
   }
@@ -115,7 +143,7 @@ class UserList extends Component {
     return (
       <DashboardLayout title="Users">
         <div className={classes.root}>
-          <UsersToolbar selectedUsers={selectedUsers} toggleAddUser={this.toggleAddUser} isOpen={this.state.showUserForm} />
+          <UsersToolbar selectedUsers={selectedUsers} toggleAddUser={this.toggleAddUser} isOpen={this.state.showUserForm} setTableView={this.setTableView} filterUsers={this.filterUsers} />
           <div className={classes.content}>{this.state.showUserForm ? <UserForm toggleAddUser={this.toggleAddUser} /> : null}</div>
           <div className={classes.content}>{this.renderUsers()}</div>
         </div>

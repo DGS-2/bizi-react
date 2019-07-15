@@ -27,6 +27,11 @@ export default theme => ({
     },
     searchInput: {
       marginRight: theme.spacing.unit
-    }
+    },
+    textField: {
+      width: '420px',
+      maxWidth: '100%',
+      marginRight: theme.spacing(3)
+  },
   });
   

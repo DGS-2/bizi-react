@@ -25,8 +25,6 @@ import styles from './styles';
 
 import { updatePersonalDetails } from '../../../../actions/profileActions';
 
-import { dgsSites } from '../../../../const/consts';
-
 class Account extends Component {
   constructor(props) {
     super(props)
@@ -34,50 +32,35 @@ class Account extends Component {
       firstName: '',
       lastName: '',
       email: '',
-      phone: '',
-      site: '',
-      unit: ''
+      phone: ''
     };
     
   }
 
   componentDidMount = () => {
-    const { user } = this.props
-    if(user && Object.entries(user).length !== 0) {
-      this.setState({
-        firstName: user.personalInfo.name.first,
-        lastName: user.personalInfo.name.last,
-        email: user.contactInfo.email.unclass,
-        unit: user.organization.squadron || '',
-        phone: user.contactInfo.phone.unclass
-      })
-    } else {
-      this.setState({
-        firstName: 'Please Update',
-        lastName: 'Please Update',
-        email: 'Please Update',
-        unit: 'Please Update'
-      })
-    }
+    const { user } = this.props;
+    this.setProfileState(user);
   }
 
   componentWillReceiveProps = props => {
-    const { user } = props
+    const { user } = props;
+    this.setProfileState(user);
+  }
+
+  setProfileState = user => {
     if(user && Object.entries(user).length !== 0) {
-      this.setState({
-        firstName: user.personalInfo.name.first,
-        lastName: user.personalInfo.name.last,
-        email: user.contactInfo.email.unclass,
-        unit: user.organization.squadron || '',
-        phone: user.contactInfo.phone.unclass
-      })
+        this.setState({
+          firstName: user.personalInfo.name.first,
+          lastName: user.personalInfo.name.last,
+          email: user.contactInfo.email.unclass,
+          phone: user.contactInfo.phone.unclass || ''
+        });
     } else {
-      this.setState({
-        firstName: 'Please Update',
-        lastName: 'Please Update',
-        email: 'Please Update',
-        unit: 'Please Update'
-      })
+        this.setState({
+          firstName: 'Please Update',
+          lastName: 'Please Update',
+          email: 'Please Update'
+        });
     }
   }
 
@@ -93,9 +76,7 @@ class Account extends Component {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email,
-      phone: this.state.phone,
-      site: this.state.site,
-      unit: this.state.unit
+      phone: this.state.phone
     };
 
     this.props.updatePersonalDetails(updateToBeMade);
@@ -103,7 +84,7 @@ class Account extends Component {
 
   render() {
     const { classes, className, ...rest } = this.props;
-    const { firstName, lastName, phone, unit, email, site } = this.state;
+    const { firstName, lastName, phone, email } = this.state;
     
     const rootClassName = classNames(classes.root, className);
 
@@ -114,7 +95,7 @@ class Account extends Component {
       >
         <PortletHeader>
           <PortletLabel
-            subtitle="Update your infomration here"
+            subtitle="Update your personal and contact infomration here"
             title="Profile"
           />
         </PortletHeader>
@@ -151,6 +132,7 @@ class Account extends Component {
                 className={classes.textField}
                 label="Email Address"
                 margin="dense"
+                type="email"
                 required
                 name="email"
                 onChange={this.onChange}
@@ -168,38 +150,6 @@ class Account extends Component {
                 variant="outlined"
               />
             </div>
-            <div className={classes.field}>
-              <TextField
-                className={classes.textField}
-                label="Select Site"
-                margin="dense"
-                onChange={this.onChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={site}
-                name="site"
-                variant="outlined">
-                {dgsSites.map(option => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                className={classes.textField}
-                label="Unit assigned"
-                margin="dense"
-                required
-                name="unit"
-                onChange={this.onChange}
-                value={unit}
-                variant="outlined"
-              />
-            </div>
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
@@ -208,7 +158,7 @@ class Account extends Component {
             variant="contained"
             onClick={this.updateProfile}
           >
-            Save details
+            Save personal details
           </Button>
         </PortletFooter>
       </Portlet>

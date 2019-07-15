@@ -14,7 +14,7 @@ import { Grid } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
-import { AccountProfile, AccountDetails } from './components';
+import { AccountProfile, AccountDetails, AccountOrganization, AccountSkills } from './components';
 
 // Component styles
 const styles = theme => ({
@@ -44,6 +44,7 @@ class Account extends Component {
               xs={12}
             >
               <AccountProfile user={profile.profile} />
+              <AccountOrganization user={profile.profile} />
             </Grid>
             <Grid
               item
@@ -53,6 +54,7 @@ class Account extends Component {
               xs={12}
             >
               <AccountDetails user={profile.profile} />
+              <AccountSkills user={profile.profile} />
             </Grid>
           </Grid>
         </div>

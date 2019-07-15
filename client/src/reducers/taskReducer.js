@@ -1,4 +1,4 @@
-import { ADD_TASK, GET_TASKS, TASK_LOADING, DELETE_TASK, GET_TASK,ADD_SUB_TASK } from "../actions/types"
+import { ADD_TASK, GET_TASKS, TASK_LOADING, DELETE_TASK, GET_TASK,ADD_SUB_TASK, REPLY_TO_THREAD } from "../actions/types";
 
 const initialState = {
   tasks: null,
@@ -39,6 +39,13 @@ export default function(state = initialState, action){
         ...state,
         tasks: action.payload
       }
+    case REPLY_TO_THREAD:
+      let index = state.tasks.indexOf(action.payload);
+      state.tasks[index] = action.payload;
+      return {
+        ...state
+      }
+      
     default: 
       return state
     

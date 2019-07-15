@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GET_TASK, GET_TASKS, ADD_TASK, DELETE_TASK, GET_ERRORS, TASK_LOADING, ADD_SUB_TASK } from "./types";
+import { GET_TASK, GET_TASKS, ADD_TASK, DELETE_TASK, GET_ERRORS, TASK_LOADING, ADD_SUB_TASK, REPLY_TO_THREAD } from "./types";
 
 // Add a task
 export const addTask = taskData => dispatch => {
@@ -87,10 +87,8 @@ export const addComment = (taskId, commentData) => dispatch => {
 }
  
 export const changeStatus = (taskId, statusData) => dispatch => {
-  console.log(statusData);
   axios.post(`/tasks/set-status/${taskId}`, statusData)
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: GET_TASK,
         payload: res.data
@@ -115,6 +113,23 @@ export const createSubTasks = (taskId, subTasks) => dispatch => {
       payload: err.response.data
     }))
 }
+
+export const replyToMessageThread = (taskId, message) => dispatch => (
+  axios
+    .post(`/tasks/reply/${taskId}`, message)
+      .then(res => {
+        dispatch({
+          type: REPLY_TO_THREAD,
+          payload: res.data
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: REPLY_TO_THREAD,
+          payload: null
+        })
+      })
+)
 
 // Set Loading State
 export const setTaskLoading = () => {

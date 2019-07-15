@@ -18,13 +18,18 @@ import {
   IconButton,
   CircularProgress,
   Grid,
-  Typography
+  Typography,
+  AppBar,
+  Toolbar,
+  Fab
 } from '@material-ui/core';
 
 // Material icons
 import {
   ChevronRight as ChevronRightIcon,
-  ChevronLeft as ChevronLeftIcon
+  ChevronLeft as ChevronLeftIcon,
+  AddComment,
+  Done
 } from '@material-ui/icons';
 
 // Shared layouts
@@ -47,7 +52,9 @@ class TaskList extends Component {
     tasks: [],
     tasksTotal: 0,
     error: null,
-    isFormOpen: false
+    isFormOpen: false,
+    isEditing: false,
+    editingId: ''
   };
 
   async getTasks() {
@@ -88,6 +95,20 @@ class TaskList extends Component {
     }    
   }
 
+  allowEditing = e => {
+    this.setState({
+      isEditing: true,
+      editingId: e.currentTarget.value
+    });
+  }
+
+  doneEditing = () => {
+    this.setState({
+      isEditing: false,
+      editingId: ''
+    })
+  }
+
   componentWillUnmount() {
     this.signal = false;
   }
@@ -123,9 +144,22 @@ class TaskList extends Component {
             md={6}
             xs={12}
           >
-            <Link to={'task/' + task._id}>
-              <TaskCard task={task} />
-            </Link>
+            <AppBar position="static" color="default">
+              <Toolbar color="inherit">
+                <Fab variant="extended" color="primary" style={{margin: "auto !important"}} value={task._id} onClick={this.allowEditing}>
+                  <AddComment />
+                  {' '}Add Comment
+                </Fab>
+                {this.state.isEditing && (
+                  <Fab variant="extended" color="secondary" onClick={this.doneEditing}><Done />{' '}Finished Editing</Fab>
+                )}
+              </Toolbar>
+            </AppBar>
+            {this.state.editingId === task._id ? (<TaskCard task={task} />) : (
+              <Link to={'task/' + task._id}>
+                <TaskCard task={task} />
+              </Link>
+            )}
           </Grid>
         ))}
       </Grid>

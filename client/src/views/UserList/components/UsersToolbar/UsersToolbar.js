@@ -9,22 +9,26 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
 
 // Material components
-import { Button, IconButton } from '@material-ui/core';
+import { Button, IconButton, TextField } from '@material-ui/core';
 
 // Material icons
 import {
-  ArrowDownward as ArrowDownwardIcon,
-  ArrowUpward as ArrowUpwardIcon,
   Delete as DeleteIcon
 } from '@material-ui/icons';
 
 // Shared components
-import { DisplayMode, SearchInput } from '../../../../components';
+import { SearchInput } from '../../../../components';
 
 // Component styles
 import styles from './styles';
 
+const views = ['Standard', 'By Skill', 'By DGS Site', 'By Privilege'];
+
 class UsersToolbar extends Component {
+  changeView = e => {
+    this.props.setTableView(e.target.value);
+  }
+
   render() {
     const { classes, className, selectedUsers, profile } = this.props;
 
@@ -50,21 +54,6 @@ class UsersToolbar extends Component {
               <DeleteIcon />
             </IconButton>
           )}
-          <Button
-            className={classes.importButton}
-            size="small"
-            variant="outlined"
-          >
-            <ArrowDownwardIcon className={classes.importIcon} /> Import
-          </Button>
-          <Button
-            className={classes.exportButton}
-            size="small"
-            variant="outlined"
-          >
-            <ArrowUpwardIcon className={classes.exportIcon} />
-            Export
-          </Button>
           { addUserButton ? (<Button
             color="primary"
             size="small"
@@ -78,9 +67,29 @@ class UsersToolbar extends Component {
           <SearchInput
             className={classes.searchInput}
             placeholder="Search user"
+            onChange={this.props.filterUsers}
+            name="filter"
           />
           <span className={classes.spacer} />
-          <DisplayMode mode="list" />
+          <TextField
+                className={classes.textField}
+                label="Select table to view by"
+                margin="dense"
+                onChange={this.changeView}
+                required
+                select
+                SelectProps={{ native: true }}
+                name="view"
+                variant="outlined">
+                {views.map(option => (
+                <option
+                    key={option}
+                    value={option}
+                >
+                    {option}
+                </option>
+                ))}
+            </TextField>
         </div>
       </div>
     );
@@ -91,7 +100,8 @@ UsersToolbar.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   selectedUsers: PropTypes.array,
-  profile: PropTypes.object
+  profile: PropTypes.object,
+  filterUsers: PropTypes.func
 };
 
 UsersToolbar.defaultProps = {

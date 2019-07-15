@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -11,19 +10,10 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import {
-  Avatar,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
   TablePagination
 } from '@material-ui/core';
 
-// Shared helpers
-import { getInitials } from '../../../../helpers';
+import StandardTable from './Tables/StandardTable';
 
 // Shared components
 import { Portlet, PortletContent } from '../../../../components';
@@ -93,8 +83,8 @@ class UsersTable extends Component {
   };
 
   render() {
-    const { classes, className, users } = this.props;
-    const { activeTab, selectedUsers, rowsPerPage, page } = this.state;
+    const { classes, className, users, view } = this.props;
+    const { selectedUsers, rowsPerPage, page } = this.state;
     
     const rootClassName = classNames(classes.root, className);
 
@@ -102,94 +92,7 @@ class UsersTable extends Component {
       <Portlet className={rootClassName}>
         <PortletContent noPadding>
           <PerfectScrollbar>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="left">
-                    <Checkbox
-                      checked={selectedUsers.length === users.length}
-                      color="primary"
-                      indeterminate={
-                        selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
-                      }
-                      onChange={this.handleSelectAll}
-                    />
-                    Name
-                  </TableCell>
-                  <TableCell align="left">Rank</TableCell>
-                  <TableCell align="left">ID</TableCell>
-                  <TableCell align="left">Email</TableCell>
-                  <TableCell align="left">Privilege</TableCell>
-                  <TableCell align="left">Organization</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users
-                  .filter(user => {
-                    if (activeTab === 1) {
-                      return !user.returning;
-                    }
-
-                    if (activeTab === 2) {
-                      return user.returning;
-                    }
-
-                    return user;
-                  })
-                  .slice(0, rowsPerPage)
-                  .map(user => (
-                    <TableRow
-                      className={classes.tableRow}
-                      hover
-                      key={user.user._id}
-                      selected={selectedUsers.indexOf(user.id) !== -1}
-                    >
-                      <TableCell className={classes.tableCell}>
-                        <div className={classes.tableCellInner}>
-                          <Checkbox
-                            checked={selectedUsers.indexOf(user.id) !== -1}
-                            color="primary"
-                            onChange={event =>
-                              this.handleSelectOne(event, user.id)
-                            }
-                            value="true"
-                          />
-                          <Avatar
-                            className={classes.avatar}
-                            src={user.avatarUrl}
-                          >
-                            {getInitials(user.user.name)}
-                          </Avatar>
-                          <Link to="#">
-                            <Typography
-                              className={classes.nameText}
-                              variant="body1"
-                            >
-                              {user.user.name}
-                            </Typography>
-                          </Link>
-                        </div>
-                      </TableCell>
-                      <TableCell >
-                        {user.personalInfo.rank.abreviated}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {user.user._id}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {user.contactInfo.email.unclass}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {user.personalInfo.privilege.title}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {(user.organization.wing + "/" + user.organization.group + "/" + user.organization.squadron + "/" + user.organization.flight)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+            {view === 'Standard' && (<StandardTable users={users} selectedUsers={selectedUsers} />)}
           </PerfectScrollbar>
           <TablePagination
             backIconButtonProps={{
@@ -218,7 +121,8 @@ UsersTable.propTypes = {
   onSelect: PropTypes.func,
   onShowDetails: PropTypes.func,
   users: PropTypes.array.isRequired,
-  toggleAddUser: PropTypes.func
+  toggleAddUser: PropTypes.func,
+  view: PropTypes.string
 };
 
 UsersTable.defaultProps = {

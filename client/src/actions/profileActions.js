@@ -229,6 +229,40 @@ export const updatePersonalDetails = (updateData) => dispatch => {
       });
 }
 
+export const updateOrganizationalDetails = (updateData) => dispatch => {
+  axios
+    .post(`/profile/update-organizational-details`, updateData)
+    .then(res => {
+      dispatch({
+        type: EDIT_PROFILE,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: EDIT_PROFILE,
+        payload: null
+      })
+    });
+}
+
+export const updatePersonalSkills = updateData => dispatch => {
+  axios
+    .post('/profile/update-personal-skills', updateData)
+    .then(res => {
+      dispatch({
+        type: EDIT_PROFILE,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: EDIT_PROFILE,
+        payload: null
+      })
+    });
+}
+
 // Profile loading
 export const setProfileLoading = () => {
   return {
