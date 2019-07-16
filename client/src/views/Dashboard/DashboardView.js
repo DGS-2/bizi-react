@@ -14,7 +14,8 @@ import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
 import {
-  TaskList
+  TaskList,
+  Calendar
 } from './components';
 
 // Component styles
@@ -42,14 +43,24 @@ class DashboardView extends Component {
             
             <Grid
               item
-              lg={4}
+              xl={6}
+              lg={6}
               md={6}
-              xl={3}
+              sm={12}
               xs={12}
             >
               <TaskList className={classes.item} />
             </Grid>
-            
+            <Grid
+              item
+              xl={6}
+              lg={6}
+              md={6}
+              sm={12}
+              xs={12}
+            >
+              <Calendar className={classes.item} />
+            </Grid>
           </Grid>
         </div>
       </DashboardLayout>

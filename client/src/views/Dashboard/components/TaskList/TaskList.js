@@ -19,7 +19,8 @@ import {
   CircularProgress,
   Menu,
   MenuItem,
-  LinearProgress
+  LinearProgress,
+  Grid
 } from '@material-ui/core';
 
 // Material icons
@@ -144,10 +145,19 @@ class TaskList extends Component {
     }
     
     return (
-      <Fragment>
+      <Grid
+        container
+        direction="row"
+      >
         {tasks.map((task, i) => (
-          <div
+          <Grid
             className={classes.product}
+            item
+            xl={4}
+            lg={4}
+            md={6}
+            sm={12}
+            xs={12}
             key={i}
           >
             <div className={classes.productDetails}>
@@ -188,9 +198,9 @@ class TaskList extends Component {
               </Menu>
             </div>
             
-          </div>
+          </Grid>
         ))}
-      </Fragment>
+      </Grid>
     );
   }
 
