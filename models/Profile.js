@@ -82,7 +82,8 @@ const ProfileSchema = new Schema({
     }
   },
   skills: [{
-    name: { type: String }
+    name: { type: String },
+    type: { type: String }
   }]
 });
 

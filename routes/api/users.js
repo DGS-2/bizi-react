@@ -64,7 +64,7 @@ router.post('/register', (req, res) => {
             abreviated: req.body.rank.value
           },
           privilege: {
-            title: '',
+            title: 'Basic User',
             level: 1
           },
           tags: [],

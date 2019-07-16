@@ -40,16 +40,48 @@ router.post('/update-details', passport.authenticate('jwt', {session: false}), (
       contactInfo: {
         email: { unclass: req.body.email },
         phone: { unclass: req.body.phone }
-      },
-      organization: {
-        site: req.body.site,
-        squadron: req.body.unit
       }
     };
     Profile.findOneAndUpdate(
       { user: req.user.id },
       { $set: details },
       { new: true }
+    ).then(profile => res.json(profile));
+  })
+})
+
+router.post('/update-personal-skills', passport.authenticate('jwt', {session: false}), (req, res) => {
+  console.log(req.body);
+  Profile.findOne({user: req.user.id}).then(profile => {
+    let details = {
+      skills: req.body
+    };
+
+    Profile.findOneAndUpdate(
+      {user: req.user.id},
+      {$set: details},
+      {new: true}
+    ).then(profile => res.json(profile));
+  })
+})
+
+router.post('/update-organizational-details', passport.authenticate('jwt', {session: false}), (req, res) => {  
+  Profile.findOne({user: req.user.id}).then(profile => {
+    let details = {
+      organization: {
+        wing: req.body.wing,
+        site: req.body.site,
+        group: req.body.group,
+        squadron: req.body.squadron,
+        flight: req.body.flight,
+        team: req.body.team,
+        office: req.body.office
+      }
+    };
+    Profile.findOneAndUpdate(
+      {user: req.user.id},
+      {$set: details},
+      {new: true}
     ).then(profile => res.json(profile));
   })
 })
