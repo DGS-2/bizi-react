@@ -109,7 +109,7 @@ class TaskItemToolbar extends Component {
             variant="contained"
             color="primary"
           >
-            Create Sub-Task
+            Sub-Task
           </Button>
           <Button value={'open'} onClick={this.updateStatus} disabled={this.state.open.isStarted}>Open</Button>
           <Button value={'inProgress'} onClick={this.updateStatus} disabled={this.state.inProgress.isStarted && this.state.open.isStarted}>In Progress</Button>

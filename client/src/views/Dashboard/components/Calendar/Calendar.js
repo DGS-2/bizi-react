@@ -47,6 +47,7 @@ class Calendar extends Component {
     }
   
     mapTasksAsEvent = (tasks, profile) => {
+      console.log(tasks, profile)
       let arr = []
       let tasking = tasks.filter(task => task.creation.from.id === profile);
       tasking.forEach((event, index) => {
