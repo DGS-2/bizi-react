@@ -40,6 +40,7 @@ class Dashboard extends Component {
 
   render() {
     const { classes, width, title, children } = this.props;
+    console.log(children)
     const { isOpen } = this.state;
 
     const isMobile = ['xs', 'sm', 'md'].includes(width);
@@ -66,7 +67,7 @@ class Dashboard extends Component {
           <Sidebar className={classes.sidebar} />
         </Drawer>
         <main
-          className={classNames(classes.content, {
+          className={classNames(classes.content, { 
             [classes.contentShift]: shiftContent
           })}
         >

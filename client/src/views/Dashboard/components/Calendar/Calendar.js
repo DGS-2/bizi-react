@@ -40,7 +40,7 @@ class Calendar extends Component {
                 return
             } else {
                 this.setState({profile: profile.profile.user._id}, () => {
-                    this.mapTasksAsEvent(tasks.tasks, this.state.profile);
+                    if(tasks.tasks) this.mapTasksAsEvent(tasks.tasks, this.state.profile);
                 });
             }
         }

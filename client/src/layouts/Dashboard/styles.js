@@ -23,11 +23,14 @@ export default theme => ({
     },
     content: {
       marginTop: '64px',
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.primary,
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
-      })
+      }),
+      maxHeight: '95vh',
+      minHeight: '85vh',
+      height: '100%'
     },
     contentShift: {
       marginLeft: '270px'
