@@ -87,9 +87,9 @@ class SignUp extends Component {
           password: this.state.password,
           password2: this.state.password2,
           isToken: false,
-          rank: ranks.filter(rank => rank.value === this.state.rank)[0]
+          rank: this.state.rank
         };
-        console.log(user);
+        
         await signUp(this.props.registerUser(user));
   
         history.push('/login');

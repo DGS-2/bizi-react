@@ -40,14 +40,13 @@ class Calendar extends Component {
                 return
             } else {
                 this.setState({profile: profile.profile.user._id}, () => {
-                    this.mapTasksAsEvent(tasks.tasks, this.state.profile);
+                    if(tasks.tasks) this.mapTasksAsEvent(tasks.tasks, this.state.profile);
                 });
             }
         }
     }
   
     mapTasksAsEvent = (tasks, profile) => {
-      console.log(tasks, profile)
       let arr = []
       let tasking = tasks.filter(task => task.creation.from.id === profile);
       tasking.forEach((event, index) => {
