@@ -12,6 +12,10 @@ const validateLoginInput = require('../../validation/login');
 // Load User model
 const User = require("../../models/User");
 const Profile = require('../../models/Profile');
+const Authentication = require('../../models/Authentication');
+const AccessControl = require('../../models/AccessControl');
+const SecurityRole = require('../../models/SecurityRole');
+const SecurityRolePermission = require('../../models/SecurityRolePermission');
 // @route GET api/users/
 // @desc 
 // @access public
@@ -31,111 +35,72 @@ router.post('/register', (req, res) => {
   User.findOne( { email: req.body.email } )
     .then( user => {
       if(user) {
-        errors.email = "Email already exists"
-
+        errors.email = "Email already exists";
         return res.status(400).json(errors);
       }
+      // Populate User model
       const newUser = new User({
         name: req.body.name,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: req.body.password,
         isToken: req.body.isToken
       });
-      
-      const newProfile = new Profile({
-        organization: {
-          wing: '',
-          group: '',
-          squadron: '',
-          flight: '',
-          team: '',
-          office: ''
-        },
-        personalInfo: {
-          name: {
-            full: req.body.name,
-            first: req.body.firstName,
-            last: req.body.lastName
-          },
-          rank: {
-            full: req.body.rank.label,
-            abreviated: req.body.rank.value
-          },
-          privilege: {
-            title: 'Basic User',
-            level: 1
-          },
-          tags: [],
-          teams: [{
-            teamId: ''
-          }],
-          invitations: [{
-            teamId: '',
-            accepted: false
-          }],
-          bio: '',
-          education: {
-            military: [{
-              year: '',
-              school: {
-                name: '',
-                unit: '',
-                location: {
-                  base: '',
-                  state: ''
-                },
-                joint: false
-              }
-            }],
-            professional: [{
-              year: '',
-              award: '', // Degree or Certificate
-              school: {
-                name: '',
-                state: ''
-              }
-            }]
-          },
-          assignments: [{
-            from: '',
-            to: '',
-            position: '',
-            squadron: '',
-            location: '',
-            joint: false
-          }]
-        },
-        contactInfo: {
-          email: {
-            unclass: req.body.email
-          },
-          phone: {
-            unclass: ''
+
+      // Create new user
+      newUser.save().then(user => {
+        Authentication.findOne({email: req.body.email}).then(record => {
+          if(record) {
+            errors.record = `Record already exists for email: ${email}`;
+            res.status(400).json(errors);
           }
-        },
-        skills: [{
-          name: ''
-        }]
-      });
+          // Create new authentication object
+          const auth = new Authentication({
+            email: user.email,
+            password: req.body.password
+          });
 
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if(err) throw err;
-          newUser.password = hash;
-          newUser.save()
-            .then( user => {
-              newProfile.user = user._id;
-
-              newProfile.save().then((user, profile) => {
-                res.json(user)
-              })
+          // Salt password and save
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(auth.password, salt, (err, hash) => {
+              if(err) throw err;
+              auth.password = hash;
+              auth.save()
             })
-            .catch(err => console.log(err))
-        })
-      })
+          });
+        });
+        
+
+        // Set user to Basic User
+        SecurityRole.find({role_name: "Basic User"}).then(role => {
+          const accessControl = new AccessControl({
+            user: user._id,
+            security_role: role._id
+          });
+          
+
+          accessControl.save().then(() => {
+            Profile.findOne({user: user._id}).then(profile => {
+              if(profile) {
+                errors.profile = `Profile already exists for user: ${user._id}`;
+                res.status(404).json(errors);
+              }
+              // Populate a profile
+              const newProfile = new Profile({
+                user: user._id,
+                rank: req.body.rank,
+                permission: role._id
+              });
+              
+              newProfile.save();
+            }).catch(err => console.log(err));
+            
+          }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
+      }).then(user => res.json(user)).catch(err => console.log(err));
     }) 
+
+  
 })
 
 // @route   POST api/users/login
@@ -153,27 +118,29 @@ router.post('/login', (req, res) => {
   const password = req.body.password
 
   // Find user by email
-  User.findOne({ email: email })
-    .then( user => {
-      if(!user) {
-        errors.email = "User not found"
+  Authentication.findOne({ email: email })
+    .then( auth => {
+      if(!auth) {
+        errors.email = "Record not found"
         return res.status(404).json(errors)
       }
 
       // Check password
-      bcrypt.compare( password, user.password )
+      bcrypt.compare( password, auth.password )
         .then( isMatch => {
           if(isMatch) {
             // User matched
-
-            const payload = { id: user.id, name: user.name, isToken: user.isToken } // Create JWT payload
-            // Sign token
-            // @payload   JWT details
-            // @secret    secret key for validation
-            // @expire    Token time of life
-            jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token)  => {
-              res.json({success: true, token: `Bearer ${token}`})
-            });
+            User.findOne({email: auth.email}).then(user => {
+              const payload = { id: user.id, name: user.name, isToken: user.isToken } // Create JWT payload
+              // Sign token
+              // @payload   JWT details
+              // @secret    secret key for validation
+              // @expire    Token time of life
+              jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token)  => {
+                res.json({success: true, token: `Bearer ${token}`})
+              });
+            }).catch(err => console.log(err));
+            
           } else {
             errors.password = "Password incorrect"
             return res.status(400).json(errors)
