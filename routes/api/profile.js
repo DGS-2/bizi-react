@@ -6,8 +6,6 @@ const passport = require('passport');
 // Load Mongoose Models
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
-const AccessControl = require('../../models/AccessControl');
-const SecurityRolePermission = require('../../models/SecurityRolePermission');
 
 const validateProfileInput = require('../../validation/profile');
 
@@ -19,19 +17,19 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
     Profile.findOne({ user: req.user.id })
       .populate('user', ['name', 'email'])
+      .populate('permission', ['role_name', 'role_level'])
       .then(profile => {
         if (!profile) {
           errors.noprofile = 'There is no profile for this user';
           return res.status(404).json(errors);
         }
-        AccessControl.findOne({ secuirty_role: profile.permission }).then(access => console.log(access))
         res.json(profile);
       })
       .catch(err => res.status(404).json(err));
 })
 
 router.post('/update-details', passport.authenticate('jwt', {session: false}), (req, res) => {  
-  Profile.findOne({user: req.user.id}).then(profile => {
+  Profile.findOne({user: req.user.id}).then(() => {
     let details = {
       personalInfo: {
         name: {

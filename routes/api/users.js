@@ -72,14 +72,13 @@ router.post('/register', (req, res) => {
         
 
         // Set user to Basic User
-        SecurityRole.find({role_name: "Basic User"}).then(role => {
+        SecurityRole.findOne({role_name: "Basic User"}).then(role => {
           const accessControl = new AccessControl({
             user: user._id,
             security_role: role._id
           });
-          
 
-          accessControl.save().then(() => {
+          accessControl.save().then(control => {
             Profile.findOne({user: user._id}).then(profile => {
               if(profile) {
                 errors.profile = `Profile already exists for user: ${user._id}`;

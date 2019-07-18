@@ -11,7 +11,7 @@ const ProfileSchema = new Schema({
   },
   permission: {
     type: Schema.Types.ObjectId,
-    ref: 'accessControl'
+    ref: 'securityRole'
   },
   organization: {
     type: Schema.Types.ObjectId,
