@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import PrivateRoute from "./components/shared/private-route/PrivateRoute";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 // Views
 import Account from './views/Account/Account';

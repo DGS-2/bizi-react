@@ -15,7 +15,7 @@ import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 
 import { filterUsers } from "../../../../functions/functions";
-import Spinner from '../../../../components/shared/spinner/Spinner';
+import Spinner from '../../../../components/Spinner/Spinner';
 import { dgsSites, ranks } from '../../../../const/consts';
 // Component styles
 import styles from './styles';
