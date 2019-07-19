@@ -143,22 +143,22 @@ class AccountOrganizationalDetails extends Component {
                 />
                 <TextField
                     className={classes.textField}
-                    label="Team"
-                    helperText="Please provide the Team you are assigned to (if any)"
-                    margin="dense"
-                    name="team"
-                    onChange={this.onChange}
-                    value={team}
-                    variant="outlined"
-                />
-                <TextField
-                    className={classes.textField}
                     label="Office Symbol"
                     helperText="Please provide your Office symbol"
                     margin="dense"
                     value={office}
                     name="office"
                     onChange={this.onChange}
+                    variant="outlined"
+                />
+                <TextField
+                    className={classes.textField}
+                    label="Team"
+                    helperText="Please provide the Team you are assigned to (if any)"
+                    margin="dense"
+                    name="team"
+                    onChange={this.onChange}
+                    value={team}
                     variant="outlined"
                 />
                 </div>
