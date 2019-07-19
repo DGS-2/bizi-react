@@ -15,7 +15,7 @@ const Profile = require('../../models/Profile');
 const Authentication = require('../../models/Authentication');
 const AccessControl = require('../../models/AccessControl');
 const SecurityRole = require('../../models/SecurityRole');
-const SecurityRolePermission = require('../../models/SecurityRolePermission');
+const Rank = require('../../models/Rank');
 // @route GET api/users/
 // @desc 
 // @access public
@@ -84,14 +84,19 @@ router.post('/register', (req, res) => {
                 errors.profile = `Profile already exists for user: ${user._id}`;
                 res.status(404).json(errors);
               }
-              // Populate a profile
-              const newProfile = new Profile({
-                user: user._id,
-                rank: req.body.rank,
-                permission: role._id
+
+              Rank.findOne({abreviated: req.body.rank}).then(rank => {
+                console.log(rank);
+                // Populate a profile
+                const newProfile = new Profile({
+                  user: user._id,
+                  rank: rank._id,
+                  permission: role._id
+                });
+
+                newProfile.save();
               });
               
-              newProfile.save();
             }).catch(err => console.log(err));
             
           }).catch(err => console.log(err));

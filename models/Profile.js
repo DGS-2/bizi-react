@@ -7,7 +7,8 @@ const ProfileSchema = new Schema({
     ref: 'user'
   },
   rank: {
-    type: String
+    type: Schema.Types.ObjectId,
+    ref: 'rank'
   },
   permission: {
     type: Schema.Types.ObjectId,

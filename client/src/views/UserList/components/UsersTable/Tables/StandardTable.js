@@ -148,7 +148,7 @@ class StandardTable extends Component {
                         </div>
                       </TableCell>
                       <TableCell >
-                        {user.personalInfo.rank.abreviated}
+                        {user.rank.abreviated}
                       </TableCell>
                       <TableCell className={classes.tableCell}>
                         {user.user._id}
@@ -157,7 +157,7 @@ class StandardTable extends Component {
                         {user.contactInfo.email.unclass}
                       </TableCell>
                       <TableCell className={classes.tableCell}>
-                        {user.personalInfo.privilege.title}
+                        {user.permission.role_name}
                       </TableCell>
                       <TableCell className={classes.tableCell}>
                         {(user.organization.wing + "/" + user.organization.group + "/" + user.organization.squadron + "/" + user.organization.flight)}

@@ -143,7 +143,7 @@ class AccountSkills extends Component {
 
     return (
       <Portlet
-        {...rest}
+        
         className={rootClassName}
       >
         <PortletHeader>
@@ -287,4 +287,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default compose(withStyles(styles), connect(mapStateToProps, {updatePersonalSkills}))(AccountSkills);
+export default compose(connect(mapStateToProps, {updatePersonalSkills}), withStyles(styles))(AccountSkills);

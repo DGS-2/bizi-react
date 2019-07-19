@@ -6,6 +6,8 @@ const passport = require('passport');
 // Load Mongoose Models
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const OrganizationUser = require('../../models/OrganizationUser');
+const Organziation = require('../../models/Organization');
 
 const validateProfileInput = require('../../validation/profile');
 
@@ -18,12 +20,23 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     Profile.findOne({ user: req.user.id })
       .populate('user', ['name', 'email'])
       .populate('permission', ['role_name', 'role_level'])
+      .populate('rank', ['full', 'abreviated'])
+      .populate('organization')
       .then(profile => {
         if (!profile) {
           errors.noprofile = 'There is no profile for this user';
           return res.status(404).json(errors);
         }
-        res.json(profile);
+        OrganizationUser.findOne({ _id: profile.organization })
+          .populate('organization', ['name', 'abreviated', 'level'])
+          .then(org => {
+            Organization.find({_id: { $in: org.organization}}).then(organization => {
+              org.organization = organization;
+              profile.organization = org;
+              res.json(profile);
+            });
+          })
+          .catch(err => console.log(err));
       })
       .catch(err => res.status(404).json(err));
 })
@@ -52,7 +65,6 @@ router.post('/update-details', passport.authenticate('jwt', {session: false}), (
 })
 
 router.post('/update-personal-skills', passport.authenticate('jwt', {session: false}), (req, res) => {
-  console.log(req.body);
   Profile.findOne({user: req.user.id}).then(profile => {
     let details = {
       skills: req.body
@@ -68,22 +80,22 @@ router.post('/update-personal-skills', passport.authenticate('jwt', {session: fa
 
 router.post('/update-organizational-details', passport.authenticate('jwt', {session: false}), (req, res) => {  
   Profile.findOne({user: req.user.id}).then(profile => {
-    let details = {
-      organization: {
-        wing: req.body.wing,
-        site: req.body.site,
-        group: req.body.group,
-        squadron: req.body.squadron,
-        flight: req.body.flight,
-        team: req.body.team,
-        office: req.body.office
-      }
-    };
-    Profile.findOneAndUpdate(
-      {user: req.user.id},
-      {$set: details},
-      {new: true}
-    ).then(profile => res.json(profile));
+    let orgUser = new OrganizationUser({
+      organization: req.body.org,
+      user: req.user.id,
+      position: ''
+    })
+    orgUser.save().then(org => {
+      let details = {
+        organization: org._id
+      };
+      Profile.findOneAndUpdate(
+        {user: req.user.id},
+        {$set: details},
+        {new: true}
+      ).then(profile => res.json(profile));
+    })
+    
   })
 })
 

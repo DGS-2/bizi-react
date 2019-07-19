@@ -25,49 +25,44 @@ import styles from './styles';
 
 import { updateOrganizationalDetails } from '../../../../actions/profileActions';
 
-import { dgsSites } from '../../../../const/consts';
+// import { dgsSites } from '../../../../const/consts';
+
+import { getSquadrons } from '../../../../actions/organizationActions';
 
 class AccountOrganizationalDetails extends Component {
     state = {
-        wing: '',
-        site: '',
-        group: '',
         squadron: '',
         flight: '',
         team: '',
-        office: ''
+        office: '',
+        squadrons: [],
+        selectedSquadron: ''
     }
 
     componentDidMount = () => {
         const { user } = this.props;
         this.setProfileState(user);
+        this.props.getSquadrons();
     }
     
     componentWillReceiveProps = props => {
-        const { user } = props;
+        const { user, org } = props;
         this.setProfileState(user);
+        this.setState({squadrons: org.squadrons});
     }
 
     setProfileState = user => {
         if(user && Object.entries(user).length !== 0) {
+            let squadron = user.organization.organization.filter(item => item.level === 'squadron')[0];
+            let flight = user.organization.organization.filter(item => item.level === 'flight')[0];
+            let team = user.organization.organization.filter(item => item.level === 'team')[0];
+            let office = user.organization.organization.filter(item => item.level === 'office')[0];
+            
             this.setState({
-                wing: user.organization.wing ? user.organization.wing : '',
-                site: user.organization.site ? user.organization.site : '',
-                group: user.organization.group ? user.organization.group : '',
-                squadron: user.organization.squadron ? user.organization.squadron : '',
-                flight: user.organization.flight ? user.organization.flight : '',
-                team: user.organization.team ? user.organization.team : '',
-                office: user.organization.office ? user.organization.office : ''
-            });
-        } else {
-            this.setState({
-                wing: 'Please Update',
-                site: 'Please Update',
-                group: 'Please Update',
-                squadron: 'Please Update',
-                flight: 'Please Update',
-                team: 'Please Update',
-                office: 'Please Update'
+                squadron: squadron ? squadron : 'Please Update',
+                flight: flight ? flight.name : 'Please Update',
+                team: team ? team.name : 'Please Update',
+                office: office ? office.name : 'Please Update'
             });
         }
     }
@@ -77,34 +72,32 @@ class AccountOrganizationalDetails extends Component {
     }
     
     updateOrgDetails = () => {
-        const { wing, site, group, squadron, flight, team, office } = this.state;
+        const { selectedSquadron } = this.state;
         let updateToBeMade = {
-            wing: wing,
-            site: site,
-            group: group,
-            squadron: squadron,
-            flight: flight,
-            team: team,
-            office: office
+            org: selectedSquadron
         };
 
+        // console.log(updateToBeMade);
+        /*
+            TODO add parent child relationship
+        */
         this.props.updateOrganizationalDetails(updateToBeMade);
     }
 
     render() {
         const { classes, className, ...rest } = this.props;
-        const { wing, site, group, squadron, flight, team, office } = this.state;
+        const { squadron, flight, team, office, squadrons } = this.state;
         
         const rootClassName = classNames(classes.root, className);
 
         return (
         <Portlet
-            {...rest}
+            
             className={rootClassName}
         >
             <PortletHeader>
             <PortletLabel
-                subtitle="Update your organization infomration here"
+                subtitle="Update your organization information here"
                 title="Organization"
             />
             </PortletHeader>
@@ -116,59 +109,26 @@ class AccountOrganizationalDetails extends Component {
                 <div className={classes.field}>
                 <TextField
                     className={classes.textField}
-                    helperText="Please provide the Wing you are assigned to"
-                    label="Wing"
-                    margin="dense"
-                    required
-                    name="wing"
-                    onChange={this.onChange}
-                    value={wing}
-                    variant="outlined"
-                />
-                <TextField
-                    className={classes.textField}
-                    helperText="Please provide the Group you are assigned to"
-                    label="Group"
-                    margin="dense"
-                    required
-                    name="group"
-                    onChange={this.onChange}
-                    value={group}
-                    variant="outlined"
-                />
-                </div>
-                <div className={classes.field}>
-                <TextField
-                    className={classes.textField}
-                    label="Select DGS Site"
-                    margin="dense"
-                    onChange={this.onChange}
-                    required
-                    select
-                    SelectProps={{ native: true }}
-                    value={site}
-                    name="site"
-                    variant="outlined">
-                    {dgsSites.map(option => (
-                    <option
-                        key={option.value}
-                        value={option.value}
-                    >
-                        {option.label}
-                    </option>
-                    ))}
-                </TextField>
-                <TextField
-                    className={classes.textField}
                     helperText="Please provide the Squadron you are assigned to"
                     label="Squadron"
                     margin="dense"
                     required
-                    name="squadron"
+                    select
+                    SelectProps={{ native: true }}
+                    name="selectedSquadron"
                     onChange={this.onChange}
-                    value={squadron}
-                    variant="outlined"
-                />
+                    value={squadron._id}
+                    variant="outlined">
+                        <option></option>
+                    {squadrons && squadrons.map(option => (
+                        <option
+                            key={option._id}
+                            value={option._id}
+                        >
+                            {option.name}
+                        </option>
+                    ))}
+                </TextField>
                 </div>
                 <div className={classes.field}>
                 <TextField
@@ -208,7 +168,7 @@ class AccountOrganizationalDetails extends Component {
             <Button
                 color="primary"
                 variant="contained"
-                onClick={this.updateProfile}
+                onClick={this.updateOrgDetails}
             >
                 Save organizational details
             </Button>
@@ -222,11 +182,13 @@ AccountOrganizationalDetails.propTypes = {
     className: PropTypes.string,
     classes: PropTypes.object.isRequired,
     profile: PropTypes.object,
-    updateOrganizationalDetails: PropTypes.func
+    updateOrganizationalDetails: PropTypes.func,
+    getSquadrons: PropTypes.func
   };
 
 const mapStateToProps = state => ({
-    profile: state.profile
+    profile: state.profile,
+    org: state.org
 });
 
-export default compose(withStyles(styles), connect(mapStateToProps, {updateOrganizationalDetails})) (AccountOrganizationalDetails)
+export default compose(connect(mapStateToProps, {updateOrganizationalDetails, getSquadrons}), withStyles(styles)) (AccountOrganizationalDetails)

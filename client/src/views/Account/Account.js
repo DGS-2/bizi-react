@@ -27,14 +27,15 @@ class Account extends Component {
   state = { tabIndex: 0 };
 
   render() {
-    const { classes, profile } = this.props;
+    const { classes, profile, ...rest } = this.props;
     
     return (
       <DashboardLayout title="Account">
-        <div className={classes.root}>
+        <div className={classes.root} >
           <Grid
             container
             spacing={4}
+            
           >
             <Grid
               item
@@ -42,9 +43,10 @@ class Account extends Component {
               md={6}
               xl={4}
               xs={12}
+
             >
-              <AccountProfile user={profile.profile} />
-              <AccountOrganization user={profile.profile} />
+              <AccountProfile user={profile.profile}  />
+              <AccountOrganization user={profile.profile}  />
             </Grid>
             <Grid
               item
@@ -53,8 +55,8 @@ class Account extends Component {
               xl={8}
               xs={12}
             >
-              <AccountDetails user={profile.profile} />
-              <AccountSkills user={profile.profile} />
+              <AccountDetails user={profile.profile}  />
+              <AccountSkills user={profile.profile}  />
             </Grid>
           </Grid>
         </div>
@@ -72,4 +74,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 })
 
-export default compose(withStyles(styles), connect(mapStateToProps))(Account);
+export default compose(connect(mapStateToProps), withStyles(styles))(Account);

@@ -5,6 +5,7 @@ import profileReducer from './profileReducer';
 import taskReducer from "./taskReducer";
 import skillReducer from "./skillReducer"
 import teamReducer from "./teamReducer";
+import organizationReducer from "./organizationReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   profile: profileReducer,
   tasks: taskReducer,
   skills: skillReducer,
-  teams: teamReducer
+  teams: teamReducer,
+  org: organizationReducer
 });

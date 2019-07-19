@@ -94,13 +94,13 @@ class UserList extends Component {
     let filtered;
     filtered = users.filter(user => {
       if(filter === '') return user;
-      else if(user.personalInfo.name.full.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.name.toLowerCase().includes(filter.toLowerCase())) return user;
       else if(user.organization.wing.toLowerCase().includes(filter.toLowerCase())) return user;
       else if(user.organization.group.toLowerCase().includes(filter.toLowerCase())) return user;
       else if(user.organization.flight.toLowerCase().includes(filter.toLowerCase())) return user;
       else if(user.organization.squadron.toLowerCase().includes(filter.toLowerCase())) return user;
-      else if(user.personalInfo.rank.abreviated.toLowerCase().includes(filter.toLowerCase())) return user;
-      else if(user.personalInfo.privilege.title.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.rank.abreviated.toLowerCase().includes(filter.toLowerCase())) return user;
+      else if(user.permission.role_name.toLowerCase().includes(filter.toLowerCase())) return user;
       return null;
     });
     return filtered;

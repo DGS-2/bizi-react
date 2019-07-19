@@ -4,10 +4,11 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const path = require('path');
 
-const users = require('./routes/api/users')
-const tasks = require('./routes/api/tasks')
-const profile = require('./routes/api/profile')
-const teams = require('./routes/api/teams')
+const users = require('./routes/api/users');
+const tasks = require('./routes/api/tasks');
+const profile = require('./routes/api/profile');
+const teams = require('./routes/api/teams');
+const organizations = require('./routes/api/organizations');
 
 const http = require('http');
 const socket = require('socket.io');
@@ -38,6 +39,7 @@ app.use("/users", users);
 app.use("/tasks", tasks);
 app.use("/profile", profile);
 app.use("/teams", teams);
+app.use("/organizations", organizations);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {

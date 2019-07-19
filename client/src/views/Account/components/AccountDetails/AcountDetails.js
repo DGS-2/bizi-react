@@ -50,10 +50,9 @@ class Account extends Component {
   setProfileState = user => {
     if(user && Object.entries(user).length !== 0) {
         this.setState({
-          firstName: user.personalInfo.name.first,
-          lastName: user.personalInfo.name.last,
-          email: user.contactInfo.email.unclass,
-          phone: user.contactInfo.phone.unclass || ''
+          firstName: user.user.name.split(' ')[0],
+          lastName: user.user.name.split(' ')[1],
+          email: user.user.email,
         });
     } else {
         this.setState({
@@ -73,10 +72,7 @@ class Account extends Component {
   updateProfile = () => {
     let updateToBeMade = {
       name: this.state.firstName + ' ' + this.state.lastName,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      phone: this.state.phone
+      email: this.state.email
     };
 
     this.props.updatePersonalDetails(updateToBeMade);
@@ -84,13 +80,12 @@ class Account extends Component {
 
   render() {
     const { classes, className, ...rest } = this.props;
-    const { firstName, lastName, phone, email } = this.state;
+    const { firstName, lastName, email } = this.state;
     
     const rootClassName = classNames(classes.root, className);
 
     return (
       <Portlet
-        {...rest}
         className={rootClassName}
       >
         <PortletHeader>
@@ -139,7 +134,7 @@ class Account extends Component {
                 value={email}
                 variant="outlined"
               />
-              <TextField
+              {/* <TextField
                 className={classes.textField}
                 label="Phone Number"
                 margin="dense"
@@ -148,7 +143,7 @@ class Account extends Component {
                 name="phone"
                 onChange={this.onChange}
                 variant="outlined"
-              />
+              /> */}
             </div>
           </form>
         </PortletContent>
@@ -177,4 +172,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default compose(withStyles(styles), connect(mapStateToProps, {updatePersonalDetails}))(Account);
+export default compose(connect(mapStateToProps, {updatePersonalDetails}), withStyles(styles))(Account);

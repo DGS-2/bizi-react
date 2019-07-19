@@ -28,26 +28,20 @@ class AccountProfile extends Component {
   }
 
   componentDidMount = () => {
-    const { user } = this.props
-    if(user && Object.entries(user).length !== 0) {
-      this.setState({
-        name: user.personalInfo.name.full,
-        location: user.organization.wing || ''
-      })
-    } else {
-      this.setState({
-        name: 'Please Update',
-        location: 'Please Update'
-      })
-    }
+    const { user } = this.props;
+    this.setProfileState(user);
   }
 
   componentWillReceiveProps = props => {
-    const { user } = props
+    const { user } = props;
+    this.setProfileState(user);  
+  }
+
+  setProfileState = user => {
     if(user && Object.entries(user).length !== 0) {
       this.setState({
-        name: user.personalInfo.name.full,
-        location: user.organization.wing || ''
+        name: user.user.name,
+        // location: user.organization.wing || ''
       })
     } else {
       this.setState({
@@ -55,7 +49,6 @@ class AccountProfile extends Component {
         location: 'Please Update'
       })
     }
-  
   }
 
   render() {
@@ -74,12 +67,12 @@ class AccountProfile extends Component {
           <div className={classes.details}>
             <div className={classes.info}>
               <Typography variant="h2">{ name }</Typography>
-              <Typography
+              {/* <Typography
                 className={classes.locationText}
                 variant="body1"
               >
                 { location }
-              </Typography>
+              </Typography> */}
               <Typography
                 className={classes.dateText}
                 variant="body1"
