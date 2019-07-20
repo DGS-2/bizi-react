@@ -56,13 +56,12 @@ class AccountOrganizationalDetails extends Component {
             let squadron = user.organization.organization.filter(item => item.level === 'squadron')[0];
             let flight = user.organization.organization.filter(item => item.level === 'flight')[0];
             let team = user.organization.organization.filter(item => item.level === 'team')[0];
-            let office = user.organization.organization.filter(item => item.level === 'office')[0];
             
             this.setState({
-                squadron: squadron ? squadron : 'Please Update',
-                flight: flight ? flight.name : 'Please Update',
-                team: team ? team.name : 'Please Update',
-                office: office ? office.name : 'Please Update'
+                squadron: squadron ? squadron : '',
+                flight: flight ? flight.name : '',
+                team: team ? team.name : '',
+                office: flight ? flight.abreviated : ''
             });
         }
     }
@@ -72,15 +71,17 @@ class AccountOrganizationalDetails extends Component {
     }
     
     updateOrgDetails = () => {
-        const { selectedSquadron } = this.state;
+        const { selectedSquadron, squadron, flight, office } = this.state;
         let updateToBeMade = {
-            org: selectedSquadron
+            org: selectedSquadron ? selectedSquadron : squadron._id,
+            flight: flight,
+            office: office
         };
-
-        // console.log(updateToBeMade);
+        
         /*
             TODO add parent child relationship
         */
+       console.log(updateToBeMade);
         this.props.updateOrganizationalDetails(updateToBeMade);
     }
 

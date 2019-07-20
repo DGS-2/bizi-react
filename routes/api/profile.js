@@ -7,7 +7,8 @@ const passport = require('passport');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const OrganizationUser = require('../../models/OrganizationUser');
-const Organziation = require('../../models/Organization');
+const Organization = require('../../models/Organization');
+const OrganizationStructure = require('../../models/OrganizationStructure');
 
 const validateProfileInput = require('../../validation/profile');
 
@@ -17,28 +18,28 @@ const validateProfileInput = require('../../validation/profile');
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
   const errors = {};
 
-    Profile.findOne({ user: req.user.id })
-      .populate('user', ['name', 'email'])
-      .populate('permission', ['role_name', 'role_level'])
-      .populate('rank', ['full', 'abreviated'])
-      .populate('organization')
-      .then(profile => {
-        if (!profile) {
-          errors.noprofile = 'There is no profile for this user';
-          return res.status(404).json(errors);
-        }
-        OrganizationUser.findOne({ _id: profile.organization })
-          .populate('organization', ['name', 'abreviated', 'level'])
-          .then(org => {
-            Organization.find({_id: { $in: org.organization}}).then(organization => {
-              org.organization = organization;
-              profile.organization = org;
-              res.json(profile);
-            });
-          })
-          .catch(err => console.log(err));
-      })
-      .catch(err => res.status(404).json(err));
+  Profile.findOne({ user: req.user.id })
+    .populate('user', ['name', 'email'])
+    .populate('permission', ['role_name', 'role_level'])
+    .populate('rank', ['full', 'abreviated'])
+    .populate('organization')
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = 'There is no profile for this user';
+        return res.status(404).json(errors);
+      }
+      OrganizationUser.findOne({ _id: profile.organization })
+        .populate('organization', ['name', 'abreviated', 'level'])
+        .then(org => {
+          Organization.find({_id: { $in: org.organization}}).then(organization => {
+            org.organization = organization;
+            profile.organization = org;
+            res.json(profile);
+          });
+        })
+        .catch(err => console.log(err));
+    })
+    .catch(err => res.status(404).json(err));
 })
 
 router.post('/update-details', passport.authenticate('jwt', {session: false}), (req, res) => {  
@@ -79,24 +80,71 @@ router.post('/update-personal-skills', passport.authenticate('jwt', {session: fa
 })
 
 router.post('/update-organizational-details', passport.authenticate('jwt', {session: false}), (req, res) => {  
-  Profile.findOne({user: req.user.id}).then(profile => {
-    let orgUser = new OrganizationUser({
-      organization: req.body.org,
-      user: req.user.id,
-      position: ''
-    })
-    orgUser.save().then(org => {
-      let details = {
-        organization: org._id
-      };
-      Profile.findOneAndUpdate(
-        {user: req.user.id},
-        {$set: details},
-        {new: true}
-      ).then(profile => res.json(profile));
-    })
-    
-  })
+  const errors = {};
+  /**
+   * Check to see if "org" is already in OrganizationUser
+   * if not, remove object.level === 'squadron'
+   * change -- $push -- org into organization array
+   */
+  
+  OrganizationUser.findOne({ user: req.user.id }).then(user => {
+    if(user.organization.includes(req.body.org)) console.log('Squadron Found');
+    else {
+      Organization.find({_id: {$in: user.organization }}).then(found => {
+        let squadronToRemove = found.filter(item => item.level === 'squadron')[0];
+        OrganizationUser.findOneAndUpdate(
+          {user: req.user.id},
+          {$pull : { 'user.organization' : squadronToRemove }}
+        );
+      });
+    }
+
+    Organization.findOne({name: req.body.flight}).then(flight => {
+      if(!flight || flight === null){
+        const newFlight = new Organization({
+          name: req.body.flight,
+          abreviated: req.body.office,
+          level: 'flight'
+        });
+
+        newFlight.save().then(newFlight => {
+          new OrganizationStructure({
+            parent_id: req.body.org,
+            child_id: newFlight._id
+          }).save().then(newRelationsip => {
+            OrganizationUser.findOneAndUpdate(
+              { user: req.user.id},
+              { $push: { 'organization': newRelationsip.child_id } },
+              { new: true }
+            ).then(() => {
+              Profile.findOne({ user: req.user.id })
+                .populate('user', ['name', 'email'])
+                .populate('permission', ['role_name', 'role_level'])
+                .populate('rank', ['full', 'abreviated'])
+                .populate('organization')
+                .then(profile => {
+                  if (!profile) {
+                    errors.noprofile = 'There is no profile for this user';
+                    return res.status(404).json(errors);
+                  }
+                  OrganizationUser.findOne({ _id: profile.organization })
+                    .populate('organization', ['name', 'abreviated', 'level'])
+                    .then(org => {
+                      Organization.find({_id: { $in: org.organization}}).then(organization => {
+                        org.organization = organization;
+                        profile.organization = org;
+                        res.json(profile);
+                      });
+                    })
+                    .catch(err => console.log(err));
+                })
+                .catch(err => res.status(404).json(err));
+            }).catch(err => console.log(err));
+          }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
+      }
+    });
+  });
 })
 
 // @route   POST api/profile
