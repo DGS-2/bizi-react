@@ -75,7 +75,7 @@ class StandardTable extends Component {
   };
 
   render() {
-    const { classes, users, activeTab, selectedUsers, rowsPerPage, page } = this.props;
+    const { classes, users, activeTab, selectedUsers, rowsPerPage } = this.props;
 
     return (
             <Table>

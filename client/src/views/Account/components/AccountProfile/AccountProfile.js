@@ -41,7 +41,7 @@ class AccountProfile extends Component {
     if(user && Object.entries(user).length !== 0) {
       this.setState({
         name: user.user.name,
-        // location: user.organization.wing || ''
+        location: user.organization.organization.filter(item => item.level === 'squadron')[0]
       })
     } else {
       this.setState({
@@ -67,12 +67,12 @@ class AccountProfile extends Component {
           <div className={classes.details}>
             <div className={classes.info}>
               <Typography variant="h2">{ name }</Typography>
-              {/* <Typography
+              <Typography
                 className={classes.locationText}
                 variant="body1"
               >
-                { location }
-              </Typography> */}
+                { location ? location.name : '' }
+              </Typography>
               <Typography
                 className={classes.dateText}
                 variant="body1"

@@ -132,7 +132,7 @@ class AccountSkills extends Component {
   }
 
   render() {
-    const { classes, className, ...rest } = this.props;
+    const { classes, className } = this.props;
     const { activeStep } = this.state;
     const steps = this.getSteps();
     const skillTypes = this.getSkillTypes();

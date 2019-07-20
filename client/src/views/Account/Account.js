@@ -27,7 +27,7 @@ class Account extends Component {
   state = { tabIndex: 0 };
 
   render() {
-    const { classes, profile, ...rest } = this.props;
+    const { classes, profile } = this.props;
     
     return (
       <DashboardLayout title="Account">

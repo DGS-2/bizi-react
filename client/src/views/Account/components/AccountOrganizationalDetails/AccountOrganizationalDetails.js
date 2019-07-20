@@ -86,7 +86,7 @@ class AccountOrganizationalDetails extends Component {
     }
 
     render() {
-        const { classes, className, ...rest } = this.props;
+        const { classes, className } = this.props;
         const { squadron, flight, team, office, squadrons } = this.state;
         
         const rootClassName = classNames(classes.root, className);
