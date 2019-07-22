@@ -16,6 +16,8 @@ const Authentication = require('../../models/Authentication');
 const AccessControl = require('../../models/AccessControl');
 const SecurityRole = require('../../models/SecurityRole');
 const Rank = require('../../models/Rank');
+const Organization = require('../../models/Organization');
+const OrganizationUser = require('../../models/OrganizationUser');
 // @route GET api/users/
 // @desc 
 // @access public
@@ -84,19 +86,30 @@ router.post('/register', (req, res) => {
                 errors.profile = `Profile already exists for user: ${user._id}`;
                 res.status(404).json(errors);
               }
-
-              Rank.findOne({abreviated: req.body.rank}).then(rank => {
-                console.log(rank);
-                // Populate a profile
-                const newProfile = new Profile({
-                  user: user._id,
-                  rank: rank._id,
-                  permission: role._id
-                });
-
-                newProfile.save();
-              });
-              
+              OrganizationUser.findOne({user: user._id}).then(orgU => {
+                if(!orgU) {
+                  Organization.findOne({"abreviated": "480th ISRW"}).then(org => {
+                    new OrganizationUser({
+                      user: user._id
+                    }).save()
+                      .then(() => {
+                        OrganizationUser.findOneAndUpdate({user: user._id},{$push: {organization: org._id}}, {new: true})
+                          .then(orgUser => {
+                            Rank.findOne({abreviated: req.body.rank}).then(rank => {
+                              const newProfile = new Profile({
+                                user: user._id,
+                                rank: rank._id,
+                                permission: role._id,
+                                organization: orgUser._id
+                              });          
+                              newProfile.save();
+                            })
+                          }).catch(err => console.log(err));
+                        }).catch(err => console.log(err));
+                    })
+                    
+                }
+              }).catch(err => console.log(err));          
             }).catch(err => console.log(err));
             
           }).catch(err => console.log(err));

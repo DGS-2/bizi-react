@@ -154,13 +154,13 @@ class StandardTable extends Component {
                         {user.user._id}
                       </TableCell>
                       <TableCell className={classes.tableCell}>
-                        {user.contactInfo.email.unclass}
+                        {user.user.email}
                       </TableCell>
                       <TableCell className={classes.tableCell}>
                         {user.permission.role_name}
                       </TableCell>
                       <TableCell className={classes.tableCell}>
-                        {(user.organization.wing + "/" + user.organization.group + "/" + user.organization.squadron + "/" + user.organization.flight)}
+                        
                       </TableCell>
                     </TableRow>
                   ))}

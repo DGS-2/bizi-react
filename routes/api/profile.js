@@ -17,29 +17,18 @@ const validateProfileInput = require('../../validation/profile');
 // @access  Private
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
   const errors = {};
-
   Profile.findOne({ user: req.user.id })
     .populate('user', ['name', 'email'])
     .populate('permission', ['role_name', 'role_level'])
     .populate('rank', ['full', 'abreviated'])
     .populate('organization')
-    .then(profile => {
-      if (!profile) {
-        errors.noprofile = 'There is no profile for this user';
-        return res.status(404).json(errors);
-      }
-      OrganizationUser.findOne({ _id: profile.organization })
-        .populate('organization', ['name', 'abreviated', 'level'])
-        .then(org => {
-          Organization.find({_id: { $in: org.organization}}).then(organization => {
-            org.organization = organization;
-            profile.organization = org;
-            res.json(profile);
-          });
-        })
-        .catch(err => console.log(err));
-    })
-    .catch(err => res.status(404).json(err));
+    .exec((err, data) => {
+      OrganizationUser.populate(data, {
+        path: 'organization.organization'
+      }).then(u => {
+        res.json(u);
+      });
+    });
 })
 
 router.post('/update-details', passport.authenticate('jwt', {session: false}), (req, res) => {  
@@ -122,23 +111,13 @@ router.post('/update-organizational-details', passport.authenticate('jwt', {sess
                 .populate('permission', ['role_name', 'role_level'])
                 .populate('rank', ['full', 'abreviated'])
                 .populate('organization')
-                .then(profile => {
-                  if (!profile) {
-                    errors.noprofile = 'There is no profile for this user';
-                    return res.status(404).json(errors);
-                  }
-                  OrganizationUser.findOne({ _id: profile.organization })
-                    .populate('organization', ['name', 'abreviated', 'level'])
-                    .then(org => {
-                      Organization.find({_id: { $in: org.organization}}).then(organization => {
-                        org.organization = organization;
-                        profile.organization = org;
-                        res.json(profile);
-                      });
-                    })
-                    .catch(err => console.log(err));
-                })
-                .catch(err => res.status(404).json(err));
+                .exec((err, data) => {
+                  OrganizationUser.populate(data, {
+                    path: 'organization.organization'
+                  }).then(u => {
+                    res.json(u);
+                  });
+                });
             }).catch(err => console.log(err));
           }).catch(err => console.log(err));
         }).catch(err => console.log(err));
@@ -217,18 +196,22 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 // @access  Public
 router.get('/all', (req, res) => {
   const errors = {};
-
+  /**
+   * TODO
+   * Get all profiles and populate each field
+   */
   Profile.find()
-    .populate('user', ['name'])
-    .then(profiles => {
-      if (!profiles) {
-        errors.noprofile = 'There are no profiles';
-        return res.status(404).json(errors);
-      }
-
-      res.json(profiles);
-    })
-    .catch(err => res.status(404).json({ profile: 'There are no profiles' }));
+  .populate('user', ['name', 'email'])
+  .populate('permission', ['role_name', 'role_level'])
+  .populate('rank', ['full', 'abreviated'])
+  .populate('organization')
+  .exec((err, data) => {
+    OrganizationUser.populate(data, {
+      path: 'organization.organization'
+    }).then(u => {
+      res.json(u);
+    });
+  });
 });
 
 // @route   GET api/profile/user/:user_id

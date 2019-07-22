@@ -37,7 +37,7 @@ class UsersToolbar extends Component {
     let addUserButton = false;
 
     if(profile.profile) {
-      if(profile.profile.personalInfo.privilege.level >= 8) {
+      if(profile.profile.permission.role_level >= 8) {
         addUserButton = true;          
       }     
     }

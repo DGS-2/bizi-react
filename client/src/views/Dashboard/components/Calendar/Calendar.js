@@ -85,14 +85,13 @@ class Calendar extends Component {
             className={rootClassName}
         >
             <PortletHeader noDivider>
-                <PortletLabel
-                    subtitle={`${this.state.events.length} events`}
-                    title="My Calendar"
-                />
+              <PortletLabel
+                  subtitle={`${this.state.events.length} events`}
+                  title="My Calendar"
+              />
             </PortletHeader>
-            <PortletContent className={classes.portletContent}>
-                
-                    { calendar }
+            <PortletContent className={classes.portletContent}>                
+              { calendar }
             </PortletContent>            
         </Portlet>       
       )

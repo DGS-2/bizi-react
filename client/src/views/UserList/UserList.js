@@ -64,7 +64,7 @@ class UserList extends Component {
 
   componentDidMount() {
     this.signal = true;
-    
+    this.props.getProfiles();
   }
 
   componentWillUnmount() {
@@ -95,10 +95,6 @@ class UserList extends Component {
     filtered = users.filter(user => {
       if(filter === '') return user;
       else if(user.name.toLowerCase().includes(filter.toLowerCase())) return user;
-      else if(user.organization.wing.toLowerCase().includes(filter.toLowerCase())) return user;
-      else if(user.organization.group.toLowerCase().includes(filter.toLowerCase())) return user;
-      else if(user.organization.flight.toLowerCase().includes(filter.toLowerCase())) return user;
-      else if(user.organization.squadron.toLowerCase().includes(filter.toLowerCase())) return user;
       else if(user.rank.abreviated.toLowerCase().includes(filter.toLowerCase())) return user;
       else if(user.permission.role_name.toLowerCase().includes(filter.toLowerCase())) return user;
       return null;
