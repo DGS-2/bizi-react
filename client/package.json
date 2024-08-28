@@ -41,7 +41,7 @@
     "underscore": "^1.9.1",
     "validate.js": "^0.13.1",
     "vertical-timeline-component-for-react": "^1.0.6",
-    "webpack": "4.28.3"
+    "webpack": "5.94.0"
   },
   "scripts": {
     "start": "react-scripts start",
